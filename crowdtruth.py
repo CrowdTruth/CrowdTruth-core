@@ -2,7 +2,7 @@ from cement.core.foundation import CementApp
 from cement.core import hook
 from cement.utils.misc import init_defaults
 import controllers.fileController as fc
-import controllers.projectController as pc
+import controllers.featureController as pc
 import sys,os
 
 # define our default configuration options
@@ -51,7 +51,7 @@ def scanDirectory(directory=''):
 
             fc.processFile(root,directory,f)
 
-        pc.processProject(directory)
+        pc.processFeatures(directory)
 
 
 
