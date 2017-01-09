@@ -1,9 +1,13 @@
 from cement.core.foundation import CementApp
 from cement.core import hook
 from cement.utils.misc import init_defaults
-import controllers.fileController as fc
+import controllers.inputController as ic
+import controllers.outputController as oc
 import controllers.featureController as pc
 import sys,os
+from datetime import datetime
+import pandas as pd
+import numpy as np
 
 # define our default configuration options
 defaults = init_defaults('crowdtruth')
@@ -33,6 +37,16 @@ def scanDirectory(directory=''):
     app.log.debug("Found directory "+root+directory)
     print 'Directory:',directory
     
+    results = {
+        #'collections' : {},
+        'jobs' : [],
+        'units' : [],
+        'workers' : [],
+        'judgments' : [],
+        'annotations' : []
+        }
+        
+
     # go through all files in this folder
     for f in files:
 
@@ -49,13 +63,36 @@ def scanDirectory(directory=''):
             # open csv
             print 'csv:',f
 
-            fc.processFile(root,directory,f)
+            res = ic.processFile(root, directory, f)
+            for x in res:
+                results[x].append(res[x])
 
-        pc.processFeatures(directory)
+
+    for x in results:
+        results[x] = pd.concat(results[x])
+
+    # workers and annotations can appear across jobs, so we have to aggregate those extra
+    results['workers'] = results['workers'].groupby(results['workers'].index).agg({
+        'unit' : 'sum',
+        'judgment' : 'sum',
+        'job' : 'count',
+        'duration' : 'mean'
+        })
+
+    results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum().T
+ 
+
+    oc.saveResults(results)
+
+        #pc.processFeatures(directory)
 
 
 
 with CrowdTruth() as app:
+
+    # track execution time
+    startTime = datetime.now()
+
     # add arguments to the parser
     app.args.add_argument('-f', '--foo', action='store', metavar='STR',
                           help='the notorious foo option')
@@ -72,3 +109,7 @@ with CrowdTruth() as app:
 
     # verify that we have something to do
     scanDirectory()
+
+    app.log.info('Finished in ' + str(datetime.now() - startTime))
+    
+    app.close()
