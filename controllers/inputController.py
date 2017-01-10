@@ -4,7 +4,7 @@ import sys
 reload(sys)  
 sys.setdefaultencoding('utf8')
 #import Judgment, Worker, Unit, Job, Collection
-
+class Found(Exception): pass
 import re, string
 import pandas as pd
 import numpy as np
@@ -51,7 +51,7 @@ def processFile(root, directory, filename):
 
 	# make output values safe keys
 	for col in outputColumns.values():
-		judgments[col] = judgments[col].apply(lambda x: getSafeKey(x))
+		judgments[col] = judgments[col].apply(lambda x: getSafeKey(str(x)))
 
 	#outputData = {outputColumns[col]:row[col] for col in outputColumns}
 	
@@ -64,12 +64,7 @@ def processFile(root, directory, filename):
 
 
 
-	'''
-	for index, row in df.iterrows():
 
-		annotations = getAnnotations(outputData)
-
-	'''
 	#
 	# aggregate units
 	#
@@ -79,22 +74,47 @@ def processFile(root, directory, filename):
 		agg[col] = 'first'
 	for col in outputColumns.values():
 		# each output column dict is summed
-		agg[col] = lambda x: Counter(x)
+		agg[col] = lambda x: dict(Counter(x))
 	agg['job'] = 'first'
 	agg['worker'] = 'count'
 	agg['duration'] = 'mean'
 
 	units = judgments.groupby('unit').agg(agg)
 
+	# get unit metrics
+	for col in outputColumns.values():
+		# for each vector in the unit get the unit metrics
+		units[col+'.metrics'] = units[col].apply(lambda x: Unit.getUnitMetrics(x))
+	metrics = units[outputColumns.values()[0]+'.metrics'].iloc[0].keys()
+	# aggregate unit metrics
+	for val in metrics:
+		units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[x+'.metrics'][val] for x in outputColumns.values()]), axis=1)
+
+	units = units.reindex_axis(sorted(units.columns), axis=1)
+
+
+	# compute worker agreement
+	for col in outputColumns.values():
+		judgments[col+'.agreement'] = judgments.apply(lambda row: Unit.getVectorAgreement(dict(Counter([row[col]])), units.loc[row['unit'], col]), axis=1)	
+	judgments['metrics_avg_agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in outputColumns.values()]).mean(), axis=1)
+
 	#
 	# aggregate workers
 	#
+	agg = {}
+	for col in outputColumns.values():
+		# each output column dict is summed
+		agg[col] = lambda x: dict(Counter(x))
+
 	workers = judgments.groupby('worker').agg({
 		'job' : 'nunique',
 		'unit' : 'count',
 		'judgment' : 'count',
-		'duration' : 'mean'
+		'duration' : 'mean',
+		'metrics_avg_agreement' : 'mean'
 		})
+
+
 
 	#
 	# aggregate annotations
@@ -119,12 +139,14 @@ def processFile(root, directory, filename):
 		'unit' : 'nunique',
 		'judgment' : 'count',
 		'worker' : 'nunique',
-		'duration' : 'mean'
+		'duration' : 'mean',
+		'metrics_avg_agreement' : 'mean'
 		})
 
 
+	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
 	# remove input columns
-	judgments = judgments[outputColumns.values() + platform.values() + ['duration']]
+	judgments = judgments[outputCol + platform.values() + ['duration']]
 
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
@@ -162,11 +184,11 @@ def getPlatform(df):
 		# Mturk
 		return {
 			#'id'		: 'amt',
-			'judgment' 	: 'AssignmentId',
-			'unit' 		: 'HITId',
-			'worker' 	: 'WorkerId',
-			'started'	: 'AcceptTime',
-			'submitted'	: 'SubmitTime'
+			'AssignmentId' 	: 'judgment',
+			'HITId' 		: 'unit',
+			'WorkerId' 		: 'worker',
+			'AcceptTime'	: 'started',
+			'SubmitTime'	: 'submitted'
 		}
 	else:
 		# Not supported
@@ -180,8 +202,8 @@ def getColumnTypes(df):
 
 	if df.columns.values[0] == 'HITId':
 		# Mturk
-		inputColumns = {c:c[6:] for c in df.columns.values if c.startswith('Input.')}
-		outputColumns = {c:c[7:] for c in df.columns.values if c.startswith('Answer.')}
+		inputColumns = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.startswith('Input.')}
+		outputColumns = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.startswith('Answer.')}
 		return inputColumns, outputColumns
 	elif df.columns.values[0] == '_unit_id':
 		# returns a list of columns that contain are input content
@@ -191,15 +213,25 @@ def getColumnTypes(df):
 		inputColumns = {}
 		outputColumns = {}
 
+
 		# analyse the first unit only
 		unit = df.loc[df['_unit_id'] == df['_unit_id'][0]]
+		units = df.groupby('_unit_id')
 
-		columns = [c for c in unit.columns.values if not c.startswith('_') and not c.endswith('_gold') and not c.startswith('browser')]
+		columns = [c for c in unit.columns.values if not c.startswith('_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
 		for c in columns:
-			if(len(set(unit[c])) <= 1):
+
+			try:
+				for i, unit in units:
+					if unit[c].nunique() <> 1:
+						raise Found
+#				print 'input:',c
 				inputColumns[c] = 'input.'+c
-			else:
+
+			except Found:
 				outputColumns[c] = 'output.'+c
+#				print 'output:',c
+
 		return inputColumns, outputColumns
 	else:
 		# unknown platform type

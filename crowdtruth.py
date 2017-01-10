@@ -67,22 +67,23 @@ def scanDirectory(directory=''):
             for x in res:
                 results[x].append(res[x])
 
+    if len(results['jobs']) > 0:
 
-    for x in results:
-        results[x] = pd.concat(results[x])
+        for x in results:
+            results[x] = pd.concat(results[x])
 
-    # workers and annotations can appear across jobs, so we have to aggregate those extra
-    results['workers'] = results['workers'].groupby(results['workers'].index).agg({
-        'unit' : 'sum',
-        'judgment' : 'sum',
-        'job' : 'count',
-        'duration' : 'mean'
-        })
+        # workers and annotations can appear across jobs, so we have to aggregate those extra
+        results['workers'] = results['workers'].groupby(results['workers'].index).agg({
+            'unit' : 'sum',
+            'judgment' : 'sum',
+            'job' : 'count',
+            'duration' : 'mean',
+            'metrics_avg_agreement' : 'mean'
+            })
 
-    results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum().T
- 
+        results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum().T
 
-    oc.saveResults(results)
+        oc.saveResults(root, directory, results)
 
         #pc.processFeatures(directory)
 
