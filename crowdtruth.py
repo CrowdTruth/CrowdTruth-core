@@ -3,7 +3,6 @@ from cement.core import hook
 from cement.utils.misc import init_defaults
 import controllers.inputController as ic
 import controllers.outputController as oc
-import controllers.featureController as pc
 import sys,os
 from datetime import datetime
 import pandas as pd
