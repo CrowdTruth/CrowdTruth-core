@@ -213,17 +213,19 @@ def getColumnTypes(df):
 		inputColumns = {}
 		outputColumns = {}
 
-
 		# analyse the first unit only
-		unit = df.loc[df['_unit_id'] == df['_unit_id'][0]]
+#		unit = df.loc[df['_unit_id'] == df['_unit_id'][0]]
 		units = df.groupby('_unit_id')
 
-		columns = [c for c in unit.columns.values if not c.startswith('_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
+		columns = [c for c in df.columns.values if not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
 		for c in columns:
-
+#			if df[c].nunique() == 1:
+				# ignore the column if all values are the same
+#				continue
 			try:
 				for i, unit in units:
-					if unit[c].nunique() <> 1:
+					unique = unit[c].nunique()
+					if unique <> 1 and unique <> 0:
 						raise Found
 #				print 'input:',c
 				inputColumns[c] = 'input.'+c

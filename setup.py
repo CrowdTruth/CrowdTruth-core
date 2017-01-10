@@ -1,4 +1,3 @@
-
 from setuptools import setup, find_packages
 import sys, os
 
@@ -25,6 +24,7 @@ setup(name='CrowdTruth',
         ### Required to function
         'cement>=2.10.0',
         'pymodm>=0.3.0',
+        'pandas'
         ],
     setup_requires=[],
     entry_points="""

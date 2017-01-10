@@ -81,7 +81,7 @@ def scanDirectory(directory=''):
             'metrics_avg_agreement' : 'mean'
             })
 
-        results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum().T
+        results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
 
         oc.saveResults(root, directory, results)
 
