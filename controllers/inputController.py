@@ -10,13 +10,14 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from collections import Counter
-
+import re
 pd.options.display.multi_sparse = False
 
 # Connect to MongoDB and call the connection "my-app".
 
 def processFile(root, directory, filename):
 
+	print 'Processing:',filename
 	job = filename.split('.csv')[0]
 
 	judgments = pd.read_csv(root+'/'+directory+'/'+filename)
@@ -51,7 +52,7 @@ def processFile(root, directory, filename):
 
 	# make output values safe keys
 	for col in outputColumns.values():
-		judgments[col] = judgments[col].apply(lambda x: getSafeKey(str(x)))
+		judgments[col] = judgments[col].apply(lambda x: Counter(getSafeKey(str(x))))
 
 	#outputData = {outputColumns[col]:row[col] for col in outputColumns}
 	
@@ -74,7 +75,7 @@ def processFile(root, directory, filename):
 		agg[col] = 'first'
 	for col in outputColumns.values():
 		# each output column dict is summed
-		agg[col] = lambda x: dict(Counter(x))
+		agg[col] = 'sum'
 	agg['job'] = 'first'
 	agg['worker'] = 'count'
 	agg['duration'] = 'mean'
@@ -90,28 +91,25 @@ def processFile(root, directory, filename):
 	for val in metrics:
 		units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[x+'.metrics'][val] for x in outputColumns.values()]), axis=1)
 
+	# sort columns
 	units = units.reindex_axis(sorted(units.columns), axis=1)
 
 
 	# compute worker agreement
 	for col in outputColumns.values():
-		judgments[col+'.agreement'] = judgments.apply(lambda row: Unit.getVectorAgreement(dict(Counter([row[col]])), units.loc[row['unit'], col]), axis=1)	
-	judgments['metrics_avg_agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in outputColumns.values()]).mean(), axis=1)
+		judgments[col+'.agreement'] = judgments.apply(lambda row: Unit.getVectorAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
+	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in outputColumns.values()]).mean(), axis=1)
 
 	#
 	# aggregate workers
 	#
-	agg = {}
-	for col in outputColumns.values():
-		# each output column dict is summed
-		agg[col] = lambda x: dict(Counter(x))
 
 	workers = judgments.groupby('worker').agg({
 		'job' : 'nunique',
 		'unit' : 'count',
 		'judgment' : 'count',
 		'duration' : 'mean',
-		'metrics_avg_agreement' : 'mean'
+		'metrics.worker.agreement' : 'mean'
 		})
 
 
@@ -122,7 +120,8 @@ def processFile(root, directory, filename):
 	#
 	annotations = pd.DataFrame()
 	for col in outputColumns.values():
-		annotations[col] = judgments[col].value_counts()
+		#print units[col].values
+		annotations[col] = judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum()
 
 
 
@@ -135,13 +134,21 @@ def processFile(root, directory, filename):
 	jobs = pd.DataFrame(columns = ['collection', 'filename'])#, 'platform'])
 	jobs.loc[job] = {'collection' : collection, 'job' : job}#, 'platform' : platform['_platform']}
 
-	job = judgments.groupby('job').agg({
+
+	# each output column dict is summed
+	agg = {x+'.agreement' : 'mean'  for x in outputColumns.values()}
+	agg.update({
 		'unit' : 'nunique',
 		'judgment' : 'count',
 		'worker' : 'nunique',
 		'duration' : 'mean',
-		'metrics_avg_agreement' : 'mean'
-		})
+		'metrics.worker.agreement' : 'mean'
+	})
+	job = judgments.groupby('job').agg(agg)
+
+	# add unit metrics to job metrics
+	for val in metrics:
+		job['metrics.unit.avg_'+val] = units['metrics.avg_'+val].mean()
 
 
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
@@ -217,7 +224,7 @@ def getColumnTypes(df):
 #		unit = df.loc[df['_unit_id'] == df['_unit_id'][0]]
 		units = df.groupby('_unit_id')
 
-		columns = [c for c in df.columns.values if not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
+		columns = [c for c in df.columns.values if c <> 'clustering' and not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
 		for c in columns:
 #			if df[c].nunique() == 1:
 				# ignore the column if all values are the same
@@ -250,6 +257,6 @@ def getAnnotations(field, config = []):
 
 # turn values into safe mongo keys
 def getSafeKey(field):
-	pattern = re.compile('[\W_]+')
-	safe = pattern.sub('_', field)
-	return safe
+	pattern = re.compile('(?!,)[\W_]+')
+	fields = map(lambda x: pattern.sub('_', x.strip()), re.split(',|\|',str(field).strip().lower()))
+	return fields

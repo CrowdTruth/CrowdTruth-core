@@ -7,6 +7,8 @@ import sys,os
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import multiprocessing as mp
+
 
 # define our default configuration options
 defaults = init_defaults('crowdtruth')
@@ -35,7 +37,8 @@ def scanDirectory(directory=''):
     files = os.listdir(root+directory)
     app.log.debug("Found directory "+root+directory)
     print 'Directory:',directory
-    
+
+
     results = {
         #'collections' : {},
         'jobs' : [],
@@ -44,7 +47,8 @@ def scanDirectory(directory=''):
         'judgments' : [],
         'annotations' : []
         }
-        
+
+
 
     # go through all files in this folder
     for f in files:
@@ -60,8 +64,6 @@ def scanDirectory(directory=''):
         # if it is a csv file open it
         elif f.endswith('.csv'):
             # open csv
-            print 'csv:',f
-
             res = ic.processFile(root, directory, f)
             for x in res:
                 results[x].append(res[x])
@@ -77,7 +79,7 @@ def scanDirectory(directory=''):
             'judgment' : 'sum',
             'job' : 'count',
             'duration' : 'mean',
-            'metrics_avg_agreement' : 'mean'
+            'metrics.worker.agreement' : 'mean'
             })
 
         results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
