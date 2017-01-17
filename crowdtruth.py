@@ -48,6 +48,11 @@ def scanDirectory(directory=''):
         'annotations' : []
         }
 
+    if os.path.exists(root+directory+'/config.py'):
+        sys.path.append(root+directory)
+        from config import Configuration
+        config = Configuration()
+        print 'Loaded configuration for',config.name
 
 
     # go through all files in this folder
@@ -64,7 +69,7 @@ def scanDirectory(directory=''):
         # if it is a csv file open it
         elif f.endswith('.csv'):
             # open csv
-            res = ic.processFile(root, directory, f)
+            res = ic.processFile(root, directory, f, config)
             for x in res:
                 results[x].append(res[x])
 
@@ -82,12 +87,46 @@ def scanDirectory(directory=''):
             'metrics.worker.agreement' : 'mean'
             })
 
-        results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
+        #results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
+        cols = [x for x in results['annotations'].columns.values if x.startswith('output')]
+#       print results['annotations'].columns.values
+
+        '''
+        # todo: re enable
+        results['correlations'] = pd.DataFrame()
+        for col in cols:
+            c = col.replace('output.','')
+            results['annotations'][col].apply(lambda x: str(x))
+            # corr freq
+            answers = results['annotations'][col].value_counts().keys()
+            for a in answers:
+                results['correlations'][c+'.'+a] = results['annotations'][col].apply(lambda x: 1 if x == a else 0)
+
+#        results['correlations'] = results['correlations'].corr(method='pearson')
+#        results['correlations'] = results['correlations'].sort_index(axis=1)
+
+
+#        print results['correlations'].head()
+        
+        '''
+
+        results['annotations'] = results['annotations'].groupby(cols).count().reset_index()
+        
+        # How many times person a meets person b is described by the following (s.t. a < b)
+
+
+        # DataFrames corr() function calculates pairwise correlations using specified 
+        # algorithm: 'peason, 'kendall', and 'spearman' are supported.
+        # Correlations are returned in a new DataFrame instance (corr_df below).
+        #likert_corr_df = likert.corr(method='pearson')
+        #likert_corr_df.to_csv(wd+'/results/likert_correlations.csv', sep=',')
+
 
         oc.saveResults(root, directory, results)
 
         #pc.processFeatures(directory)
-
+        if os.path.exists(root+directory+'/config.pyc'):
+            os.remove(root+directory+'/config.pyc')
 
 
 with CrowdTruth() as app:

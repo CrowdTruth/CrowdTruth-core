@@ -5,74 +5,42 @@ import scipy.spatial as spatial
 
 class Unit():
 
-    def __init__(self):
-        id = fields.CharField(primary_key=True)
-        collection = fields.CharField()
-        job = fields.CharField()
-        workers = fields.ListField()
-        judgments = fields.ListField()
-        platform = fields.CharField()
-        content = fields.DictField()
-
-        now = datetime.datetime.utcnow()
-        created = fields.DateTimeField(default=now)
-        updated = fields.DateTimeField(default=now)
-
-        workers = fields.ListField()
-        metrics = fields.DictField()
-        results = fields.DictField()
-
-
 
     @staticmethod
-    def getResults(judgments):
-        vectors = {}
-        
-        for index, judgment in judgments.iteritems():
-        # for each judgment in this vector
-            for vector in judgment['results']:
-                # each vector in this judgment
-                vectors[vector] = vectors.get(vector, {})
-                annotationVector = judgment['results'][vector]
+    def aggregate(judgments, config):
 
-                for key in annotationVector:
-                    # each key in this annotationVector
-                    vectors[vector][key] = vectors[vector].get(key, 0) + 1
-        return vectors
+        agg = {}
+        for col in config.input.values():
+            # for each input column the first value is taken. all rows have the same value for each unit.
+            agg[col] = 'first'
+        for col in config.output.values():
+            # each output column dict is summed
+            agg[col] = 'sum'
+        agg['job'] = 'first'
+        agg['worker'] = 'count'
+        agg['duration'] = 'mean'
 
-    @staticmethod
-    def getMetrics(judgments):
-        
-        metrics = {}
+        units = judgments.groupby('unit').agg(agg)
 
-        metrics['judgments'] = Unit.getJudgmentMetrics(judgments)
+        #
+        # get unit metrics
+        #
+        for col in config.output.values():
+            # for each vector in the unit get the unit metrics
+            units[col+'.metrics'] = units[col].apply(lambda x: Unit.getMetrics(x))
 
+        # aggregate unit metrics
+        metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
+        for val in metrics:
+            units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[x+'.metrics'][val] for x in config.output.values()]), axis=1)
 
+        # sort columns
+        units = units.reindex_axis(sorted(units.columns), axis=1)
 
-        #metrics['workers'] = self.getWorkerMetrics(judgments)
-        #metrics['workers']['count'] = len(self.results['raw'])
-    '''
-
-        return results
-
-    def get_cosine_vector(self):
-        if self.cosine_vector:
-            return self.cosine_vector
-
-        self.cosine_vector = VectorMetrics(self.unit_vector).get_cosine_vector()
-
-        return self.cosine_vector
-
-    def get_no_annotators(self):
-        return self.no_annotators
-
-
-    '''
-
-
+        return units
 
     @staticmethod
-    def getUnitMetrics(vector):
+    def getMetrics(vector):
         # for each vector in the unit return a set of metrics
         metrics = {}
         #for vector in vectors:
@@ -172,18 +140,4 @@ class Unit():
         
         return sum_cos/(1.0 * count)
 
-    @staticmethod
-    def getVectorAgreement(workerVector, unitVector):
-        unitArray = np.zeros(len(unitVector))
-        workerArray = np.zeros(len(unitVector))
-        index = 0
-        for key in unitVector.keys():
-            unitArray[index] = unitVector[key] - workerVector.get(key, 0)
-            workerArray[index] = workerVector.get(key, 0)
-            index += 1
 
-        if (np.count_nonzero(unitArray) == 0) or (np.count_nonzero(workerArray) == 0):
-            return 0
-
-        rel_cosine = spatial.distance.cosine(unitArray, workerArray)
-        return 1 - rel_cosine

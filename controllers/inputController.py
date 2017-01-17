@@ -15,9 +15,18 @@ pd.options.display.multi_sparse = False
 
 # Connect to MongoDB and call the connection "my-app".
 
-def processFile(root, directory, filename):
+def progress(job_title, progress):
+	length = 10 # modify this to change the length
+	block = int(round(length*progress))
+	msg = "\r{0}: [{1}] {2}%".format(job_title, "#"*block + "-"*(length-block), round(progress*100))
+	if progress >= 1: msg += " DONE\r\n"
+	sys.stdout.write(msg)
+	sys.stdout.flush()
 
-	print 'Processing:',filename
+
+def processFile(root, directory, filename, config):
+
+	progress(filename,0.1)
 	job = filename.split('.csv')[0]
 
 	judgments = pd.read_csv(root+'/'+directory+'/'+filename)
@@ -40,9 +49,9 @@ def processFile(root, directory, filename):
 	# if there is a config, check if there is a definition of which fields to use
 	#config = []
 	# else use the default and select them automatically
-	inputColumns, outputColumns = getColumnTypes(judgments)
+	config = getColumnTypes(judgments, config)
 
-	allColumns = dict(inputColumns.items() + outputColumns.items() + platform.items())
+	allColumns = dict(config.input.items() + config.output.items() + platform.items())
 	judgments = judgments.rename(columns=allColumns)
 
 	# remove columns we don't care about
@@ -50,13 +59,17 @@ def processFile(root, directory, filename):
 
 	judgments['job'] = job
 
+	annotations = judgments.loc[:,config.output.values()+['judgment']]
+
+	progress(filename,.3)
+
 	# make output values safe keys
-	for col in outputColumns.values():
+	for col in config.output.values():
 		judgments[col] = judgments[col].apply(lambda x: Counter(getSafeKey(str(x))))
 
-	#outputData = {outputColumns[col]:row[col] for col in outputColumns}
+	#outputData = {config.output[col]:row[col] for col in config.output}
 	
-#	for col in outputColumns.values():
+#	for col in config.output.values():
 #		judgments['annotations.'+col] = judgments[col].apply(lambda x: getAnnotations(x))
 
 	judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(x))
@@ -64,47 +77,38 @@ def processFile(root, directory, filename):
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
 
+	progress(filename,.5)
+
 
 
 	#
 	# aggregate units
 	#
-	agg = {}
-	for col in inputColumns.values():
-		# for each input column the first value is taken. all rows have the same value for each unit.
-		agg[col] = 'first'
-	for col in outputColumns.values():
-		# each output column dict is summed
-		agg[col] = 'sum'
-	agg['job'] = 'first'
-	agg['worker'] = 'count'
-	agg['duration'] = 'mean'
-
-	units = judgments.groupby('unit').agg(agg)
-
-	# get unit metrics
-	for col in outputColumns.values():
-		# for each vector in the unit get the unit metrics
-		units[col+'.metrics'] = units[col].apply(lambda x: Unit.getUnitMetrics(x))
-	metrics = units[outputColumns.values()[0]+'.metrics'].iloc[0].keys()
-	# aggregate unit metrics
-	for val in metrics:
-		units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[x+'.metrics'][val] for x in outputColumns.values()]), axis=1)
-
-	# sort columns
-	units = units.reindex_axis(sorted(units.columns), axis=1)
+	units = Unit.aggregate(judgments, config)
+	progress(filename,.7)
 
 
+	#
 	# compute worker agreement
-	for col in outputColumns.values():
-		judgments[col+'.agreement'] = judgments.apply(lambda row: Unit.getVectorAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
-	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in outputColumns.values()]).mean(), axis=1)
+	#
+	for col in config.output.values():
+		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
+	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
+
+	progress(filename,.9)
+
+
 
 	#
 	# aggregate workers
 	#
 
-	workers = judgments.groupby('worker').agg({
+	workers = judgments.groupby('worker')
+
+	#workerAgreement = Worker.getAvgWorkerAgreement(workers)
+	#print workerAgreement.head()
+
+	workers = workers.agg({
 		'job' : 'nunique',
 		'unit' : 'count',
 		'judgment' : 'count',
@@ -112,17 +116,20 @@ def processFile(root, directory, filename):
 		'metrics.worker.agreement' : 'mean'
 		})
 
+	#workerAgreement = Worker.getAvgWorkerAgreement(workers)
+
 
 
 	#
 	# aggregate annotations
 	# i.e. output columns
 	#
+	'''
 	annotations = pd.DataFrame()
-	for col in outputColumns.values():
+	for col in config.output.values():
 		#print units[col].values
 		annotations[col] = judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum()
-
+	'''
 
 
 	# aggregate collection
@@ -136,7 +143,7 @@ def processFile(root, directory, filename):
 
 
 	# each output column dict is summed
-	agg = {x+'.agreement' : 'mean'  for x in outputColumns.values()}
+	agg = {x+'.agreement' : 'mean'  for x in config.output.values()}
 	agg.update({
 		'unit' : 'nunique',
 		'judgment' : 'count',
@@ -146,9 +153,24 @@ def processFile(root, directory, filename):
 	})
 	job = judgments.groupby('job').agg(agg)
 
+
+	for val in config.output.values():
+		job[val+'.agreement'] = np.mean(units.apply(lambda row: row[val+'.metrics']['max_relation_Cos'], axis=1))
+#	print job['output.debated.agreement']
+
+
+
 	# add unit metrics to job metrics
+	metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
 	for val in metrics:
 		job['metrics.unit.avg_'+val] = units['metrics.avg_'+val].mean()
+
+
+	# compute job runtime
+	runtime = (max(judgments['submitted']) - min(judgments['started']))
+	job['runtime'] = float(runtime.days) * 24 + float(runtime.seconds) / 3600
+	job['judgments.per.worker'] = job['judgment'] / job['worker']
+
 
 
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
@@ -158,6 +180,7 @@ def processFile(root, directory, filename):
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
 
+	progress(filename,1)
 
 	return {
 		'jobs' : job, 
@@ -203,27 +226,46 @@ def getPlatform(df):
 
 
 
-def getColumnTypes(df):
+def getColumnTypes(df, config):
 	# get a dict of the columns with input content and the columns with output judgments
 	# each entry matches [original column name]:[safestring column name]
 
 	if df.columns.values[0] == 'HITId':
 		# Mturk
-		inputColumns = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.startswith('Input.')}
-		outputColumns = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.startswith('Answer.')}
-		return inputColumns, outputColumns
+		# if config is specified, use those columns
+		if config.inputColumns:
+			config.input = {c:'input.'+c.replace('Input.','') for c in config.inputColumns}
+		else:
+			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.startswith('Input.')}
+		
+		# if config is specified, use those columns
+		if config.outputColumns:
+			config.output = {c:'output.'+c.replace('Answer.','') for c in config.outputColumns}
+		else:
+			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.startswith('Answer.')}
+		return config
+
 	elif df.columns.values[0] == '_unit_id':
 		# returns a list of columns that contain are input content
+		config.input = {}
+		config.output = {}
+		
+		# if a config is specified, use those columns
+		if config.inputColumns:
+			config.input = {c:'input.'+c for c in config.inputColumns}
+		if config.outputColumns:
+			config.output = {c:'output.'+c for c in config.outputColumns}
+
+		# if there is a config for both input and output columns, we can return those
+		if config.inputColumns and config.outputColumns:
+			return config
+
+		# try to identify the input and output columns
 		# this is the case if all the values in the column are identical
 		# this is not failsafe but should give decent results without settings
-		# it is best to make a settings.ini file for a collection
-		inputColumns = {}
-		outputColumns = {}
+		# it is best to make a settings.py file for a collection
 
-		# analyse the first unit only
-#		unit = df.loc[df['_unit_id'] == df['_unit_id'][0]]
 		units = df.groupby('_unit_id')
-
 		columns = [c for c in df.columns.values if c <> 'clustering' and not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
 		for c in columns:
 #			if df[c].nunique() == 1:
@@ -235,16 +277,18 @@ def getColumnTypes(df):
 					if unique <> 1 and unique <> 0:
 						raise Found
 #				print 'input:',c
-				inputColumns[c] = 'input.'+c
+				if not inputColumns:
+					config.input[c] = 'input.'+c
 
 			except Found:
-				outputColumns[c] = 'output.'+c
+				if not outputColumns:
+					config.output[c] = 'output.'+c
 #				print 'output:',c
 
-		return inputColumns, outputColumns
+		return config
 	else:
 		# unknown platform type
-		return [], []		
+		return config	
 
 def getAnnotations(field, config = []):
 	# use config to make the vector
