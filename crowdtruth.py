@@ -52,6 +52,7 @@ def scanDirectory(directory=''):
         sys.path.append(root+directory)
         from config import Configuration
         config = Configuration()
+        config.custom = True
         print 'Loaded configuration for',config.name
 
 
@@ -121,6 +122,10 @@ def scanDirectory(directory=''):
         #likert_corr_df = likert.corr(method='pearson')
         #likert_corr_df.to_csv(wd+'/results/likert_correlations.csv', sep=',')
 
+
+        # add customized results
+        if config.custom:
+            results = config.customizeResults(results)
 
         oc.saveResults(root, directory, results)
 

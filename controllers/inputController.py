@@ -85,7 +85,7 @@ def processFile(root, directory, filename, config):
 	# aggregate units
 	#
 	units = Unit.aggregate(judgments, config)
-	progress(filename,.7)
+	progress(filename,.6)
 
 
 	#
@@ -95,7 +95,7 @@ def processFile(root, directory, filename, config):
 		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
 	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 
-	progress(filename,.9)
+	progress(filename,.8)
 
 
 
@@ -180,6 +180,9 @@ def processFile(root, directory, filename, config):
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
 
+
+
+
 	progress(filename,1)
 
 	return {
@@ -249,7 +252,7 @@ def getColumnTypes(df, config):
 		# returns a list of columns that contain are input content
 		config.input = {}
 		config.output = {}
-		
+
 		# if a config is specified, use those columns
 		if config.inputColumns:
 			config.input = {c:'input.'+c for c in config.inputColumns}
@@ -302,5 +305,7 @@ def getAnnotations(field, config = []):
 # turn values into safe mongo keys
 def getSafeKey(field):
 	pattern = re.compile('(?!,)[\W_]+')
-	fields = map(lambda x: pattern.sub('_', x.strip()), re.split(',|\|',str(field).strip().lower()))
+	cleanField = re.sub(' +',' ', str(field).lower())
+	fields = map(lambda x: pattern.sub('_', x.strip()), re.split(',|\|',cleanField))
+	fields = [f for f in fields if len(f) > 0]
 	return fields
