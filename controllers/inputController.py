@@ -280,11 +280,11 @@ def getColumnTypes(df, config):
 					if unique <> 1 and unique <> 0:
 						raise Found
 #				print 'input:',c
-				if not inputColumns:
+				if not config.inputColumns:
 					config.input[c] = 'input.'+c
 
 			except Found:
-				if not outputColumns:
+				if not config.outputColumns:
 					config.output[c] = 'output.'+c
 #				print 'output:',c
 

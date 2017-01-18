@@ -54,6 +54,9 @@ def scanDirectory(directory=''):
         config = Configuration()
         config.custom = True
         print 'Loaded configuration for',config.name
+    else:
+        from defaultconfig import Configuration
+        config = Configuration()
 
 
     # go through all files in this folder
@@ -124,7 +127,7 @@ def scanDirectory(directory=''):
 
 
         # add customized results
-        if config.custom:
+        if config.name:
             results = config.customizeResults(results)
 
         oc.saveResults(root, directory, results)
