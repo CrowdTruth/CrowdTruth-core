@@ -52,7 +52,6 @@ def scanDirectory(directory=''):
         sys.path.append(root+directory)
         from config import Configuration
         config = Configuration()
-        config.custom = True
         print 'Loaded configuration for',config.name
     else:
         from defaultconfig import Configuration
@@ -60,15 +59,12 @@ def scanDirectory(directory=''):
 
 
     # go through all files in this folder
+    subdirectories = []
     for f in files:
 
         # if it is a folder scan it
         if os.path.isdir(root+directory+'/'+f):
-            scanDirectory(directory+'/'+f)
-        
-        # if it is a configuration fole
-        elif f == 'settings.ini':
-            print 'found settings in', directory+'/'+f
+            subdirectories.append(directory+'/'+f)
 
         # if it is a csv file open it
         elif f.endswith('.csv'):
@@ -77,6 +73,9 @@ def scanDirectory(directory=''):
             for x in res:
                 results[x].append(res[x])
 
+
+
+    # if jobs were found
     if len(results['jobs']) > 0:
 
         for x in results:
@@ -91,31 +90,19 @@ def scanDirectory(directory=''):
             'metrics.worker.agreement' : 'mean'
             })
 
-        #results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
-        cols = [x for x in results['annotations'].columns.values if x.startswith('output')]
-#       print results['annotations'].columns.values
-
-        '''
-        # todo: re enable
-        results['correlations'] = pd.DataFrame()
-        for col in cols:
-            c = col.replace('output.','')
-            results['annotations'][col].apply(lambda x: str(x))
-            # corr freq
-            answers = results['annotations'][col].value_counts().keys()
-            for a in answers:
-                results['correlations'][c+'.'+a] = results['annotations'][col].apply(lambda x: 1 if x == a else 0)
-
-#        results['correlations'] = results['correlations'].corr(method='pearson')
-#        results['correlations'] = results['correlations'].sort_index(axis=1)
 
 
-#        print results['correlations'].head()
+        # aggregate annotations
+        results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
         
-        '''
 
-        results['annotations'] = results['annotations'].groupby(cols).count().reset_index()
+
+        #
+        # compute correlations
+        #
+        # remove 'output.' from the annotation column names
         
+
         # How many times person a meets person b is described by the following (s.t. a < b)
 
 
@@ -132,9 +119,18 @@ def scanDirectory(directory=''):
 
         oc.saveResults(root, directory, results)
 
-        #pc.processFeatures(directory)
-        if os.path.exists(root+directory+'/config.pyc'):
-            os.remove(root+directory+'/config.pyc')
+
+    # remove config from system path
+    if config.name:
+        sys.path.remove(root+directory)
+        del sys.modules['config']
+    if os.path.exists(root+directory+'/config.pyc'):
+        os.remove(root+directory+'/config.pyc')
+
+
+    # dive into subdirectories
+    for f in subdirectories:
+        scanDirectory(directory+'/'+f)
 
 
 with CrowdTruth() as app:

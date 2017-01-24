@@ -57,15 +57,18 @@ def processFile(root, directory, filename, config):
 	# remove columns we don't care about
 	judgments = judgments[allColumns.values()]
 
+	# allow customization of the results
+	#judgments = config.customizeJudgments(judgments)
+
 	judgments['job'] = job
 
 	annotations = judgments.loc[:,config.output.values()+['judgment']]
 
-	progress(filename,.3)
+	progress(filename,.2)
 
 	# make output values safe keys
 	for col in config.output.values():
-		judgments[col] = judgments[col].apply(lambda x: Counter(getSafeKey(str(x))))
+		judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
 
 	#outputData = {config.output[col]:row[col] for col in config.output}
 	
@@ -77,7 +80,7 @@ def processFile(root, directory, filename, config):
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
 
-	progress(filename,.5)
+	progress(filename,.3)
 
 
 
@@ -85,7 +88,7 @@ def processFile(root, directory, filename, config):
 	# aggregate units
 	#
 	units = Unit.aggregate(judgments, config)
-	progress(filename,.6)
+	progress(filename,.4)
 
 
 	#
@@ -94,96 +97,74 @@ def processFile(root, directory, filename, config):
 	for col in config.output.values():
 		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
 	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
-
-	progress(filename,.8)
+	progress(filename,.5)
 
 
 
 	#
 	# aggregate workers
 	#
-
-	workers = judgments.groupby('worker')
-
-	#workerAgreement = Worker.getAvgWorkerAgreement(workers)
-	#print workerAgreement.head()
-
-	workers = workers.agg({
-		'job' : 'nunique',
-		'unit' : 'count',
-		'judgment' : 'count',
-		'duration' : 'mean',
-		'metrics.worker.agreement' : 'mean'
-		})
-
-	#workerAgreement = Worker.getAvgWorkerAgreement(workers)
-
+	workers = Worker.aggregate(judgments, config)
+	progress(filename,.6)
 
 
 	#
 	# aggregate annotations
 	# i.e. output columns
 	#
-	'''
+	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
 		#print units[col].values
+#		annotations[col] = pd.Series(judgments[col].sum())
 		annotations[col] = judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum()
-	'''
+	annotations.reset_index()
+#	print annotations.head()
+	progress(filename,.7)
 
 
+
+	#
 	# aggregate collection
-	# TODO: move to main class
+	#
 	collections = pd.DataFrame(columns = ['id'])
 	collections.loc[collection] = {'id' : directory}
 
+
+	
+	#
 	# aggregate job
-	jobs = pd.DataFrame(columns = ['collection', 'filename'])#, 'platform'])
-	jobs.loc[job] = {'collection' : collection, 'job' : job}#, 'platform' : platform['_platform']}
+	#
+	job = Job.aggregate(units, judgments, config)
+	progress(filename,.8)
 
 
-	# each output column dict is summed
-	agg = {x+'.agreement' : 'mean'  for x in config.output.values()}
-	agg.update({
-		'unit' : 'nunique',
-		'judgment' : 'count',
-		'worker' : 'nunique',
-		'duration' : 'mean',
-		'metrics.worker.agreement' : 'mean'
-	})
-	job = judgments.groupby('job').agg(agg)
 
-
+	# add unit metrics to job
 	for val in config.output.values():
-		job[val+'.agreement'] = np.mean(units.apply(lambda row: row[val+'.metrics']['max_relation_Cos'], axis=1))
-#	print job['output.debated.agreement']
+		job[val+'.clarity'] = np.mean(units.apply(lambda row: row[val+'.metrics']['max_relation_Cos'], axis=1))
 
-
-
-	# add unit metrics to job metrics
 	metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
 	for val in metrics:
 		job['metrics.unit.avg_'+val] = units['metrics.avg_'+val].mean()
 
-
-	# compute job runtime
-	runtime = (max(judgments['submitted']) - min(judgments['started']))
-	job['runtime'] = float(runtime.days) * 24 + float(runtime.seconds) / 3600
-	job['judgments.per.worker'] = job['judgment'] / job['worker']
+	progress(filename,.9)
 
 
 
+	# Clean up judgments
+	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	# remove input columns
-	judgments = judgments[outputCol + platform.values() + ['duration']]
+	judgments = judgments[outputCol + platform.values() + ['duration','job']]
+	# remove Counter for readability
+	for col in config.output.values():
+		judgments[col] = judgments[col].apply(lambda x: ','.join(x.keys()))
 
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
 
-
-
-
 	progress(filename,1)
+
 
 	return {
 		'jobs' : job, 
@@ -237,13 +218,13 @@ def getColumnTypes(df, config):
 		# Mturk
 		# if config is specified, use those columns
 		if config.inputColumns:
-			config.input = {c:'input.'+c.replace('Input.','') for c in config.inputColumns}
+			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.replace('Input.','') in config.inputColumns}
 		else:
 			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.startswith('Input.')}
 		
 		# if config is specified, use those columns
 		if config.outputColumns:
-			config.output = {c:'output.'+c.replace('Answer.','') for c in config.outputColumns}
+			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.replace('Answer.','') in config.outputColumns}
 		else:
 			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.startswith('Answer.')}
 		return config
@@ -255,9 +236,9 @@ def getColumnTypes(df, config):
 
 		# if a config is specified, use those columns
 		if config.inputColumns:
-			config.input = {c:'input.'+c for c in config.inputColumns}
+			config.input = {c:'input.'+c for c in df.columns.values if c in config.inputColumns}
 		if config.outputColumns:
-			config.output = {c:'output.'+c for c in config.outputColumns}
+			config.output = {c:'output.'+c for c in df.columns.values if c in config.outputColumns}
 
 		# if there is a config for both input and output columns, we can return those
 		if config.inputColumns and config.outputColumns:
@@ -294,18 +275,19 @@ def getColumnTypes(df, config):
 		return config	
 
 def getAnnotations(field, config = []):
-	# use config to make the vector
-	if len(config) > 0:
-		return {}
-	# if no config just aggregate the values
-	else:
-		return {getSafeKey(field):1}
+	return Counter(getSafeKey(str(field)))
 
 
 # turn values into safe mongo keys
 def getSafeKey(field):
 	pattern = re.compile('(?!,)[\W_]+')
-	cleanField = re.sub(' +',' ', str(field).lower())
-	fields = map(lambda x: pattern.sub('_', x.strip()), re.split(',|\|',cleanField))
+	cleanField = re.sub(' +',' ', field.replace('"','').lower().strip())
+	# see if the string is an array
+	fields = map(lambda x: pattern.sub(' ', x).strip().replace(' ', '_'), re.split(',|\|',cleanField))
+	
 	fields = [f for f in fields if len(f) > 0]
-	return fields
+	
+	if len(fields):
+		return fields
+	else:
+		return ['__None__']

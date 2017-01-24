@@ -8,6 +8,26 @@ import pandas as pd
 class Worker():
 
 
+    @staticmethod
+    def aggregate(judgments, config):
+
+        workers = judgments.groupby('worker')
+
+        #workerAgreement = Worker.getAvgWorkerAgreement(workers)
+        #print workerAgreement.head()
+
+        workers = workers.agg({
+            'job' : 'nunique',
+            'unit' : 'count',
+            'judgment' : 'count',
+            'duration' : 'mean',
+            'metrics.worker.agreement' : 'mean'
+            })
+
+        #workerAgreement = Worker.getAvgWorkerAgreement(workers)
+        return workers
+
+
     def getFeatures(self):
         self.features = {}
         judgments = Judgment.objects.raw({'worker': self.id})

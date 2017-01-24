@@ -25,12 +25,15 @@ class Unit():
         #
         # get unit metrics
         #
+
         for col in config.output.values():
             # for each vector in the unit get the unit metrics
             units[col+'.metrics'] = units[col].apply(lambda x: Unit.getMetrics(x))
+            units[col+'.metrics.clarity'] = units[col+'.metrics'].apply(lambda x: np.mean(x['max_relation_Cos']))
+
+        metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
 
         # aggregate unit metrics
-        metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
         for val in metrics:
             units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[x+'.metrics'][val] for x in config.output.values()]), axis=1)
 
@@ -124,8 +127,11 @@ class Unit():
 
     @staticmethod
     def getWorkerAgreement(workerVector, unitVector):
-        print workerVector
-        print unitVector
+        #print workerVector
+        #print unitVector
+
+
+        
         # loop through vectors
         # for each vector get the agreement between the workers
         # then get the average for the worker.

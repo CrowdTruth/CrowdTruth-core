@@ -10,4 +10,4 @@ def saveResults(root, directory, results):
 		#print 'Saving:',tab
 		results[tab].to_excel(writer, tab)
 	writer.save()
-	print 'Finished',filename
+	print 'Saved: '+directory+'results'+filename+'.xlsx'
