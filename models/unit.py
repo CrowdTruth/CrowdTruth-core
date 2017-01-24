@@ -29,7 +29,7 @@ class Unit():
         for col in config.output.values():
             # for each vector in the unit get the unit metrics
             units[col+'.metrics'] = units[col].apply(lambda x: Unit.getMetrics(x))
-            units[col+'.metrics.clarity'] = units[col+'.metrics'].apply(lambda x: np.mean(x['max_relation_Cos']))
+            units[col+'.metrics.clarity'] = units[col+'.metrics'].apply(lambda x: np.mean(x['max_cosine']))
 
         metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
 
@@ -48,24 +48,17 @@ class Unit():
         metrics = {}
         #for vector in vectors:
 
-        metrics['magnitude'] = Unit.get_magnitude(vector)
-        metrics['norm_magnitude'] = Unit.get_norm_magnitude(vector)
+        #metrics['magnitude'] = Unit.get_magnitude(vector)
+        #metrics['norm_magnitude'] = Unit.get_norm_magnitude(vector)
         cosine_vector = Unit.get_cosine_vector(vector)
-        metrics['max_relation_Cos'] = max(cosine_vector.values())
-        metrics['vector_size'] = len(vector)
+        metrics['max_cosine'] = max(cosine_vector.values())
+        metrics['unique_annotations'] = len(vector)
+        metrics['annotations'] = sum(vector.values())
 
 #        averages = Unit.getAverages(metrics)
 #        metrics.update(averages)
 
         return metrics
-
-    @staticmethod
-    def getAverages(vectors):
-        averages = {}
-        keys = vectors[vectors.keys()[0]].keys()
-        for k in keys:
-            averages['avg_'+k] = np.array([vectors[v][k] for v in vectors]).mean()
-        return averages
 
     @staticmethod
     def getWorkerMetrics(judgments, unitVectors):
@@ -80,10 +73,19 @@ class Unit():
 
             #judgment.setAgreement(agreement)
 
-        averages = Unit.getAverages(metrics)
+        averages = Unit.getAggregateMetrics(metrics, judgments)
         metrics.update(averages)
 
         return metrics
+
+    @staticmethod
+    def getAggregateMetrics(vectors):
+        averages = {}
+        keys = vectors[vectors.keys()[0]].keys()
+        for k in keys:
+            averages['avg_'+k] = np.array([vectors[v][k] for v in vectors]).mean()
+        return averages
+
 
     @staticmethod
     def get_magnitude(vector):

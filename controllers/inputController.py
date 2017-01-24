@@ -61,9 +61,6 @@ def processFile(root, directory, filename, config):
 	#judgments = config.customizeJudgments(judgments)
 
 	judgments['job'] = job
-
-	annotations = judgments.loc[:,config.output.values()+['judgment']]
-
 	progress(filename,.2)
 
 	# make output values safe keys
@@ -96,6 +93,8 @@ def processFile(root, directory, filename, config):
 	#
 	for col in config.output.values():
 		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
+		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
+		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
 	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 	progress(filename,.5)
 
@@ -115,11 +114,9 @@ def processFile(root, directory, filename, config):
 	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
-		#print units[col].values
 #		annotations[col] = pd.Series(judgments[col].sum())
-		annotations[col] = judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum()
-	annotations.reset_index()
-#	print annotations.head()
+		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
+		annotations = pd.concat([annotations, res], axis=0)
 	progress(filename,.7)
 
 
@@ -142,7 +139,7 @@ def processFile(root, directory, filename, config):
 
 	# add unit metrics to job
 	for val in config.output.values():
-		job[val+'.clarity'] = np.mean(units.apply(lambda row: row[val+'.metrics']['max_relation_Cos'], axis=1))
+		job[val+'.clarity'] = np.mean(units.apply(lambda row: row[val+'.metrics']['max_cosine'], axis=1))
 
 	metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
 	for val in metrics:
@@ -239,7 +236,6 @@ def getColumnTypes(df, config):
 			config.input = {c:'input.'+c for c in df.columns.values if c in config.inputColumns}
 		if config.outputColumns:
 			config.output = {c:'output.'+c for c in df.columns.values if c in config.outputColumns}
-
 		# if there is a config for both input and output columns, we can return those
 		if config.inputColumns and config.outputColumns:
 			return config

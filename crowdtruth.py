@@ -96,7 +96,6 @@ def scanDirectory(directory=''):
         results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
         
 
-
         #
         # compute correlations
         #

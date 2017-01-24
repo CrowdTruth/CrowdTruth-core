@@ -30,10 +30,10 @@ class Job():
 		for col in config.output.values():
 			job[col+'.clarity'] = units[col+'.metrics.clarity'].apply(lambda x: np.mean(x))
 
-			values = units[col].sum()
-			total = sum(values.values())
-			for v in values.keys():
-				job[col+'.'+v] = values[v] / float(total)
+			#values = units[col].sum()
+			#total = sum(values.values())
+			#for v in values.keys():
+				#job[col+'.'+v] = values[v] / float(total)
 
  		job = job.reindex_axis(sorted(job.columns), axis=1)
  		

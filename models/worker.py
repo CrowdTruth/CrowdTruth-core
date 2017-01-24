@@ -15,14 +15,16 @@ class Worker():
 
         #workerAgreement = Worker.getAvgWorkerAgreement(workers)
         #print workerAgreement.head()
-
-        workers = workers.agg({
+        agg = {
             'job' : 'nunique',
             'unit' : 'count',
             'judgment' : 'count',
             'duration' : 'mean',
-            'metrics.worker.agreement' : 'mean'
-            })
+            'metrics.worker.agreement' : 'mean',
+            }
+        for col in config.output.values():
+            agg[col+'.count'] = 'mean'
+        workers = workers.agg(agg)
 
         #workerAgreement = Worker.getAvgWorkerAgreement(workers)
         return workers
