@@ -28,9 +28,14 @@ class Configuration():
 	def processWorker(self, worker):
 		return True
 
+	'''
+	'	customize the judgments before being processed
+	'''
+	def processJudgments(self, judgments):
+		return judgments
 
 	'''
 	'	customize the results
 	'''
-	def customizeResults(self, results):
+	def processResults(self, results):
 		return results

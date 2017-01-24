@@ -57,11 +57,12 @@ def processFile(root, directory, filename, config):
 	# remove columns we don't care about
 	judgments = judgments[allColumns.values()]
 
-	# allow customization of the results
-	#judgments = config.customizeJudgments(judgments)
+	# allow customization of the judgments
+	judgments = config.processJudgments(judgments)
 
 	judgments['job'] = job
 	progress(filename,.2)
+
 
 	# make output values safe keys
 	for col in config.output.values():

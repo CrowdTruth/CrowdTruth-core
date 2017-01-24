@@ -114,7 +114,7 @@ def scanDirectory(directory=''):
 
         # add customized results
         if config.name:
-            results = config.customizeResults(results)
+            results = config.processResults(results)
 
         oc.saveResults(root, directory, results)
 
