@@ -96,7 +96,7 @@ def processFile(root, directory, filename, config):
 		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
 		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
 		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
-	judgments['metrics.worker.agreement'] = judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
+	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 	progress(filename,.5)
 
 
@@ -133,20 +133,11 @@ def processFile(root, directory, filename, config):
 	#
 	# aggregate job
 	#
-	job = Job.aggregate(units, judgments, config)
+	job = Job.aggregate(units, judgments, workers, config)
 	progress(filename,.8)
 
 
 
-	# add unit metrics to job
-	for val in config.output.values():
-		job[val+'.clarity'] = np.mean(units.apply(lambda row: row[val+'.metrics']['max_cosine'], axis=1))
-
-	metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
-	for val in metrics:
-		job['metrics.unit.avg_'+val] = units['metrics.avg_'+val].mean()
-
-	progress(filename,.9)
 
 
 

@@ -87,7 +87,8 @@ def scanDirectory(directory=''):
             'judgment' : 'sum',
             'job' : 'count',
             'duration' : 'mean',
-            'metrics.worker.agreement' : 'mean'
+            'worker-cosine' : 'mean',
+            'worker-agreement' : 'mean'
             })
 
 
@@ -113,8 +114,7 @@ def scanDirectory(directory=''):
 
 
         # add customized results
-        if config.name:
-            results = config.processResults(results)
+        results = config.processResults(results)
 
         oc.saveResults(root, directory, results)
 

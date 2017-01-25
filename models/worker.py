@@ -3,7 +3,7 @@ from models.unit import *
 import numpy as np
 import itertools
 import pandas as pd
-
+from collections import Counter
 
 class Worker():
 
@@ -11,20 +11,25 @@ class Worker():
     @staticmethod
     def aggregate(judgments, config):
 
-        workers = judgments.groupby('worker')
+        workers = judgments.copy().groupby('worker')
 
-        #workerAgreement = Worker.getAvgWorkerAgreement(workers)
-        #print workerAgreement.head()
+        # get workerWorkerAgreement on all fields
+        workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers, config.output.values())
+
         agg = {
             'job' : 'nunique',
-            'unit' : 'count',
-            'judgment' : 'count',
+            'unit' : 'nunique',
+            'judgment' : 'nunique',
             'duration' : 'mean',
-            'metrics.worker.agreement' : 'mean',
+            'worker-cosine' : 'mean'
             }
         for col in config.output.values():
             agg[col+'.count'] = 'mean'
+
         workers = workers.agg(agg)
+
+        #workers = pd.concat([workers, workerWorkerAgreement], axis=1)
+        workers['worker-agreement'] = workerWorkerAgreement['agreement']
 
         #workerAgreement = Worker.getAvgWorkerAgreement(workers)
         return workers
@@ -76,7 +81,7 @@ class Worker():
 
 
     @staticmethod
-    def getAvgWorkerAgreement(workers):
+    def getAvgWorkerWorkerAgreement(workers, columns):
 
         # make a list of the workers
         workerList = workers.groups
@@ -89,11 +94,13 @@ class Worker():
 
         for workera, workerb in combinations:
             # for each worker combination compute the agreement
-            agreement = Worker.getWorkerAgreement(workers.get_group(workera), workers.get_group(workerb))
+            agreement = Worker.getWorkerWorkerAgreement(workers.get_group(workera), workers.get_group(workerb), columns)
 
             # save the agreement to both workers
             result[workera][workerb] = agreement
             result[workerb][workera] = agreement
+
+        result = pd.DataFrame(result.mean(), columns=['agreement'])
 
         return result
 
@@ -121,32 +128,40 @@ class Worker():
 
 
     @staticmethod
-    def getWorkerAgreement(workera, workerb):
+    def getWorkerWorkerAgreement(workera, workerb, columns):
         # get the units in common
         units = Worker.getCommonUnits(workera, workerb)
 
         # if there are no common units we return false. i.e. it should not be counted towards the worker.
         if len(units) == 0:
-            return False
-        return len(units)
+            return np.NaN
+#        return len(units)
 
-        hit_count = 0
-        annotation_count = 0
+        pairs = list()
+        workera.set_index('unit', inplace=True)
+        workerb.set_index('unit', inplace=True)
+
         for unit in units:
 
-            # 
-            workeraVector = Worker.getNormalizedVector(unit)
-            workerbVector = worker.getNormalizedVector(unit)
+            # pairwise comparison of all the worker vectors
+            for col in columns:
 
-            # pairwise comparison of the two worker vectors
-            for key in workeraVector:
-                hit_count += min(workeraVector[key],workerbVector[key])
-            annotation_count += sum(self_unit_vector.values())
+                #
+                join = len(workera[col][unit] + workerb[col][unit])
+                overlap = len(workera[col][unit] & workerb[col][unit])
+                pairs.append(overlap / float(join))
 
-        if annotation_count == 0:
-            return 0
+                #print 'join:',join
+                #print 'overlap:',overlap
 
-        return hit_count/(1.0 * annotation_count)
+        #print pairs
+        #print np.mean(pairs)
+        avg = np.mean(pairs)
+        if avg > 1:
+            print pairs
+            print 'WARNING: duplicate worker unit detected'
+
+        return avg
 
     @staticmethod
     def getCommonUnits(workera, workerb):

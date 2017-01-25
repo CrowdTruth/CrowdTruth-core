@@ -26,16 +26,14 @@ class Unit():
         # get unit metrics
         #
 
-        for col in config.output.values():
-            # for each vector in the unit get the unit metrics
-            units[col+'.metrics'] = units[col].apply(lambda x: Unit.getMetrics(x))
-            units[col+'.metrics.clarity'] = units[col+'.metrics'].apply(lambda x: np.mean(x['max_cosine']))
+        # for each vector in the unit get the unit metrics
+        units = units.apply(lambda row: Unit.getMetrics(row, config), axis=1)
 
-        metrics = units[config.output.values()[0]+'.metrics'].iloc[0].keys()
+        metrics = ['max_cosine','unique_annotations','annotations']
 
         # aggregate unit metrics
         for val in metrics:
-            units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[x+'.metrics'][val] for x in config.output.values()]), axis=1)
+            units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[col+'.'+val] for col in config.output.values()]), axis=1)
 
         # sort columns
         units = units.reindex_axis(sorted(units.columns), axis=1)
@@ -43,22 +41,25 @@ class Unit():
         return units
 
     @staticmethod
-    def getMetrics(vector):
-        # for each vector in the unit return a set of metrics
-        metrics = {}
-        #for vector in vectors:
+    def getMetrics(row, config):
 
-        #metrics['magnitude'] = Unit.get_magnitude(vector)
-        #metrics['norm_magnitude'] = Unit.get_norm_magnitude(vector)
-        cosine_vector = Unit.get_cosine_vector(vector)
-        metrics['max_cosine'] = max(cosine_vector.values())
-        metrics['unique_annotations'] = len(vector)
-        metrics['annotations'] = sum(vector.values())
+        for col in config.output.values():
 
-#        averages = Unit.getAverages(metrics)
-#        metrics.update(averages)
+            # for each vector in the unit return a set of metrics
+            #metrics = {}
+            #for vector in vectors:
 
-        return metrics
+            #metrics['magnitude'] = Unit.get_magnitude(vector)
+            #metrics['norm_magnitude'] = Unit.get_norm_magnitude(vector)
+            cosine_vector = Unit.get_cosine_vector(row[col])
+            row[col+'.max_cosine'] = max(cosine_vector.values())
+            row[col+'.unique_annotations'] = len(row[col])
+            row[col+'.annotations'] = sum(row[col].values())
+
+    #        averages = Unit.getAverages(metrics)
+    #        metrics.update(averages)
+
+        return row
 
     @staticmethod
     def getWorkerMetrics(judgments, unitVectors):
@@ -68,8 +69,8 @@ class Unit():
             judgment = judgments[j]
             metrics[judgment.worker] = {}
 
-            agreement = Unit.getWorkerAgreement(judgment.annotations, unitVectors)
-            metrics[judgment.worker]['agreement'] = agreement
+            cosine = Unit.getWorkerCosine(judgment.annotations, unitVectors)
+            metrics[judgment.worker]['worker-cosine'] = cosine
 
             #judgment.setAgreement(agreement)
 
@@ -128,7 +129,7 @@ class Unit():
         return cosine_vector
 
     @staticmethod
-    def getWorkerAgreement(workerVector, unitVector):
+    def getWorkerCosine(workerVector, unitVector):
         #print workerVector
         #print unitVector
 
@@ -140,7 +141,7 @@ class Unit():
         sum_cos = 0.0
         count = 0
         for wv in workerVector:
-            sum_cos += Unit.getVectorAgreement(workerVector[wv], unitVector[wv])
+            sum_cos += Unit.getVectorCosine(workerVector[wv], unitVector[wv])
             count += 1
 
         if count == 0:

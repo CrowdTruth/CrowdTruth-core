@@ -5,18 +5,20 @@ import numpy as np
 class Job():
 
 	@staticmethod
-	def aggregate(units, judgments, config):
+	def aggregate(units, judgments, workers, config):
 
 		# each output column dict is summed
 
 		agg = {
 			'unit' : 'nunique',
-			'judgment' : 'count',
+			'judgment' : 'nunique',
 			'worker' : 'nunique',
 			'duration' : 'mean',
-			'metrics.worker.agreement' : 'mean'
+			'worker-cosine' : 'mean'
 		}
 		job = judgments.groupby('job').agg(agg)
+
+		job['worker-agreement'] = workers['worker-agreement'].mean()
 
 
 		# compute job runtime
@@ -27,16 +29,18 @@ class Job():
 
 
 		agg = {}
-		for col in config.output.values():
-			job[col+'.clarity'] = units[col+'.metrics.clarity'].apply(lambda x: np.mean(x))
+		metrics = ['max_cosine','unique_annotations','annotations']
 
-			#values = units[col].sum()
-			#total = sum(values.values())
-			#for v in values.keys():
-				#job[col+'.'+v] = values[v] / float(total)
+		for metric in metrics:
 
- 		job = job.reindex_axis(sorted(job.columns), axis=1)
- 		
+			for col in config.output.values():
+				# aggregate unit metrics
+				job[col+'.'+metric] = units[col+'.'+metric].mean()
+			job['metrics.avg_'+metric] = units['metrics.avg_'+metric].mean()
+		
+
+		job = job.reindex_axis(sorted(job.columns), axis=1)
+		
 
 
 
