@@ -87,6 +87,7 @@ def scanDirectory(directory=''):
             'judgment' : 'sum',
             'job' : 'count',
             'duration' : 'mean',
+            'spam' : 'sum',
             'worker-cosine' : 'mean',
             'worker-agreement' : 'mean'
             })

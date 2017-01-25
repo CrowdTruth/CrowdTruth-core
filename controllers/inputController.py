@@ -96,6 +96,8 @@ def processFile(root, directory, filename, config):
 		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
 		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
 		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
+	progress(filename,.45)
+
 	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 	progress(filename,.5)
 
@@ -137,7 +139,12 @@ def processFile(root, directory, filename, config):
 	progress(filename,.8)
 
 
-
+	#
+	# tag spammers
+	#
+	workers['spam'] = (workers['worker-agreement'] < job['worker-agreement-threshold'].iloc[0]) & (workers['worker-cosine'] > job['worker-cosine-threshold'].iloc[0])
+	job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
+	progress(filename,.9)
 
 
 

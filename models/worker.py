@@ -105,28 +105,6 @@ class Worker():
         return result
 
 
-
-        weighted_sum = 0.0
-        weighted_count = 0.0
-        for worker_id in workers.index:
-
-            worker = workers[worker_id]
-            if (self.crowd_agent_id in worker.worker_agreement):
-                w_w_agreement = worker.worker_agreement[self.crowd_agent_id]
-            else:
-                w_w_agreement = self.get_w_w_agreement(workers[worker_id])
-                self.worker_agreement[worker_id] = w_w_agreement
-
-            no_common_units = len(self.get_common_units(workers[worker_id]))
-            weighted_count += no_common_units
-            weighted_sum += no_common_units*w_w_agreement
-
-        if weighted_count == 0.0:
-            return 0
-
-        return weighted_sum/(weighted_count * 1.0)
-
-
     @staticmethod
     def getWorkerWorkerAgreement(workera, workerb, columns):
         # get the units in common
@@ -137,7 +115,7 @@ class Worker():
             return np.NaN
 #        return len(units)
 
-        pairs = list()
+        pairs = []
         workera.set_index('unit', inplace=True)
         workerb.set_index('unit', inplace=True)
 
@@ -167,11 +145,6 @@ class Worker():
     def getCommonUnits(workera, workerb):
         return list(set(workera['unit']) & set(workerb['unit']))
 
-        worker_unit_vectors = worker.get_unit_vectors()
-        worker_units = worker_unit_vectors.keys()
-        self_units = self.get_unit_vectors().keys()
-        common_units = list(set(worker_units) & set(self_units))
-        return common_units
 
     @staticmethod
     def getNormalizedVector(unit):
