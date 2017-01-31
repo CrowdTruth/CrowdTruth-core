@@ -4,6 +4,9 @@ import numpy as np
 import itertools
 import pandas as pd
 from collections import Counter
+from datetime import datetime
+from collections import defaultdict
+
 
 class Worker():
 
@@ -14,7 +17,7 @@ class Worker():
         workers = judgments.copy().groupby('worker')
 
         # get workerWorkerAgreement on all fields
-        workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers, config.output.values())
+        workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers[['unit']+config.output.values()], config.output.values())
 
         agg = {
             'job' : 'nunique',
@@ -85,13 +88,14 @@ class Worker():
 
         # make a list of the workers
         workerList = workers.groups
-        
+
         # create an empty matrix with the workers
-        result = pd.DataFrame(index=workerList, columns=workerList)
-        
+        #result = pd.DataFrame(index=workerList, columns=workerList)
+        result = defaultdict(dict)
+
         # compute all combinations of workers so that we do not have to compute each agreement twice
         combinations = list(itertools.combinations(workerList,2))
-
+        #start = datetime.now()
         for workera, workerb in combinations:
             # for each worker combination compute the agreement
             agreement = Worker.getWorkerWorkerAgreement(workers.get_group(workera), workers.get_group(workerb), columns)
@@ -100,7 +104,11 @@ class Worker():
             result[workera][workerb] = agreement
             result[workerb][workera] = agreement
 
-        result = pd.DataFrame(result.mean(), columns=['agreement'])
+        #result = pd.DataFrame(result.mean(), columns=['agreement'])
+        result = pd.DataFrame.from_dict(result).mean()
+        result = pd.DataFrame(result, columns=['agreement'])
+
+        #print (datetime.now() - start)
 
         return result
 

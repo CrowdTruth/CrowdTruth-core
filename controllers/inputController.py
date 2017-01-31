@@ -26,7 +26,7 @@ def progress(job_title, progress):
 
 def processFile(root, directory, filename, config):
 
-	progress(filename,0.1)
+	progress(filename,.1)
 	job = filename.split('.csv')[0]
 
 	judgments = pd.read_csv(root+'/'+directory+'/'+filename)
@@ -41,24 +41,26 @@ def processFile(root, directory, filename, config):
 	#print df.head()
 	
 
-
-	# track units so that we do not have to add the unit specific variables on each row iteration
-	prevUnit = 0
-
 	# we must establish which fields were part of the input data and which are output judgments
 	# if there is a config, check if there is a definition of which fields to use
 	#config = []
 	# else use the default and select them automatically
 	config = getColumnTypes(judgments, config)
 
+
+	# allow customization of the judgments
+	judgments = config.processJudgments(judgments)
+
+
+	# update the config after the preprocessing of judgments
+	config = getColumnTypes(judgments, config)
+	progress(filename,.15)
+
 	allColumns = dict(config.input.items() + config.output.items() + platform.items())
 	judgments = judgments.rename(columns=allColumns)
 
 	# remove columns we don't care about
 	judgments = judgments[allColumns.values()]
-
-	# allow customization of the judgments
-	judgments = config.processJudgments(judgments)
 
 	judgments['job'] = job
 	progress(filename,.2)

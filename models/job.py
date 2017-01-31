@@ -31,7 +31,7 @@ class Job():
 
 
 		agg = {}
-		metrics = ['max_cosine','unique_annotations','annotations']
+		metrics = ['cos_clarity','unique_annotations','annotations']
 
 		for metric in metrics:
 

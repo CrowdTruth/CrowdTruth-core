@@ -29,7 +29,7 @@ class Unit():
         # for each vector in the unit get the unit metrics
         units = units.apply(lambda row: Unit.getMetrics(row, config), axis=1)
 
-        metrics = ['max_cosine','unique_annotations','annotations']
+        metrics = ['cos_clarity','unique_annotations','annotations']
 
         # aggregate unit metrics
         for val in metrics:
@@ -52,7 +52,7 @@ class Unit():
             #metrics['magnitude'] = Unit.get_magnitude(vector)
             #metrics['norm_magnitude'] = Unit.get_norm_magnitude(vector)
             cosine_vector = Unit.get_cosine_vector(row[col])
-            row[col+'.max_cosine'] = max(cosine_vector.values())
+            row[col+'.cos_clarity'] = max(cosine_vector.values())
             row[col+'.unique_annotations'] = len(row[col])
             row[col+'.annotations'] = sum(row[col].values())
 
