@@ -3,6 +3,7 @@ from cement.core import hook
 from cement.utils.misc import init_defaults
 import controllers.inputController as ic
 import controllers.outputController as oc
+import controllers.configController as cc
 import sys,os
 from datetime import datetime
 import pandas as pd
@@ -48,14 +49,7 @@ def scanDirectory(directory=''):
         'annotations' : []
         }
 
-    if os.path.exists(root+directory+'/config.py'):
-        sys.path.append(root+directory)
-        from config import Configuration
-        config = Configuration()
-        print 'Loaded configuration for',config.name
-    else:
-        from defaultconfig import Configuration
-        config = Configuration()
+    config = cc.getConfig(root, directory)
 
 
     # go through all files in this folder
@@ -67,7 +61,7 @@ def scanDirectory(directory=''):
             subdirectories.append(directory+'/'+f)
 
         # if it is a csv file open it
-        elif f.endswith('.csv'):
+        elif f.endswith('.csv') and f <> 'groundtruth.csv':
             # open csv
             res = ic.processFile(root, directory, f, config)
             for x in res:
@@ -131,6 +125,7 @@ def scanDirectory(directory=''):
     # dive into subdirectories
     for f in subdirectories:
         scanDirectory(directory+'/'+f)
+
 
 
 with CrowdTruth() as app:

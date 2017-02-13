@@ -6,24 +6,36 @@
 class Configuration():
 
 	# collection name
-	name = 'Project name'
+	name = ''
 
-	# InputColumns to select. If empty these columns are identified automatically.
+	# inputColumns to use
 	inputColumns = []
-	# OutputColumns to use. If empty these columns are identified automatically.
+	# outputColumns to use
 	outputColumns = []
 
 
-	# Units to use
+	# units to use
 	units = []
-	# Workers to use
+	# workers to use
 	workers = []
-	# Jobs to use
+	# jobs to use
 	jobs = []
 
 
-	def processUnit(unit):
+	def processUnit(self, unit):
 		return True
 
-	def processWorker(worker):
+	def processWorker(self, worker):
 		return True
+
+	'''
+	'	customize the judgments before being processed
+	'''
+	def processJudgments(self, judgments):
+		return judgments
+
+	'''
+	'	customize the results
+	'''
+	def processResults(self, results):
+		return results

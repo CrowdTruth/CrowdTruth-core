@@ -9,9 +9,16 @@ import re, string
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from collections import Counter
+from collections import Counter, OrderedDict
 import re
+import groundtruthController as groundtruth
 pd.options.display.multi_sparse = False
+
+
+# create an ordered counter so that we can maintain the position of tags in the order they were annotated
+class OrderedCounter(Counter, OrderedDict):
+	pass
+
 
 # Connect to MongoDB and call the connection "my-app".
 
@@ -69,6 +76,7 @@ def processFile(root, directory, filename, config):
 	# make output values safe keys
 	for col in config.output.values():
 		judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
+
 
 	#outputData = {config.output[col]:row[col] for col in config.output}
 	
@@ -146,7 +154,7 @@ def processFile(root, directory, filename, config):
 	#
 	workers['spam'] = (workers['worker-agreement'] < job['worker-agreement-threshold'].iloc[0]) & (workers['worker-cosine'] > job['worker-cosine-threshold'].iloc[0])
 	job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	progress(filename,.9)
+	progress(filename,.85)
 
 
 
@@ -160,6 +168,11 @@ def processFile(root, directory, filename, config):
 
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
+	progress(filename,.9)
+
+	# measure performance with ground truth
+	#job, units = groundtruth.process(job, units.copy(), config.groundtruth)
+
 
 	progress(filename,1)
 
@@ -272,7 +285,7 @@ def getColumnTypes(df, config):
 		return config	
 
 def getAnnotations(field, config = []):
-	return Counter(getSafeKey(str(field)))
+	return OrderedCounter(getSafeKey(str(field)))
 
 
 # turn values into safe mongo keys
