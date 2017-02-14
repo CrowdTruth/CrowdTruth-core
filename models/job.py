@@ -19,9 +19,6 @@ class Job():
 		job = judgments.groupby('job').agg(agg)
 
 		job['worker-agreement'] = workers['worker-agreement'].mean()
-		job['worker-agreement-threshold'] = job['worker-agreement'] - (2 * workers['worker-agreement'].std())
-		job['worker-cosine-threshold'] = job['worker-cosine'] + (2 * judgments['worker-cosine'].std())
-
 
 		# compute job runtime
 		runtime = (max(judgments['submitted']) - min(judgments['started']))

@@ -33,7 +33,7 @@ def progress(job_title, progress):
 
 def processFile(root, directory, filename, config):
 
-	progress(filename,.1)
+	progress(filename,.05)
 	job = filename.split('.csv')[0]
 
 	judgments = pd.read_csv(root+'/'+directory+'/'+filename)
@@ -61,7 +61,7 @@ def processFile(root, directory, filename, config):
 
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
-	progress(filename,.15)
+	progress(filename,.1)
 
 	allColumns = dict(config.input.items() + config.output.items() + platform.items())
 	judgments = judgments.rename(columns=allColumns)
@@ -70,7 +70,7 @@ def processFile(root, directory, filename, config):
 	judgments = judgments[allColumns.values()]
 
 	judgments['job'] = job
-	progress(filename,.2)
+	progress(filename,.15)
 
 
 	# make output values safe keys
@@ -88,7 +88,52 @@ def processFile(root, directory, filename, config):
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
 
+	progress(filename,.2)
+
+
+
+	# 
+
+
+	#
+	# aggregate units
+	#
+	units = Unit.aggregate(judgments, config)
+	progress(filename,.25)
+
+	#
+	# compute worker agreement
+	#
+	for col in config.output.values():
+		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
+		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
+		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
 	progress(filename,.3)
+
+	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
+	progress(filename,.35)
+
+	#
+	# aggregate workers
+	#
+	workers = Worker.aggregate(judgments, config)
+	progress(filename,.4)
+
+
+	# get the thresholds
+	workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
+	workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
+
+	#
+	# tag spammers
+	#
+	workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
+	progress(filename,.45)
+
+
+	# tag judgments that were spam
+ 	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
+ 	judgments = judgments[judgments['spam'] == False]
 
 
 
@@ -96,49 +141,20 @@ def processFile(root, directory, filename, config):
 	# aggregate units
 	#
 	units = Unit.aggregate(judgments, config)
-	progress(filename,.4)
+	progress(filename,.8)
 
-
-	#
-	# compute worker agreement
-	#
-	for col in config.output.values():
-		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.loc[row['unit'], col]), axis=1)	
-		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
-		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
-	progress(filename,.45)
-
-	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
-	progress(filename,.5)
-
-
-
-	#
-	# aggregate workers
-	#
-	workers = Worker.aggregate(judgments, config)
-	progress(filename,.6)
 
 
 	#
 	# aggregate annotations
 	# i.e. output columns
-	#
-	
+	#	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
 #		annotations[col] = pd.Series(judgments[col].sum())
 		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
-	progress(filename,.7)
-
-
-
-	#
-	# aggregate collection
-	#
-	collections = pd.DataFrame(columns = ['id'])
-	collections.loc[collection] = {'id' : directory}
+	progress(filename,.85)
 
 
 	
@@ -146,29 +162,23 @@ def processFile(root, directory, filename, config):
 	# aggregate job
 	#
 	job = Job.aggregate(units, judgments, workers, config)
-	progress(filename,.8)
-
-
-	#
-	# tag spammers
-	#
-	workers['spam'] = (workers['worker-agreement'] < job['worker-agreement-threshold'].iloc[0]) & (workers['worker-cosine'] > job['worker-cosine-threshold'].iloc[0])
 	job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	progress(filename,.85)
+	progress(filename,.9)
+
 
 
 
 	# Clean up judgments
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	judgments = judgments[outputCol + platform.values() + ['duration','job']]
+	judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
 	# remove Counter for readability
 	for col in config.output.values():
 		judgments[col] = judgments[col].apply(lambda x: ','.join(x.keys()))
 
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
-	progress(filename,.9)
+	progress(filename,.95)
 
 	# measure performance with ground truth
 	#job, units = groundtruth.process(job, units.copy(), config.groundtruth)
