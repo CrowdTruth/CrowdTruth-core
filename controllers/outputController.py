@@ -5,7 +5,7 @@ import os
 
 def saveResults(root, directory, results):
 	filename = directory.replace('/', '-')
-	writer = pd.ExcelWriter(root+directory+'/results'+filename+'.xlsx')
+	writer = pd.ExcelWriter(root+directory+'/results'+filename+'.xlsx',options={'encoding':'cp1252'})
 	for tab in results:
 		#print 'Saving:',tab
 		results[tab].to_excel(writer, tab)
