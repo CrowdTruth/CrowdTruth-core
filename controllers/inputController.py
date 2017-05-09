@@ -3,6 +3,7 @@ from models import *
 import sys  
 reload(sys)  
 sys.setdefaultencoding('utf8')
+import chardet
 #import Judgment, Worker, Unit, Job, Collection
 class Found(Exception): pass
 import re, string
@@ -33,16 +34,20 @@ def progress(job_title, progress):
 
 def processFile(root, directory, filename, config):
 
-	progress(filename,.05)
+	progress(filename,0)
 	job = filename.split('.csv')[0]
 
-	judgments = pd.read_csv(root+'/'+directory+'/'+filename)
+	#with open(root+'/'+directory+'/'+filename, 'rb') as f:
+	#    result = chardet.detect(f.read())  # or readline if the file is large
+	#    #print result['encoding']
+	progress(filename,.05)
+
+	judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
 
 	if directory == '':
 		directory = '/'
 
 	collection = directory
-
 
 	platform = getPlatform(judgments)
 	#print df.head()
@@ -83,8 +88,8 @@ def processFile(root, directory, filename, config):
 #	for col in config.output.values():
 #		judgments['annotations.'+col] = judgments[col].apply(lambda x: getAnnotations(x))
 
-	judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(x))
-	judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(x))
+	judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(str(x)))
+	judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
 
@@ -133,14 +138,12 @@ def processFile(root, directory, filename, config):
 
 	# tag judgments that were spam
  	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
- 	judgments = judgments[judgments['spam'] == False]
-
-
+ 	filteredJudgments = judgments[judgments['spam'] == False]
 
 	#
 	# aggregate units
 	#
-	units = Unit.aggregate(judgments, config)
+	units = Unit.aggregate(filteredJudgments, config)
 	progress(filename,.8)
 
 
@@ -152,7 +155,7 @@ def processFile(root, directory, filename, config):
 	annotations = pd.DataFrame()
 	for col in config.output.values():
 #		annotations[col] = pd.Series(judgments[col].sum())
-		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
+		res = pd.DataFrame(filteredJudgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
 	progress(filename,.85)
 
@@ -161,8 +164,12 @@ def processFile(root, directory, filename, config):
 	#
 	# aggregate job
 	#
-	job = Job.aggregate(units, judgments, workers, config)
+	job = Job.aggregate(units, filteredJudgments, workers, config)
 	job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
+	job['spam.judgments'] = workers['spam'].sum()
+	job['spam.workers'] = workers['spam'].count()
+	job['workerAgreementThreshold'] = workerAgreementThreshold
+	job['workerCosineThreshold'] = workerCosineThreshold
 	progress(filename,.9)
 
 

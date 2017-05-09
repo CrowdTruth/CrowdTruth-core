@@ -109,7 +109,10 @@ def scanDirectory(directory=''):
 
 
         # add customized results
-        results = config.processResults(results)
+        for c in config.output.items():
+            results['units'][c[1]] = results['units'][c[1]].apply(lambda x: dict(x))
+
+        results = config.processResults(results, config)
 
         oc.saveResults(root, directory, results)
 
