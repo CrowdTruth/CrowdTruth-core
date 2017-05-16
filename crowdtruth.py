@@ -4,6 +4,7 @@ from cement.utils.misc import init_defaults
 import controllers.inputController as ic
 import controllers.outputController as oc
 import controllers.configController as cc
+from models import *
 import sys,os
 from datetime import datetime
 import pandas as pd
@@ -108,9 +109,16 @@ def scanDirectory(directory=''):
         #likert_corr_df.to_csv(wd+'/results/likert_correlations.csv', sep=',')
 
 
+        results = Metrics.run(results, config)
+
         # add customized results
         for c in config.output.items():
             results['units'][c[1]] = results['units'][c[1]].apply(lambda x: dict(x))
+
+        # remove Counter for readability
+        for col in config.output.values():
+            results['judgments'][col] = results['judgments'][col].apply(lambda x: ','.join(x.keys()))
+
 
         results = config.processResults(results, config)
 

@@ -37,5 +37,5 @@ class Configuration():
 	'''
 	'	customize the results
 	'''
-	def processResults(self, results):
+	def processResults(self, results, config=[]):
 		return results

@@ -106,6 +106,10 @@ def processFile(root, directory, filename, config):
 	units = Unit.aggregate(judgments, config)
 	progress(filename,.25)
 
+
+
+
+
 	#
 	# compute worker agreement
 	#
@@ -117,6 +121,11 @@ def processFile(root, directory, filename, config):
 
 	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 	progress(filename,.35)
+
+
+
+
+
 
 	#
 	# aggregate workers
@@ -179,10 +188,7 @@ def processFile(root, directory, filename, config):
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
 	judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
-	# remove Counter for readability
-	for col in config.output.values():
-		judgments[col] = judgments[col].apply(lambda x: ','.join(x.keys()))
-
+	
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
 	progress(filename,.95)
