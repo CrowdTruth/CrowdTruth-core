@@ -12,7 +12,9 @@ class Configuration():
 	inputColumns = []
 	# outputColumns to use
 	outputColumns = []
-
+	
+	open_ended_task = True
+	annotation_vector = []
 
 	# units to use
 	units = []

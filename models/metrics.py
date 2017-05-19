@@ -167,7 +167,7 @@ class Metrics():
         return rqs
 
     @staticmethod
-    def run(results, config, open_ended_task=False, max_delta = 0.001):
+    def run(results, config, max_delta = 0.001):
         
         judgments = results['judgments'].copy()
         units = results['units'].copy()
@@ -224,7 +224,7 @@ class Metrics():
         
         # initialize RQS depending on whether or not it is an open ended task
         rqs = dict()
-        if not open_ended_task:
+        if not config.open_ended_task:
             rqs_keys = sent_rel_dict[sent_rel_dict.keys()[0]].keys()
             for relation in rqs_keys:
                 rqs[relation] = 1.0
@@ -247,7 +247,7 @@ class Metrics():
             avg_rqs_delta = 0.0
             max_delta = 0.0
             
-            if not open_ended_task:
+            if not config.open_ended_task:
                 # compute relation quality score (RQS)
                 rqs_new = Metrics.relation_quality_score(rqs.keys(), work_sent_rel_dict,
                                                  sqs_list[len(sqs_list) - 1],
@@ -296,6 +296,6 @@ class Metrics():
         
         results['units']['metric2'] = pd.Series(sqs_list[-1])
         results['workers']['metric2'] = pd.Series(wqs_list[-1])
-        if not open_ended_task:
+        if not config.open_ended_task:
             results['annotations']['metric2'] = pd.Series(rqs_list[-1])
         return results
