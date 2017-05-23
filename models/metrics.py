@@ -294,8 +294,15 @@ class Metrics():
         #pprint(wqs_list)
         #pprint(rqs_list)
         
-        results['units']['metric2'] = pd.Series(sqs_list[-1])
-        results['workers']['metric2'] = pd.Series(wqs_list[-1])
+        srs = Counter()
+        for sentence_id in sent_rel_dict:
+          srs[sentence_id] = Counter()
+          for relation in sent_rel_dict[sentence_id]:
+            srs[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs_list[len(wqs_list) - 1])
+        
+        results['units']['uqs'] = pd.Series(sqs_list[-1])
+        results['units']['unit_annotation_score'] = pd.Series(srs)
+        results['workers']['wqs'] = pd.Series(wqs_list[-1])
         if not config.open_ended_task:
-            results['annotations']['metric2'] = pd.Series(rqs_list[-1])
+            results['annotations']['aqs'] = pd.Series(rqs_list[-1])
         return results
