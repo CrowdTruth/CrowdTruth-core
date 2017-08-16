@@ -42,7 +42,8 @@ def processFile(root, directory, filename, config):
 	#    #print result['encoding']
 	progress(filename,.05)
 
-	judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
+	# judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
+	judgments = pd.read_csv(filename)
 
 	if directory == '':
 		directory = '/'
@@ -76,6 +77,8 @@ def processFile(root, directory, filename, config):
 
 	judgments['job'] = job
 	progress(filename,.15)
+	
+	# print("COLUMNS WE WANT: " + " ".join(config.output.values()))
 
 	# make output values safe keys
 	for col in config.output.values():
@@ -263,13 +266,13 @@ def getColumnTypes(df, config):
 		# Mturk
 		# if config is specified, use those columns
 		if config.inputColumns:
-			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.replace('Input.','') in config.inputColumns}
+			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c in config.inputColumns}
 		else:
 			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.startswith('Input.')}
 		
 		# if config is specified, use those columns
 		if config.outputColumns:
-			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.replace('Answer.','') in config.outputColumns}
+			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c in config.outputColumns}
 		else:
 			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.startswith('Answer.')}
 		return config
