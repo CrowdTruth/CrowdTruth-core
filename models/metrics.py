@@ -8,6 +8,7 @@ from datetime import datetime
 from collections import defaultdict
 from pprint import pprint
 import math
+import pdb
 
 class Metrics():
 
@@ -40,6 +41,12 @@ class Metrics():
                     numerator += rqs[relation] * (worker_i_vector[relation] * worker_j_vector[relation])
                     denominator_i += rqs[relation] * (worker_i_vector[relation] * worker_i_vector[relation])
                     denominator_j += rqs[relation] * (worker_j_vector[relation] * worker_j_vector[relation])
+                
+                if denominator_i < 0.0001:
+                  print(worker_ids[worker_i] + " -> ") 
+                  pdb.set_trace()
+                if denominator_j < 0.0001:
+                  pdb.set_trace()
                 
                 weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
@@ -163,7 +170,14 @@ class Metrics():
                             rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]
         rqs = dict()
         for relation in relations:
+          if rqs_denominator[relation] > 0:
             rqs[relation] = rqs_nominator[relation] / rqs_denominator[relation]
+            
+            # prevent division by zero by storing very small value instead
+            if rqs[relation] < 0.0001:
+              rqs[relation] = 0.0001
+          else:
+            rqs[relation] = 1.0
         return rqs
 
     @staticmethod
@@ -247,6 +261,8 @@ class Metrics():
             avg_rqs_delta = 0.0
             max_delta = 0.0
             
+            # pdb.set_trace()
+            
             if not config.open_ended_task:
                 # compute relation quality score (RQS)
                 rqs_new = Metrics.relation_quality_score(rqs.keys(), work_sent_rel_dict,
@@ -256,7 +272,6 @@ class Metrics():
                     max_delta = max(max_delta, abs(rqs_new[relation] - rqs_list[len(rqs_list) - 1][relation]))
                     avg_rqs_delta += abs(rqs_new[relation] - rqs_list[len(rqs_list) - 1][relation])
                 avg_rqs_delta /= len(rqs_new.keys()) * 1.0
-                rqs_list.append(rqs_new.copy())
             
             # compute sentence quality score (SQS)
             for sentence_id in sent_work_rel_dict:
@@ -286,6 +301,8 @@ class Metrics():
             wqs_list.append(wqs_new.copy())
             wwa_list.append(wwa_new.copy())
             wsa_list.append(wsa_new.copy())
+            if not config.open_ended_task:
+                rqs_list.append(rqs_new.copy())
             
             iterations += 1 
             print str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta)
