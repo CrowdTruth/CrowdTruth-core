@@ -1,0 +1,627 @@
+doc_id,index,sentence,sentence_id,validate_verbs,uqs,uqs_initial
+wsj_0760,619,"Operating profit for the abrasives , engineering materials and petroleum services concern was $ 19.2 million , or 91 cents a share , up 3 % from $ 18.7 million , or 87 cents a share .",2,Operating_0_9 profit_10_16 for_17_20 services_73_81 concern_82_89 was_90_93,0.3039805795,0.3090573452
+NYT19980206.0460,438,"Among people with less than a high school education , the rate in January was 7.2 percent .",37,Among_0_5 high_30_34 in_63_65 was_74_77,0.3150548781,0.3664162863
+PRI19980303.2000.2550,426,"The instruction is in English for most classes , in Arabic for language and religious studies .",6,is_16_18 in_19_21 for_30_33 in_49_51 for_59_62,0.3334127727,0.2933588226
+wsj_0610,233,"The new facility was to have been the world 's most advanced cereal manufacturing plant , and Kellogg 's largest construction project .",30,was_17_20 have_24_28 been_29_33,0.3414480903,0.3232206753
+wsj_0557,533,"Baby Ruth and Butterfinger are both among the top-selling 15 chocolate bars in the U.S. , but RJR 's overall share of the roughly $ 5.1 billion market is less than 5 % .",13,are_27_30 among_36_41 in_76_78 market_144_150 is_151_153,0.3548717497,0.3221564751
+wsj_0781,225,"But while the chip 's speed in processing power is dazzling , it 's real strength lies in its software inheritance .",41,is_48_50 s_65_67 lies_82_86,0.3580154871,0.3220985232
+wsj_0760,538,"Operating profit for the abrasives , engineering materials and petroleum services concern was $ 19.2 million , or 91 cents a share , up 3 % from $ 18.7 million , or 87 cents a share .",2,Operating_0_9 profit_10_16 for_17_20 was_90_93,0.3616084576,0.2967319452
+wsj_0768,496,"Mutual funds are the among the largest holders of junk , accounting for more than a quarter of the entire high-yield , high-risk market .",15,are_13_16 among_21_26 accounting_57_67 for_68_71 market_129_135,0.3621603634,0.341306151
+VOA19980305.1800.2603,250,"An Afghan refugee in Switzerland , Homira Atimadi , is a senior official of a group called the International Working Group on Afghan Women .",6,is_52_54 called_84_90,0.3813910228,0.3648924619
+NYT19980907.0112,429,The Embassy in Dar es Salaam is at 285 Toure Drive ; -LRB- 255-51 -RRB- 666-015 .,31,in_12_14 is_29_31 at_32_34 Drive_45_50,0.3837364806,0.3138071187
+wsj_0159,196,"Cara , a food services chain operator and Unicorp , a holding company , are based in Toronto .",8,holding_54_61 are_72_75 based_76_81,0.3875482519,0.3265786354
+wsj_0781,474,"But while the chip 's speed in processing power is dazzling , it 's real strength lies in its software inheritance .",41,in_28_30 is_48_50 lies_82_86 in_87_89,0.399783359,0.368837353
+PRI19980303.2000.2550,555,"For The World , I 'm Nancy Marshalll .",31,For_0_3 m_18_20,0.4000943737,0.4141455369
+PRI19980205.2000.1890,556,For The World I 'm Nancy Marshall in Washington .,7,For_0_3 m_16_18 in_34_36,0.40355897,0.3815713177
+wsj_0904,532,"Net for the nine months was $ 254 million , or $ 5.94 a share , up 56 % from $ 163 million , or $ 4.06 a share , a year earlier .",5,Net_0_3 for_4_7 was_24_27,0.4080792899,0.3762246727
+wsj_0816,325,Yield on the issue was 7.88 % .,21,on_6_8 was_19_22,0.4155923453,0.3934638905
+APW19980810.0907,470,The source for the Kenyan figures is the Department of Relief and Rehabilitation in the office of President Daniel arap Moi .,1,for_11_14 is_34_36 in_81_83,0.4186128796,0.4264143114
+wsj_0586,369,What 's happening here is n't justified by the fundamentals . '',34,here_18_22 is_23_25,0.4190564593,0.4141455369
+wsj_0781,473,"-LRB- A 16-bit microprocessor processes 16 pieces of data at a time and is slower than newer , 32-bit chips . -RRB-",43,at_58_60 is_72_74,0.4210424364,0.4292482649
+wsj_1006,425,"Mr. Nadeau also is chairman and chief executive of Unigesco Inc. , Provigo 's controlling shareholder .",9,is_16_18 chairman_19_27,0.4212757073,0.4057771592
+NYT19980907.0112,179,The Embassy in Dar es Salaam is at 285 Toure Drive ; -LRB- 255-51 -RRB- 666-015 .,31,es_19_21 is_29_31,0.4225876704,0.4633986119
+wsj_0159,37,"Dunkin' is based in Randolph , Mass. .",7,is_8_10 based_11_16,0.4232162237,0.387884972
+APW19980810.0907,157,The source for the Tanzanian figures is the U.S. Embassy in Dar es Salaam .,2,is_37_39 es_64_66,0.4252452287,0.4387720744
+PRI19980205.2000.1890,347,For The World I 'm Nancy Marshall in Washington .,7,For_0_3 in_34_36,0.4277826119,0.4057771592
+wsj_0768,578,That 's even less than the 4.35 % total return of the Merrill Lynch High-Yield Index .,32,s_5_7 return_40_46,0.4380302457,0.422035319
+APW19980322.0749,535,"The crucible is Portadown , 30 miles -LRB- 50 kms -RRB- southwest of Belfast , where Orangemen march each July from their rural church back downtown _ through the town 's main Catholic area .",17,is_13_15 back_135_139,0.445468459,0.4248247783
+CNN19980126.1600.1104,327,Good news for AT and T today .,10,Good_0_4 for_10_13,0.4455896674,0.4387720744
+wsj_0786,254,IMA is a group that includes First Boston Corp. and the Pritzker family of Chicago through the leveraged buy-out fund Harry Gray Melvyn Klein amp Partners .,3,is_4_6 includes_20_28,0.448635067,0.4457046655
+wsj_0610,482,"The new facility was to have been the world 's most advanced cereal manufacturing plant , and Kellogg 's largest construction project .",30,was_17_20 have_24_28 been_29_33 manufacturing_68_81 construction_113_125,0.4515135357,0.3737184274
+wsj_0675,462,"Dow Jones industrials 2596.72 , off 17.01 ; transportation 1190.43 , off 14.76 ; utilities 215.86 , up 0.19 .",27,off_32_35 off_69_72 up_100_102,0.4528905275,0.4425152535
+ABC19980304.1830.1636,405,"Even two hundred miles up in space , there has been a glass ceiling .",4,up_23_25 in_26_28 has_43_46 been_47_51,0.4544656081,0.3895189994
+wsj_0781,224,"-LRB- A 16-bit microprocessor processes 16 pieces of data at a time and is slower than newer , 32-bit chips . -RRB-",43,is_72_74,0.4596568493,0.4857142857
+wsj_0768,178,That 's even less than the 4.35 % total return of the Merrill Lynch High-Yield Index .,32,s_5_7,0.4597012365,0.5238095238
+wsj_0662,418,"Jayark , New York , distributes and rents audio-visual equipment and prints promotional ads for retailers .",6,for_92_95,0.4601076475,0.5238095238
+CNN19980227.2130.0067,441,"Army of god is a secret organization that hates abortion providers , homosexuals and the US government .",20,is_12_14,0.4603891005,0.4857142857
+PRI19980306.2000.1675,161,"For The World , this is Pamela McCall in the BBC news room in London .",0,is_21_23,0.4607937505,0.4857142857
+ABC19980120.1830.0957,346,"For the Cuban government , that is the risk .",20,For_0_3 is_32_34,0.4614891658,0.4299251012
+wsj_0316,234,"The purchase price is equal to about 1.65 times Deseret 's roughly $ 10.7 million book value , or assets less liabilities .",5,is_19_21,0.4615198522,0.4666666667
+VOA19980305.1800.2603,323,"Lisa Schlein for VOA News , Geneva .",24,for_13_16,0.4620396307,0.5238095238
+wsj_0810,39,Paribas is Allianz 's lead French bank .,21,is_8_10,0.462382194,0.4857142857
+wsj_0610,220,"Kellogg is based in Battle Creek , Mich. , a city that calls itself the breakfast capital of the world .",14,is_8_10 based_11_16 calls_55_60,0.4631873929,0.4160771232
+wsj_0321,431,"Mesa flies to 42 cities in New Mexico , Arizona , Wyoming , Colorado and Texas .",6,in_24_26,0.4639064979,0.4666666667
+wsj_0584,424,"Indeed , BellSouth 's cellular operations were among the first in the country to become profitable .",39,operations_31_41 were_42_46 among_47_52 in_63_65 become_81_87 profitable_88_98,0.4649564451,0.3674906867
+NYT19980206.0460,187,"Among people with less than a high school education , the rate in January was 7.2 percent .",37,was_74_77,0.4655977798,0.4666666667
+wsj_0165,282,"The preferred stock , which would have a dividend rate of $ 1.76 a year , would be convertible into Heritage common at a rate of four common shares for each preferred .",4,have_34_38 be_80_82 preferred_157_166,0.4670226031,0.389181498
+NYT19980206.0460,194,"Among high school graduates , the rate was 3.9 percent , and college graduates , 1.9 percent .",38,was_39_42,0.4672269541,0.4666666667
+CNN19980126.1600.1104,326,Major job cuts at AT and T .,0,at_15_17,0.4674517868,0.5238095238
+wsj_1006,436,Mr. Bussieres was president and chief operating officer of Provigo 's Quebec retail and wholesale grocery unit .,28,was_14_17 operating_38_47 officer_48_55,0.4674709525,0.4080761714
+NYT20000105.0325,43,`` But that 's his home . '',31,s_12_14,0.467480299,0.4666666667
+wsj_0675,551,"Markets Stocks : Volume 170,330,000 shares .",26,Markets_0_7,0.4676989303,0.4857142857
+VOA19980331.1700.1533,200,It 's between two to six days for every one uh of the sickest patients across the country .,9,s_3_5,0.4678902275,0.4857142857
+ABC19980108.1830.0711,340,"In the Philippines , a four year low .",5,In_0_2 low_33_36,0.4679179563,0.4857142857
+wsj_0760,295,"Operating profit for the abrasives , engineering materials and petroleum services concern was $ 19.2 million , or 91 cents a share , up 3 % from $ 18.7 million , or 87 cents a share .",2,was_90_93,0.4679667153,0.4666666667
+wsj_0610,107,Each share point is worth about $ 60 million in sales .,9,is_17_19,0.4687037465,0.4666666667
+wsj_0610,370,Each share point is worth about $ 60 million in sales .,9,is_17_19 worth_20_25 in_45_47 sales_48_53,0.4691628091,0.387884972
+wsj_1013,495,The results include a $ 130.2 million write-down of the securities in the high-yield portfolio to the lower of their cost or market value .,7,results_4_11 include_12_19 write-down_38_48 in_67_69 lower_102_107 market_125_131,0.4698005396,0.3995813808
+PRI19980306.2000.1675,412,"For The World , this is Pamela McCall in the BBC news room in London .",0,For_0_3 is_21_23 in_38_40 in_59_61,0.4700524364,0.4095238095
+wsj_0695,519,"The investor group includes Restaurant Investment Partnership , a California general partnership , and three Rally 's directors : Mr. Sugarman , James M. Trotter III and William E. Trotter II .",4,includes_19_27 Investment_39_49 Rally_109_114,0.4706954666,0.3949409799
+APW19980818.0515,84,`` I am truly in the presence of heroes . '',13,am_5_7,0.4707595344,0.4666666667
+PRI19980303.2000.2550,89,"And that is a condition of the application , then .",21,is_9_11,0.4712653314,0.4666666667
+wsj_0541,93,The conversion price for the debentures is $ 41.725 a share .,3,is_40_42,0.472160908,0.4666666667
+wsj_0745,548,"The Conservatives do n't dare jeopardize marginal Tory seats in Coventry , where Jaguar has headquarters , nor can the government easily back down on promised protection for a privatized company while it proceeds with controversial plans to privatize most of Britain 's water and electricity industries .",26,do_18_20 in_61_63 has_88_91 back_137_141 down_142_146 on_147_149 promised_150_158 for_170_173 plans_232_237,0.4721935555,0.3764330554
+APW19980810.0907,408,The source for the Tanzanian figures is the U.S. Embassy in Dar es Salaam .,2,for_11_14 is_37_39 in_57_59,0.473137616,0.4183638403
+wsj_0610,56,This has n't been Kellogg Co. 's year .,0,has_5_8 been_13_17,0.4759426884,0.4164564006
+wsj_0745,170,"`` The golden share is a single share , but it is the magic share . ''",13,is_20_22 is_47_49,0.4769898337,0.4499299113
+NYT20000105.0325,164,`` The core issue here is the bond between the parent and the child . '',3,is_23_25,0.477254797,0.4666666667
+APW19980322.0749,407,`` Nationalists in the north are not a minority in someone else 's country .,10,in_16_18 are_29_32 in_48_50,0.4794005264,0.4132600461
+NYT20000330.0406,17,`` But it is Cuba .,6,is_10_12,0.4800793237,0.5238095238
+NYT19980907.0112,280,"Tourism has never been so well-developed an industry in neighboring Tanzania , which is home to Mt. Kilimanjaro , the magnificent wildlife of Serengeti National Park and the exotic island of Zanzibar .",20,has_8_11 been_18_22 neighboring_56_67 is_85_87,0.4811365186,0.3942124271
+wsj_1006,245,"The three units are a nationwide pharmaceutical and health-products distributor , a small sporting-goods chain , and a combination catalog showroom and toy-store chain .",11,are_16_19,0.4812480288,0.5238095238
+PRI19980303.2000.2550,268,The Saudi Arabian government has an atrocious record on human rights and is known to be one of the worst offending countries when it comes to religious persecution .,19,has_29_32 is_73_75 known_76_81 be_85_87 offending_105_114 comes_133_138,0.4819225872,0.4236572584
+NYT20000330.0406,423,"Among non-Cuban Americans , there was a drastic shift in their feelings on the case . ''",34,Among_0_5 was_34_37 shift_48_53 in_54_56 on_72_74 case_79_83,0.4821987677,0.4187543254
+wsj_0586,188,"On Friday , the Tokyo stock price index of first section issues was down 15.82 at 2681.76 .",21,was_64_67,0.4823004662,0.4857142857
+wsj_0583,440,"Sansui was once one of Japan 's premier makers of expensive , high-quality stereo gear for audiophiles .",13,was_7_10 for_87_90,0.4838282206,0.4080880229
+APW19980810.0907,221,The source for the Kenyan figures is the Department of Relief and Rehabilitation in the office of President Daniel arap Moi .,1,is_34_36,0.4839920332,0.5238095238
+wsj_0533,94,Lawyers for the two sides were n't immediately available for comment .,14,were_26_30,0.4848584712,0.4857142857
+wsj_0745,368,Politics also influences the government 's thinking on the anti-takeover restriction .,25,on_52_54,0.484924056,0.4666666667
+wsj_0768,529,"Says Michael Hirsch , chief investment officer of Republic National Bank and manager of the FundTrust Group in New York : `` It 's a time bomb just waiting to go off . ''",38,Says_0_4 investment_28_38 officer_39_46 manager_77_84 in_108_110 bomb_138_142 waiting_148_155 go_159_161,0.4852224936,0.4575296885
+wsj_0586,106,What 's happening here is n't justified by the fundamentals . '',34,s_5_7 happening_8_17 is_23_25 justified_30_39,0.4859878656,0.4488992182
+ABC19980108.1830.0711,385,"In Hong Kong , is always belongs to the seller 's market .",12,In_0_2 is_15_17 seller_40_46 market_50_56,0.4871103132,0.3776843262
+wsj_1006,186,Mr. Bussieres was president and chief operating officer of Provigo 's Quebec retail and wholesale grocery unit .,28,was_14_17 operating_38_47,0.4871597467,0.440125747
+WSJ900813-0157,237,"Two Middle East terrorists with records of successful attacks against Western targets , Abu Nidal and Abu Abbas , have ties to Baghdad .",37,have_114_118,0.4873088153,0.4666666667
+wsj_0781,413,"Intel clocks the chip 's speed at 15 million instructions per second , or MIPs .",38,at_31_33,0.4880090849,0.4666666667
+ABC19980108.1830.0711,342,Three thousand dollar pearls for eight hundred dollars .,25,for_29_32,0.4900901553,0.4666666667
+ea980120.1830.0071,344,Good evening from the central park in downtown Havana .,0,Good_0_4 in_35_37,0.4901989918,0.4471404521
+wsj_0176,281,"Property/casualty insurance has been a tough business in recent quarters , as pricing has been cutthroat and natural disasters such as Hurricane Hugo and the California earthquake have resulted in huge payments .",5,has_28_31 been_32_36 has_86_89 been_90_94 have_180_184 resulted_185_193,0.4920756005,0.3745062926
+wsj_0695,329,Giant has interests in cement making and newsprint .,3,has_6_9 in_20_22,0.494207364,0.4331931559
+wsj_0670,411,The extrusion unit produces bare and painted custom extrusions for building products and construction industries .,9,for_63_66 construction_89_101,0.4951928164,0.415977805
+wsj_0585,205,"Their motivation , however , has a strong practical aspect : Program trading is hazardous to their paychecks .",1,has_29_32 is_77_79,0.4956042059,0.4187672643
+wsj_0610,328,`` Kellogg 's main problem is life style .,17,problem_19_26 is_27_29,0.496485246,0.4331931559
+WSJ900813-0157,527,There are disagreements among experts about how much pressure will be needed to make Saddam Hussein decide he 's up against the wall and whether simple economic pressure will ever be enough .,46,are_6_9 among_24_29 pressure_53_61 be_67_69 needed_70_76 make_80_84 decide_100_106 pressure_161_169 be_180_182,0.4968160058,0.4762367369
+NYT20000224.0173,197,"`` There has been a lot of pressure , and he feels this is a family affair . ''",15,has_9_12 been_13_17 feels_45_50 is_56_58,0.4983368536,0.3786746971
+wsj_0760,259,"For the nine months , Norton had net of $ 81.2 million , or $ 3.87 a share , and a tax credit of $ 4.4 million .",11,had_29_32,0.4984736954,0.4857142857
+wsj_0555,381,Waxman sells a variety of hardware products for the home repair market .,4,for_44_47 market_64_70,0.4985534803,0.4331931559
+NYT20000330.0406,172,"Among non-Cuban Americans , there was a drastic shift in their feelings on the case . ''",34,was_34_37,0.4993354849,0.4666666667
+wsj_0344,216,"Net sales for this year 's third quarter were $ 14 million , down from $ 21.4 million last year .",6,were_41_45,0.5000408077,0.4666666667
+NYT19980206.0460,427,"The less money the government needs to borrow , the more is freed for private investment .",22,needs_30_35 borrow_39_45 is_57_59 for_66_69 investment_78_88,0.500301138,0.4468868132
+wsj_1013,242,"Its ratio of tangible equity to total assets as of Sept. 30 was 3.6 % , and total equity was $ 457.9 million .",24,was_60_63 was_89_92,0.5037346748,0.46523088
+NYT19980907.0112,523,"Tourism has never been so well-developed an industry in neighboring Tanzania , which is home to Mt. Kilimanjaro , the magnificent wildlife of Serengeti National Park and the exotic island of Zanzibar .",20,has_8_11 been_18_22 in_53_55 is_85_87,0.5041705304,0.4227258903
+NYT20000330.0406,391,What about all the other poor kids in South and Central America ? '',41,in_35_37,0.504283138,0.4666666667
+APW20000405.0276,20,`` It is inevitable . '',2,is_6_8,0.5051342529,0.4666666667
+wsj_0781,432,"Of the big computer makers , only Apple Computer Co. bases its machines on Motorola chips instead .",47,on_72_74,0.505691657,0.4857142857
+wsj_0927,541,"In this year 's third quarter , for example , net was $ 10.5 million , or $ 1.05 a share , compared with $ 10.3 million , or $ 1.02 a share , a year earlier .",15,In_0_2 for_32_35 net_46_49 was_50_53 compared_91_99,0.5059844065,0.4617330433
+wsj_0695,47,Giant has interests in cement making and newsprint .,3,has_6_9,0.5064187679,0.4666666667
+APW19991008.0151,396,Eight of them are in custody in the United States and one overseas .,9,are_14_17 in_18_20 in_29_31,0.5065534556,0.4384900179
+wsj_0176,611,"Property/casualty insurance has been a tough business in recent quarters , as pricing has been cutthroat and natural disasters such as Hurricane Hugo and the California earthquake have resulted in huge payments .",5,has_28_31 been_32_36 business_45_53 in_54_56 pricing_78_85 has_86_89 been_90_94 disasters_117_126 Hurricane_135_144 earthquake_169_179 have_180_184 resulted_185_193 in_194_196 payments_202_210,0.5076069572,0.4790734102
+wsj_0263,58,The dividend had been five cents a share .,3,had_13_16 been_17_21,0.507920347,0.4282910738
+PRI19980303.2000.2550,341,"For The World , I 'm Nancy Marshalll .",31,For_0_3,0.5079775742,0.4666666667
+NYT20000105.0325,415,`` The core issue here is the bond between the parent and the child . '',3,here_18_22 is_23_25,0.5106638412,0.4355040196
+wsj_0760,379,"In the year-earlier quarter , the tax credit was $ 3.3 million .",4,In_0_2 was_45_48,0.5114452608,0.4299251012
+wsj_0575,218,"Control Data mainframes are designed for numerically intensive computing users , such as the scientific , engineering and academic communities .",32,are_24_27 designed_28_36 computing_63_72,0.5129690163,0.4345505795
+ABC19980108.1830.0711,343,A two hundred dollar wool jacket for fifty dollars .,26,for_33_36,0.5143130677,0.4666666667
+wsj_0583,189,"Sansui was once one of Japan 's premier makers of expensive , high-quality stereo gear for audiophiles .",13,was_7_10,0.5152950807,0.5238095238
+wsj_1008,435,A reinsurance company effectively insures insurance companies that wish to spread the risk of a particular policy .,6,spread_75_81 policy_107_113,0.5191319952,0.4496495565
+wsj_0675,373,"Bonds : Shearson Lehman Hutton Treasury index 3406.31 , off 19.29 .",28,off_56_59,0.5197938508,0.4666666667
+NYT20000330.0406,351,`` There are rules and regulations in this country .,36,are_9_12 in_35_37,0.5221191037,0.4633986119
+AP900816-0139,463,"A total of about 3,000 Americans , 3,000 Britons and more than 450 Japanese are in Iraq and Kuwait .",12,are_76_79 in_80_82,0.523938924,0.46523088
+wsj_0695,608,"The investor group includes Restaurant Investment Partnership , a California general partnership , and three Rally 's directors : Mr. Sugarman , James M. Trotter III and William E. Trotter II .",4,includes_19_27 Investment_39_49 Rally_109_114 directors_118_127,0.5250077978,0.4744872189
+VOA19980331.1700.1533,487,"Under the new guidelines , donor organs will be made available to the sickest people first , wherever they live in the country .",1,Under_0_5 be_45_47 made_48_52 available_53_62 live_107_111 in_112_114,0.5255180951,0.4149527057
+wsj_0187,110,Waertsilae Marine 's biggest creditor is Miami-based Carnival Cruise Lines Inc. .,9,is_38_40,0.5260132831,0.4857142857
+wsj_0760,601,"In the year-earlier period , the company had net of $ 77.2 million , or $ 3.68 a share , and a tax credit of $ 7.7 million .",12,In_0_2 period_20_26 had_41_44 net_45_48,0.5265123353,0.4484086073
+VOA19980331.1700.1533,584,It 's between two to six days for every one uh of the sickest patients across the country .,9,s_3_5 for_30_33,0.5266828179,0.4471404521
+wsj_1042,180,Issuance of those warrants will be at the rate of one-third warrant for each warrant exercised .,7,be_32_34 exercised_85_94,0.5279490619,0.4535944476
+wsj_0781,299,Intel 's microprocessors are the chips of choice in many of today 's personal computers and the 80486 microprocessor is the spearhead of the company 's bid to guard that spot in the next generation of machines .,34,are_25_28 is_117_119 guard_159_164,0.528776236,0.4941629079
+wsj_0586,223,Traders said the market remains extremely nervous because of the wild swings seen on the New York Stock Exchange last week .,35,said_8_12 remains_24_31 seen_77_81,0.5291947792,0.4162754799
+NYT20000414.0296,324,He 's been through a lot . '',27,been_6_10,0.5303911823,0.4666666667
+CNN19980227.2130.0067,190,"Army of god is a secret organization that hates abortion providers , homosexuals and the US government .",20,is_12_14 hates_42_47,0.5311447427,0.4686971756
+wsj_0568,146,"`` The quarter was terrible , and the future looks anything but encouraging . ''",4,was_15_18 looks_45_50 encouraging_64_75,0.5318155966,0.4433700987
+NYT20000414.0296,392,MIAMI _ The small pharmacy on Unity Boulevard in Little Havana is unassuming .,0,on_27_29 in_46_48 is_63_65,0.5319856117,0.4293609883
+APW19990312.0251,54,Now the alliance 's mission is more ill-defined .,17,is_28_30,0.5328994218,0.4666666667
+wsj_0760,264,"Norton had operating profit of $ 76.8 million , or $ 3.66 a share , up 11 % from $ 69.5 million , or $ 3.31 a share .",13,had_7_10,0.5350993292,0.5238095238
+ABC19980120.1830.0957,598,"At the end of the broadcast this evening , one more trip around Havana to see what it 's been like since the last time .",21,At_0_2 end_7_10 broadcast_18_27 trip_52_56 see_74_77 s_86_88 been_89_93,0.5359536528,0.4991468891
+APW20000107.0318,18,I am the father . '',10,am_2_4,0.5362548303,0.4857142857
+wsj_0533,489,Both offers are conditional on regulatory approvals and enough shares being tendered to give the bidders a majority of Connaught 's shares outstanding .,8,offers_5_11 are_12_15 conditional_16_27 on_28_30 being_70_75 tendered_76_84 give_88_92,0.5371371958,0.4305053122
+wsj_0760,265,"In the year-earlier period , the company had net of $ 77.2 million , or $ 3.68 a share , and a tax credit of $ 7.7 million .",12,had_41_44,0.53737648,0.5238095238
+wsj_0745,624,"The Conservatives do n't dare jeopardize marginal Tory seats in Coventry , where Jaguar has headquarters , nor can the government easily back down on promised protection for a privatized company while it proceeds with controversial plans to privatize most of Britain 's water and electricity industries .",26,do_18_20 in_61_63 has_88_91 back_137_141 down_142_146 on_147_149 promised_150_158 for_170_173 proceeds_204_212 plans_232_237,0.5394765283,0.4575006503
+wsj_0344,465,"Net sales for this year 's third quarter were $ 14 million , down from $ 21.4 million last year .",6,sales_4_9 for_10_13 were_41_45 down_61_65,0.5404532343,0.4276612022
+wsj_0781,590,"But while the chip 's speed in processing power is dazzling , it 's real strength lies in its software inheritance .",41,in_28_30 is_48_50 s_65_67 lies_82_86 in_87_89,0.5408300847,0.4157378652
+wsj_0637,85,Lead underwriter to the issue is Toronto Dominion Securities Inc. .,9,is_30_32,0.5420176326,0.4857142857
+wsj_0662,420,"In the quarter ended July 31 , Jayark had an average of 5.6 million shares outstanding .",7,In_0_2 ended_15_20 had_38_41,0.5421952366,0.4685785423
+APW19991008.0151,397,"The victims in Nairobi , Kenya , numbered 213 , including 12 Americans .",14,in_12_14,0.5423902984,0.4666666667
+wsj_0316,483,"The purchase price is equal to about 1.65 times Deseret 's roughly $ 10.7 million book value , or assets less liabilities .",5,purchase_4_12 is_19_21 equal_22_27,0.5431910547,0.4640576709
+WSJ900813-0157,614,"Iraq 's first option , of course , may be simply to sit tight and hope it can endure a trade embargo longer than the West can live without Iraqi and Kuwaiti oil .",17,be_39_41 sit_52_55 hope_66_70 endure_78_84 embargo_93_100 live_126_130,0.5435057327,0.5175712222
+AP900816-0139,213,"A total of about 3,000 Americans , 3,000 Britons and more than 450 Japanese are in Iraq and Kuwait .",12,are_76_79,0.544517966,0.4857142857
+wsj_0650,80,"The debentures are available through Goldman , Sachs amp Co. .",2,are_15_18,0.5451011422,0.4857142857
+ABC19980304.1830.1636,153,"Even two hundred miles up in space , there has been a glass ceiling .",4,has_43_46 been_47_51,0.5457755372,0.5091032774
+PRI19980303.2000.2550,176,"The instruction is in English for most classes , in Arabic for language and religious studies .",6,is_16_18,0.546519323,0.4857142857
+NYT20000113.0267,79,"Immigration , after all , is strictly a federal matter .",2,is_26_28,0.5468272727,0.4857142857
+wsj_0583,257,"Such risk taking is an everyday matter for the brash Mr. Nadir , who is 25 % owner of Polly Peck as well as its chairman .",29,taking_10_16 is_17_19 is_69_71,0.5472339246,0.4897387843
+NYT19980907.0112,19,It was more pristine . '',24,was_3_6,0.547362688,0.4857142857
+NYT20000403.0463,404,"`` His father will be Fidel Castro , the worst dictator in history . ''",35,be_19_21 in_56_58,0.5483832492,0.421078128
+wsj_0575,35,Utilities management is a major commercial niche .,33,is_21_23,0.5495782505,0.4857142857
+NYT20000403.0463,148,"`` His father will be Fidel Castro , the worst dictator in history . ''",35,be_19_21,0.5496888907,0.4857142857
+ABC19980120.1830.0957,252,"At the end of the broadcast this evening , one more trip around Havana to see what it 's been like since the last time .",21,see_74_77 's_86_88 been_89_93,0.5500304746,0.4893523847
+wsj_0973,571,GNP is the total value of the nation 's output of goods and services .,7,is_4_6 services_60_68,0.5505172365,0.440125747
+wsj_0356,466,The plan provides for the distribution of one common stock-purchase right as a dividend for each share of common outstanding .,2,plan_4_8 provides_9_17 for_18_21 for_88_91,0.5508878856,0.5005366589
+CNN19980222.1130.0084,63,"CNN headline news , I 'm Sachi Koto .",0,m_22_24,0.5511431763,0.4666666667
+wsj_0165,525,"The preferred stock , which would have a dividend rate of $ 1.76 a year , would be convertible into Heritage common at a rate of four common shares for each preferred .",4,have_34_38 be_80_82 convertible_83_94 at_116_118 for_148_151 preferred_157_166,0.5515949928,0.4239490819
+wsj_0768,249,"Mutual funds are the among the largest holders of junk , accounting for more than a quarter of the entire high-yield , high-risk market .",15,are_13_16 accounting_57_67,0.5523725739,0.5028475226
+wsj_0768,613,"Says Michael Hirsch , chief investment officer of Republic National Bank and manager of the FundTrust Group in New York : `` It 's a time bomb just waiting to go off . ''",38,Says_0_4 investment_28_38 officer_39_46 manager_77_84 in_108_110 s_128_130 bomb_138_142 waiting_148_155 go_159_161,0.5529015769,0.5117969698
+wsj_0555,57,The conversion price is $ 9.58 a share .,2,is_21_23,0.5534456165,0.4857142857
+wsj_0950,229,GMAC profits are combined with earnings from the rest of GM 's operations and attributed to the company 's traditional common stock .,17,are_13_16 combined_17_25 attributed_78_88,0.5536912648,0.4800115932
+wsj_0781,74,That 's four times as fast as the 386 .,39,s_5_7,0.5546908783,0.4666666667
+APW20000107.0318,71,Burton is an outspoken critic of the Castro regime .,15,is_7_9,0.5546908783,0.4666666667
+APW19991024.0075,75,It 's all of the other dark nights . '',5,s_3_5,0.5546908783,0.4666666667
+wsj_0376,518,"In a statement , the company said : `` Both parts can only realize their full potential and be appropriately valued by the market if they are separately quoted companies .",13,In_0_2 statement_5_14 said_29_33 realize_59_66 be_92_94 valued_109_115 market_123_129 are_138_141 quoted_153_159,0.5551814611,0.4517237799
+wsj_0584,484,"McCaw , the largest provider of cellular telephone service in the U.S. , already owns about 9.4 % of LIN 's stock .",15,service_51_58 in_59_61 owns_81_85,0.5558373825,0.5004462805
+wsj_0810,390,One big question now is the likely role of Mr. Fournier 's allies .,18,is_21_23 likely_28_34 role_35_39,0.5561024701,0.4341315531
+APW20000107.0318,50,`` What right does that man have ? '',5,does_14_18 have_28_32,0.5563693747,0.440125747
+wsj_0570,15,The companies are automotive-emissions-testing concerns .,14,are_14_17,0.5570103568,0.4666666667
+VOA19980331.1700.1533,193,There are not huge waiting uh disparit - waiting time disparities amongst the very uh sickest patients .,8,are_6_9 waiting_19_26 waiting_41_48,0.5572881716,0.5103344243
+wsj_0781,203,`` It 's going to be the leading edge technology in personal computers for the next few years .,49,s_6_8 going_9_14 be_18_20,0.5580799019,0.4431655525
+wsj_0760,433,Norton and Texas Eastern had each held a 50 % stake in Eastman in a joint venture .,9,had_25_28 held_34_38 in_52_54 in_63_65 venture_74_81,0.5597218167,0.4911710209
+wsj_0781,542,Intel 's microprocessors are the chips of choice in many of today 's personal computers and the 80486 microprocessor is the spearhead of the company 's bid to guard that spot in the next generation of machines .,34,are_25_28 in_49_51 is_117_119 bid_152_155 guard_159_164 in_175_177,0.5600865474,0.4850900533
+VOA19980305.1800.2603,421,"The group has branches in Pakistan , Iran , Europe , Australia , and North America .",7,has_10_13 in_23_25,0.5614608217,0.5028475226
+wsj_0585,493,"The OTC stocks in the SampP 500 include Nasdaq 's biggest , such as Apple Computer , MCI Communications , Tele-Communications and Liz Claiborne .",31,in_15_17 include_32_39,0.5639875986,0.5140053595
+wsj_0662,195,"Kofcoh is a New York holding company for Rosalco Inc. , which imports furniture and other items .",4,is_7_9 holding_21_28 imports_62_69,0.5647322751,0.4971577142
+CNN19980126.1600.1104,28,I mean look at the stock .,7,mean_2_6,0.5661266948,0.4857142857
+wsj_0583,546,"Usually when a Japanese company is ready to sell , it has few alternatives remaining , and the grim demeanors of Sansui 's directors at a joint news conference here left little doubt that this was not the company 's finest hour .",12,is_32_34 ready_35_40 sell_44_48 has_54_57 at_133_135 conference_149_159 here_160_164 left_165_169 was_193_196,0.5662798061,0.4934804508
+ABC19980120.1830.0957,365,This is clearly an opportunity for Cuba to look good internationally .,5,is_5_7 for_31_34 look_43_47 good_48_52,0.5668701377,0.4361355108
+wsj_0172,364,Midwest Financial has $ 2.3 billion in assets and eight banks .,3,has_18_21 in_36_38,0.56712522,0.4355040196
+VOA19980305.1800.2603,367,"International Women 's Day is this coming Sunday , March eighth .",0,is_27_29 coming_35_41 March_51_56,0.5677432479,0.4717369811
+NYT19980907.0112,539,"The U.S. Embassy in Nairobi is now operating out of the offices of the Agency for International Development on The Crescent , in the neighborhood of Nairobi known as the Parklands ; -LRB- 254-2 -RRB- 751-613 .",30,in_17_19 is_28_30 operating_35_44 out_45_48 for_78_81 Development_96_107 on_108_110 in_126_128 known_157_162,0.5678046585,0.576423025
+APW19980809.0700,87,Another reason was the location _ a quiet tree-lined neighborhood .,2,was_15_18 __32_33,0.5689264494,0.5140053595
+wsj_0557,51,"Nestle S.A. is based in Vevey , Switzerland .",18,is_12_14 based_15_20,0.569654412,0.446183261
+WSJ900813-0157,612,There are disagreements among experts about how much pressure will be needed to make Saddam Hussein decide he 's up against the wall and whether simple economic pressure will ever be enough .,46,are_6_9 among_24_29 pressure_53_61 be_67_69 needed_70_76 make_80_84 decide_100_106 s_110_112 pressure_161_169 be_180_182,0.5699498059,0.5934969698
+NYT20000224.0173,104,"Prior to Elian , the Gonzalez family apparently was no different .",34,was_48_51,0.5703553955,0.4857142857
+ABC19980120.1830.0957,97,"For his part , Fidel Castro is the ultimate political survivor .",0,is_28_30,0.5719825759,0.4666666667
+wsj_0583,600,"But even a Japanese company that looks like a dog may turn out to be a good investment for a foreign concern , some management consultants maintain .",20,looks_33_38 turn_54_58 be_66_68 good_71_75 investment_76_86 for_87_90 concern_101_108 consultants_127_138 maintain_139_147,0.5726366875,0.4910411609
+PRI19980303.2000.2550,61,"For The World , I 'm Nancy Marshalll .",31,m_18_20,0.5726790464,0.4857142857
+wsj_0798,27,The record date is Nov. 9 .,4,is_16_18,0.5734412421,0.4857142857
+wsj_0583,623,"Usually when a Japanese company is ready to sell , it has few alternatives remaining , and the grim demeanors of Sansui 's directors at a joint news conference here left little doubt that this was not the company 's finest hour .",12,is_32_34 ready_35_40 sell_44_48 has_54_57 remaining_75_84 directors_123_132 at_133_135 conference_149_159 here_160_164 left_165_169 was_193_196,0.5737201191,0.5687966738
+APW19980809.0700,358,Another reason was the location _ a quiet tree-lined neighborhood .,2,was_15_18,0.575649189,0.4857142857
+APW20000328.0257,33,`` This is my home . '',6,is_8_10,0.5756980517,0.4666666667
+WSJ900813-0157,545,"American strategists are calculating , though , that the trade sanctions -- enforced by an effective though perhaps undeclared naval blockade -- will hold tightly enough to convince Iraq that it will lose in the long run by simply standing pat .",25,are_21_24 calculating_25_36 sanctions_63_72 effective_91_100 blockade_133_141 hold_150_154 convince_173_181 lose_200_204 in_205_207 run_217_220,0.5792556674,0.5176293425
+wsj_0918,434,"Sales in the latest quarter were $ 8.59 billion , up 9.4 % from $ 7.85 billion .",7,Sales_0_5 in_6_8 were_28_32 up_50_52,0.5804114666,0.4967081263
+APW20000107.0318,49,`` This is a volatile and difficult case .,32,is_8_10,0.5808674895,0.4857142857
+wsj_0810,269,"The Paribas offer values Navigation Mixte at about 23 billion francs , depending on how many of Navigation Mixte 's warrants are converted into shares during the takeover battle .",26,values_18_24 depending_71_80 are_125_128 converted_129_138,0.5811213583,0.4940005494
+PRI19980303.2000.2550,4,That 's correct .,20,s_5_7,0.5820018463,0.4857142857
+wsj_1013,597,The results include a $ 130.2 million write-down of the securities in the high-yield portfolio to the lower of their cost or market value .,7,results_4_11 include_12_19 write-down_38_48 in_67_69 lower_102_107 cost_117_121 market_125_131,0.5829990755,0.5063800092
+VOA19980305.1800.2603,169,"The group has branches in Pakistan , Iran , Europe , Australia , and North America .",7,has_10_13,0.583150221,0.4857142857
+NYT19980206.0460,444,"Among high school graduates , the rate was 3.9 percent , and college graduates , 1.9 percent .",38,Among_0_5 high_6_10 was_39_42,0.5831507002,0.4557752996
+wsj_0928,55,Sun 's results were slightly better than expectations .,3,were_15_19,0.5837221022,0.4857142857
+NYT20000414.0296,41,He 's been through a lot . '',27,s_3_5 been_6_10,0.5838672428,0.5028475226
+VOA19980331.1700.1533,450,It 's between two to six days for every one uh of the sickest patients across the country .,9,for_30_33,0.5844125862,0.4857142857
+APW20000107.0318,398,"But in Cuba , Elian 's father was angry about Burton 's subpoena .",4,in_4_6 was_30_33,0.5854153956,0.46523088
+wsj_0176,524,"Property/casualty insurance has been a tough business in recent quarters , as pricing has been cutthroat and natural disasters such as Hurricane Hugo and the California earthquake have resulted in huge payments .",5,has_28_31 been_32_36 business_45_53 in_54_56 has_86_89 been_90_94 disasters_117_126 Hurricane_135_144 earthquake_169_179 have_180_184 resulted_185_193 in_194_196 payments_202_210,0.5854201725,0.5126285493
+wsj_0918,575,"The largest beneficiary will be Seagram Co. , which owns about 23 % of Du Pont .",10,beneficiary_12_23 be_29_31 owns_52_56,0.5858548872,0.4646153304
+wsj_0781,580,"Of the big computer makers , only Apple Computer Co. bases its machines on Motorola chips instead .",47,bases_53_58 on_72_74,0.5860352987,0.4972686041
+wsj_0918,184,"Sales in the latest quarter were $ 8.59 billion , up 9.4 % from $ 7.85 billion .",7,were_28_32,0.5865916324,0.5238095238
+CNN19980227.2130.0067,14,Pierre Thomas has the latest .,2,has_14_17,0.5866477967,0.4857142857
+wsj_0520,540,"In addition to selling Japanese-made photocopiers and facsimile machines in Europe and copier supplies in the U.S. , Nashua has three other major businesses : labels and tapes , data storage disks for computers and mail-order photofinishing .",15,In_0_2 addition_3_11 selling_15_22 in_73_75 in_103_105 has_124_127 for_197_200,0.58676871,0.5917697794
+wsj_0585,476,"Such investors tend to be more cautious than institutional investors are about re-entering the market after massive selloffs , market makers say .",39,be_23_25 cautious_31_39 are_69_72 market_95_101 market_127_133 say_141_144,0.5876387934,0.4745527318
+NYT19980206.0460,277,"`` There are enormous economic and social benefits from our nation 's high-employment economy , '' said Janet Yellen , the chairwoman of the White House 's Council of Economic Advisers .",25,are_9_12 said_99_103,0.5884068312,0.5741359166
+VOA19980305.1800.2603,102,"International Women 's Day is this coming Sunday , March eighth .",0,is_27_29 coming_35_41,0.5889291702,0.5091032774
+ABC19980120.1830.0957,363,"For his part , Fidel Castro is the ultimate political survivor .",0,For_0_3 part_8_12 is_28_30,0.5895995512,0.4251964921
+APW19980322.0749,155,`` Nationalists in the north are not a minority in someone else 's country .,10,are_29_32,0.5921633674,0.5238095238
+wsj_0781,531,"Intel 's 80486 chip is the Corvette of Intel 's microprocessors , a super-fast , super-expensive chip that only the most power-hungry computer users are likely to buy for at least several years .",36,is_20_22 are_149_152 likely_153_159 buy_163_166 for_167_170 at_171_173,0.5927690607,0.5835444934
+wsj_0585,354,"Shearson Lehman , however , executes program trades for clients .",14,program_37_44 for_52_55,0.5928967566,0.4987043908
+wsj_0927,298,"In this year 's third quarter , for example , net was $ 10.5 million , or $ 1.05 a share , compared with $ 10.3 million , or $ 1.02 a share , a year earlier .",15,was_50_53 compared_91_99,0.5931322927,0.464273689
+wsj_0340,260,"The Credit Lyonnais purchase , for 33,000 regular common shares and 10,000 newly created shares , is valued at about slightly more than 80 million French francs .",4,created_81_88 is_98_100 valued_101_107,0.5933989778,0.5886576553
+wsj_0159,583,"Cara , a food services chain operator and Unicorp , a holding company , are based in Toronto .",8,services_14_22 holding_54_61 are_72_75 based_76_81 in_82_84,0.5939840399,0.4541265652
+WSJ900813-0157,621,The naval interdiction force is part of an overall American strategy that officials say is designed to leave the Iraqi leader with only the stark choice of backing out of Kuwait or launching new attacks to change his situation .,15,interdiction_10_22 force_23_28 is_29_31 part_32_36 strategy_60_68 say_84_87 is_88_90 designed_91_99 leave_103_108 leader_119_125 backing_156_163 out_164_167 launching_181_190 attacks_195_202 change_206_212 situation_217_226,0.5941899357,0.5533869438
+wsj_0585,406,Kidder Peabody does program trading for its own as well as clients ' accounts .,17,program_20_27 trading_28_35 for_36_39 own_44_47,0.5945101797,0.5639352708
+APW20000107.0318,11,He is no one .,9,is_3_5,0.5966604295,0.4857142857
+VOA19980331.1700.1533,10,This is VOA Today .,19,is_5_7,0.5966604295,0.4857142857
+wsj_0670,13,Revenue was $ 778.6 million .,5,was_8_11,0.5966604295,0.4857142857
+wsj_0584,549,"Urging LIN directors to conduct `` a fair auction on a level playing field , '' McCaw asked how well the public interest would be served `` with the Bell operating companies controlling over 94 % of all cellular -LCB- potential customers -RCB- in the nation 's top 10 markets . ''",47,conduct_24_31 fair_37_41 auction_42_49 on_50_52 asked_86_91 interest_112_120 be_127_129 served_130_136 operating_154_163 in_244_246,0.5976064658,0.5400524088
+NYT20000224.0173,349,`` But the scars will always be there . '',49,be_29_31 there_32_37,0.5982603941,0.5028475226
+PRI19980303.2000.2550,604,The Saudi Arabian government has an atrocious record on human rights and is known to be one of the worst offending countries when it comes to religious persecution .,19,has_29_32 on_53_55 is_73_75 known_76_81 be_85_87 offending_105_114 comes_133_138 persecution_152_163,0.5984807535,0.5617479716
+NYT19980206.0460,399,"Inflation has been almost nonexistent , and consumer confidence has been extremely strong .",17,Inflation_0_9 has_10_13 been_14_18 has_64_67 been_68_72,0.5988832057,0.4551692433
+wsj_0586,204,"Volume was 840.8 million shares , up from 443.6 million Thursday and the week 's most active session .",6,was_7_10,0.6004609119,0.5238095238
+APW19980818.0515,558,`` I am truly in the presence of heroes . '',13,am_5_7 in_14_16,0.6007945648,0.4949577405
+wsj_0612,491,"The debentures are convertible into common stock at $ 25 a share , representing a 24 % conversion premium over Thursday 's closing price .",1,are_15_18 convertible_19_30 at_49_51 representing_67_79 conversion_87_97 closing_123_130,0.6014409909,0.5560825834
+ABC19980120.1830.0957,67,"For the Cuban government , that is the risk .",20,is_32_34,0.6020905243,0.4857142857
+APW20000107.0318,141,"But in Cuba , Elian 's father was angry about Burton 's subpoena .",4,was_30_33,0.6033879861,0.4857142857
+PRI19980205.2000.1890,68,For The World I 'm Nancy Marshall in Washington .,7,m_16_18,0.6039394233,0.4857142857
+wsj_0575,215,Loan covenants require that the company achieve specified levels of operating earnings and meet a rolling four-quarter profitability test .,14,require_15_22 achieve_40_47 specified_48_57 operating_68_77 meet_91_95,0.6042637578,0.5236800338
+wsj_0973,150,GNP is the total value of the nation 's output of goods and services .,7,is_4_6,0.6052830069,0.5238095238
+WSJ910225-0066,618,"The American hope is that someone from within Iraq , perhaps from the army 's professional ranks , will step forward and push Saddam Hussein aside so that the country can begin recovering from the disaster .",61,hope_13_17 is_18_20 step_104_108 push_121_125 begin_171_176 recovering_177_187 disaster_197_205,0.605296119,0.5554284531
+wsj_0575,467,"Control Data mainframes are designed for numerically intensive computing users , such as the scientific , engineering and academic communities .",32,Control_0_7 are_24_27 designed_28_36 for_37_40,0.6068913207,0.5755109695
+NYT20000424.0319,375,"As did Castro , a master manipulator of public opinion in Cuba .",8,did_3_6 opinion_47_54 in_55_57,0.6071529814,0.482949626
+ABC19980304.1830.1636,222,"It is , in short , the kind of management job many American women say they 've had to fight for .",11,is_3_5 say_66_69 ve_75_78 had_79_82 fight_86_91,0.6084660913,0.5933933414
+wsj_0610,46,`` Kellogg 's main problem is life style .,17,is_27_29,0.6088046718,0.5238095238
+VOA19980303.1600.2745,561,VOA 's Jim Teple has details from our southeast news bureau .,3,has_17_20 details_21_28,0.608949944,0.474276094
+APW19980818.0515,21,`` We are friends . '',19,are_6_9,0.6089532388,0.5238095238
+wsj_0950,478,GMAC profits are combined with earnings from the rest of GM 's operations and attributed to the company 's traditional common stock .,17,are_13_16 combined_17_25 earnings_31_39 operations_63_73 attributed_78_88,0.6090930084,0.5360321207
+wsj_0610,469,"Kellogg is based in Battle Creek , Mich. , a city that calls itself the breakfast capital of the world .",14,is_8_10 based_11_16 in_17_19 Battle_20_26 calls_55_60,0.6102816508,0.5186530764
+wsj_0991,416,"Total Assets plans and designs computer centers , computer security systems and computer backup systems .",4,plans_13_18,0.6109925443,0.5238095238
+AP900816-0139,362,"Overall , more than 2 million foreigners are in both countries .",13,are_41_44 in_45_47,0.6110036312,0.4987043908
+wsj_0585,526,"The problem , market makers say , is that while the industrial average and the SampP 500 usually recover as buy programs kick in , the Nasdaq Composite frequently is left behind .",34,problem_4_11 market_14_20 say_28_31 is_34_36 recover_97_104 programs_112_120 kick_121_125 in_126_128 is_163_165 left_166_170,0.6113462207,0.4831478862
+ea980120.1830.0071,206,"And right across from the Cuban revolutionary icon Che Guevara , they now have a giant portrait of Jesus .",7,have_74_78,0.6114262786,0.5238095238
+NYT20000414.0296,76,"She is Fidel Castro 's younger sister , Juanita .",3,is_4_6,0.6115039508,0.6571428571
+ABC19980114.1830.0611,88,"TWA eight hundred center , I think that was him .",15,think_29_34 was_40_43,0.6115771866,0.5399855696
+NYT20000414.0296,536,"But the opinion of the woman who runs the modest business , which sells everything from prescription drugs to chewing gum and toys , carries a lot of weight in this part of Miami .",2,opinion_8_15 runs_33_37 business_49_57 carries_133_140 in_157_159 part_165_169,0.6124512929,0.5241216292
+wsj_0586,442,"To make them directly comparable , each index is based on the close of 1969 equaling 100 .",42,make_3_7 is_46_48 based_49_54 on_55_57 close_62_67,0.6131582044,0.5166204593
+APW19980626.0364,409,"The fine is twice the donation , as provided for under German party financing laws .",5,is_9_11 provided_36_44 for_45_48 under_49_54 financing_68_77,0.6132227143,0.4541072383
+APW19991008.0151,569,"The victims in Nairobi , Kenya , numbered 213 , including 12 Americans .",14,in_12_14 including_48_57,0.6134665276,0.5028475226
+ABC19980108.1830.0711,32,"Still , there are few buyers .",27,are_14_17,0.6143368381,0.4857142857
+wsj_0169,552,The other concern was n't identified .,1,concern_10_17 was_18_21 identified_26_36,0.614413521,0.5338403635
+PRI19980303.2000.2550,512,The Saudi Arabian government has an atrocious record on human rights and is known to be one of the worst offending countries when it comes to religious persecution .,19,has_29_32 on_53_55 is_73_75 known_76_81 be_85_87 comes_133_138 persecution_152_163,0.6150329976,0.4996205348
+wsj_0816,553,Yield on the issue was 7.88 % .,21,Yield_0_5 on_6_8 was_19_22,0.6153100709,0.5669436141
+wsj_0674,270,"Among other things , Innopac is involved in recycling polystyrene foam products that are often used by fast food chains , such as McDonald 's Corp. , for food packaging .",9,is_29_31 involved_32_40 recycling_44_53 are_85_88 used_95_99,0.6155137925,0.5548955813
+wsj_0798,101,Woodbridge is a holding company owned by Toronto 's Thomson family .,8,is_11_13 holding_16_23 owned_32_37,0.6156320917,0.4974874882
+wsj_0585,377,The average daily share turnover for October is almost 148 million shares .,45,for_33_36 is_45_47,0.6157932728,0.4791781762
+wsj_0810,567,One big question now is the likely role of Mr. Fournier 's allies .,18,question_8_16 is_21_23 likely_28_34 role_35_39,0.6166023289,0.448694085
+APW19980818.0515,357,`` I am truly in the presence of heroes . '',13,in_14_16,0.6168070774,0.5238095238
+wsj_0768,273,"The fund , with a cash cushion of more than 10 % , has '' met all the redemptions without having to sell one thing , '' Mr. Litvack says .",22,has_51_54 met_58_61 having_90_96 sell_100_104 says_132_136,0.6170665155,0.5701841373
+APW19980322.0749,292,"The crucible is Portadown , 30 miles -LRB- 50 kms -RRB- southwest of Belfast , where Orangemen march each July from their rural church back downtown _ through the town 's main Catholic area .",17,is_13_15 march_95_100,0.6205014328,0.56971243
+wsj_0786,258,"Other new board members include John S. Harrison and Mark A. Adley of First Boston , James F. Lyons , William S. Goldberg and Harold S. Handelsman .",17,include_24_31,0.6222536513,0.580952381
+wsj_0667,528,"These payments consisted of $ 54 million in scheduled payments and $ 121 million in prepayments , funded by $ 82.8 million from operating cash flow , zero-coupon subordinated debt and assets sales .",8,payments_6_14 in_41_43 scheduled_44_53 payments_54_62 in_81_83 funded_98_104 operating_128_137 flow_143_147 sales_191_196,0.6239228278,0.5709776775
+wsj_0585,246,"The OTC stocks in the SampP 500 include Nasdaq 's biggest , such as Apple Computer , MCI Communications , Tele-Communications and Liz Claiborne .",31,include_32_39,0.6242892986,0.5238095238
+WSJ900813-0157,550,"If Iraq chooses a simple war of nerves and economic attrition , the Bush administration knows a long stalemate could try the patience of the American public and the West in general , and could open the possibility that moderate Arabs -- even including Saudi Arabia -- might drop out of the effort against Iraq and accept some deal from Saddam Hussein .",40,war_25_28 try_117_120 in_170_172 open_193_197 drop_274_278 out_279_282 effort_290_296 accept_314_320 deal_326_330,0.6245555273,0.5308188442
+wsj_1014,410,"Third-period sales were $ 2.49 billion , up from last year 's $ 2.34 billion .",9,sales_13_18 were_19_23 up_41_43,0.6246214042,0.4974874882
+ABC19980304.1830.1636,318,Here 's ABC 's Ned Potter .,3,Here_0_4,0.6264037004,0.5238095238
+wsj_0557,290,"Baby Ruth and Butterfinger are both among the top-selling 15 chocolate bars in the U.S. , but RJR 's overall share of the roughly $ 5.1 billion market is less than 5 % .",13,are_27_30 is_151_153,0.6265732026,0.5214165461
+wsj_0695,554,Giant has interests in cement making and newsprint .,3,has_6_9 interests_10_19 in_20_22,0.6268115909,0.5446622367
+WSJ900813-0157,544,The naval interdiction force is part of an overall American strategy that officials say is designed to leave the Iraqi leader with only the stark choice of backing out of Kuwait or launching new attacks to change his situation .,15,interdiction_10_22 force_23_28 is_29_31 part_32_36 strategy_60_68 say_84_87 is_88_90 designed_91_99 leave_103_108 backing_156_163 out_164_167 launching_181_190 attacks_195_202 change_206_212 situation_217_226,0.6270440649,0.5984614976
+NYT19980907.0112,137,`` Our clients are adventure travelers and most of them are very savvy .,27,are_15_18 are_56_59,0.6271519508,0.4987043908
+wsj_0584,625,"Urging LIN directors to conduct `` a fair auction on a level playing field , '' McCaw asked how well the public interest would be served `` with the Bell operating companies controlling over 94 % of all cellular -LCB- potential customers -RCB- in the nation 's top 10 markets . ''",47,directors_11_20 conduct_24_31 fair_37_41 auction_42_49 on_50_52 asked_86_91 interest_112_120 be_127_129 served_130_136 operating_154_163 controlling_174_185 in_244_246 markets_268_275,0.6276908529,0.5709560367
+NYT20000330.0406,77,`` There are rules and regulations in this country .,36,are_9_12,0.627980941,0.6571428571
+NYT20000224.0173,42,Elian should be with his father . '',11,be_13_15,0.6283943259,0.5238095238
+wsj_0695,275,"The investor group includes Restaurant Investment Partnership , a California general partnership , and three Rally 's directors : Mr. Sugarman , James M. Trotter III and William E. Trotter II .",4,includes_19_27,0.6284872136,0.580952381
+wsj_0583,303,"Usually when a Japanese company is ready to sell , it has few alternatives remaining , and the grim demeanors of Sansui 's directors at a joint news conference here left little doubt that this was not the company 's finest hour .",12,is_32_34 sell_44_48 has_54_57 remaining_75_84 left_165_169 was_193_196,0.6293060397,0.5769574476
+wsj_0762,96,The maker of specialty chemicals has about 5.9 million shares outstanding .,1,has_33_36,0.6293178498,0.5238095238
+wsj_0811,118,Merrill Lynch Capital Markets Inc. is the sole underwriter for the offering .,7,is_35_37,0.6298282096,0.580952381
+wsj_0172,98,Midwest Financial has $ 2.3 billion in assets and eight banks .,3,has_18_21,0.6302824951,0.4857142857
+wsj_0781,591,"That 's a break from Compaq tradition , because the company does n't announce products until they 're actually at the dealers .",32,s_5_7 does_60_64 announce_69_77 re_98_101 at_111_113,0.6303959935,0.5515568208
+APW19991008.0265,211,"Eight of those are in custody , but the rest remained fugitives , including Saudi radical Osama bin Laden .",9,are_15_18 remained_45_53 including_66_75,0.6309191532,0.4184621418
+ABC19980304.1830.1636,471,"It is , in short , the kind of management job many American women say they 've had to fight for .",11,is_3_5 in_8_10 say_66_69 had_79_82 fight_86_91 for_92_95,0.6315494284,0.603447587
+APW19980308.0201,232,"Turks feel they have special ties to the whole region , which they ruled for hundreds of years during the Ottoman Empire .",8,feel_6_10 have_16_20 ruled_67_72,0.632620088,0.5513607369
+ABC19980108.1830.0711,316,Here 's ABC 's Jim Laurie .,8,Here_0_4,0.633594553,0.5238095238
+wsj_0586,439,"On Friday , the Tokyo stock price index of first section issues was down 15.82 at 2681.76 .",21,On_0_2 was_64_67 down_68_72 at_79_81,0.6336593317,0.5101077721
+CNN19980227.2130.0067,386,"Live from Atalanta , good evening Lynne Russell , CNN headline news .",0,Live_0_4 good_21_25,0.636156204,0.5595117842
+NYT19980907.0112,251,"Still , the televised images of the charred hulks of the American Embassy buildings will likely haunt the travel industry in East Africa for years .",13,televised_12_21 charred_36_43 haunt_96_101,0.6363881519,0.6122809537
+VOA19980305.1800.2603,149,A major focus of International Women 's Day is the plight of Afghan women .,1,is_44_46,0.6373195089,0.5238095238
+wsj_1006,576,"Mr. Nadeau also is chairman and chief executive of Unigesco Inc. , Provigo 's controlling shareholder .",9,is_16_18 chairman_19_27 controlling_78_89,0.6374739151,0.5942671351
+wsj_0585,599,`` It 's harder to sell stocks when the sell programs come in because some market makers do n't want to -LCB- take the orders -RCB- .,26,s_6_8 sell_19_23 programs_45_53 come_54_58 in_59_61 market_75_81 do_89_91 want_96_100 take_110_114 orders_119_125,0.6382689097,0.604770448
+NYT20000224.0173,447,"`` There has been a lot of pressure , and he feels this is a family affair . ''",15,has_9_12 been_13_17 pressure_27_35 feels_45_50 is_56_58,0.639253407,0.4959770104
+NYT19980206.0460,142,"Inflation has been almost nonexistent , and consumer confidence has been extremely strong .",17,has_10_13 been_14_18 has_64_67 been_68_72,0.6396947085,0.4744162714
+wsj_0586,191,"To make them directly comparable , each index is based on the close of 1969 equaling 100 .",42,make_3_7 is_46_48 based_49_54 equaling_76_84,0.6413662634,0.5833960065
+NYT20000414.0296,271,"While her brother is the personification of evil in this neighborhood where Cuban flags fly from beatup Buicks , Juanita Castro is a beloved and respected member of this community .",4,is_18_20 fly_88_91 is_128_130,0.6425057489,0.575270589
+NYT19980206.0460,138,`` The bottom line is that we 've got a lovely economy . '',12,is_19_21 've_30_33 got_34_37,0.6427592464,0.5446622367
+wsj_0376,274,"In a statement , the company said : `` Both parts can only realize their full potential and be appropriately valued by the market if they are separately quoted companies .",13,said_29_33 realize_59_66 be_92_94 valued_109_115 are_138_141 quoted_153_159,0.6434483085,0.5964233097
+wsj_0781,162,"Intel clocks the chip 's speed at 15 million instructions per second , or MIPs .",38,clocks_6_12,0.6440290093,0.580952381
+WSJ900813-0157,602,The unpredictability of Iraq 's leader is a principal reason the U.S. is going to such great lengths to build a mammoth force in and around Saudi Arabia .,51,leader_32_38 is_39_41 is_70_72 going_73_78 build_104_109 force_120_125 in_126_128,0.6446769766,0.6315004882
+wsj_0585,115,The average daily share turnover for October is almost 148 million shares .,45,is_45_47,0.6448254255,0.5238095238
+NYT19980206.0466,308,Clinton on Friday .,5,on_8_10,0.644914732,0.5238095238
+ABC19980304.1830.1636,588,"It is , in short , the kind of management job many American women say they 've had to fight for .",11,is_3_5 in_8_10 say_66_69 ve_75_78 had_79_82 fight_86_91 for_92_95,0.6453081198,0.5750011934
+VOA19980331.1700.1533,384,"Currently , transplant organs are rationed through a regional system of distribution .",2,are_30_33,0.6455394412,0.5238095238
+wsj_0781,182,"Of the big computer makers , only Apple Computer Co. bases its machines on Motorola chips instead .",47,bases_53_58,0.645645268,0.580952381
+AP900816-0139,44,Iraq has called them `` restrictees . '',14,has_5_8 called_9_15,0.6465966249,0.5741359166
+wsj_0585,227,"Such investors tend to be more cautious than institutional investors are about re-entering the market after massive selloffs , market makers say .",39,tend_15_19 be_23_25 are_69_72 re-entering_79_90 say_141_144,0.6473225005,0.5833318082
+PRI19980115.2000.0186,70,NPR 's Elaine Corey has more from San Francisco .,2,has_20_23,0.6478087093,0.5238095238
+NYT20000105.0325,66,`` This was a simple child custody case . '',28,was_8_11,0.6485536179,0.5238095238
+APW19980322.0749,616,"The crucible is Portadown , 30 miles -LRB- 50 kms -RRB- southwest of Belfast , where Orangemen march each July from their rural church back downtown _ through the town 's main Catholic area .",17,is_13_15 march_95_100 back_135_139,0.6487213373,0.6128652663
+wsj_0745,305,"The Conservatives do n't dare jeopardize marginal Tory seats in Coventry , where Jaguar has headquarters , nor can the government easily back down on promised protection for a privatized company while it proceeds with controversial plans to privatize most of Britain 's water and electricity industries .",26,do_18_20 dare_25_29 jeopardize_30_40 has_88_91 promised_150_158 privatized_176_186 proceeds_204_212 privatize_241_250,0.6509440285,0.5798799616
+WSJ900813-0157,547,"Speaking on the ABC program , Abdul Amir al-Anbari , Iraq 's ambassador to the U.N. , asserted that an embargo on Iraq could plunge the U.S. into a `` depression '' and the rest of the world into an economic `` crisis . ''",18,Speaking_0_8 on_9_11 program_20_27 asserted_86_94 embargo_103_110 on_111_113 plunge_125_131 crisis_211_217,0.6509572634,0.5950083393
+NYT20000414.0296,515,"While her brother is the personification of evil in this neighborhood where Cuban flags fly from beatup Buicks , Juanita Castro is a beloved and respected member of this community .",4,is_18_20 in_49_51 fly_88_91 is_128_130,0.6521343568,0.5879755302
+wsj_0907,376,The earnings-per-share figures reflect a 25 % stock dividend in June 1989 .,4,reflect_31_38 in_61_63,0.653725654,0.5595117842
+wsj_0662,168,"In the quarter ended July 31 , Jayark had an average of 5.6 million shares outstanding .",7,ended_15_20 had_38_41,0.6538540553,0.5140053595
+NYT19980206.0460,577,"The less money the government needs to borrow , the more is freed for private investment .",22,needs_30_35 borrow_39_45 is_57_59 freed_60_65 for_66_69 investment_78_88,0.655186418,0.6160431065
+wsj_0781,226,"That 's a break from Compaq tradition , because the company does n't announce products until they 're actually at the dealers .",32,s_5_7 does_60_64 announce_69_77 're_98_101,0.6553336526,0.658216175
+wsj_0612,243,"The debentures are convertible into common stock at $ 25 a share , representing a 24 % conversion premium over Thursday 's closing price .",1,are_15_18 representing_67_79,0.6556684743,0.5399855696
+wsj_0585,572,Kidder Peabody does program trading for its own as well as clients ' accounts .,17,does_15_19 program_20_27 trading_28_35 for_36_39 own_44_47,0.6565441998,0.6077496287
+APW19991008.0151,140,"The victims in Nairobi , Kenya , numbered 213 , including 12 Americans .",14,numbered_33_41 including_48_57,0.657083335,0.5212183053
+ABC19980108.1830.0711,124,"In Hong Kong , is always belongs to the seller 's market .",12,is_15_17 belongs_25_32,0.6580603954,0.6078076681
+wsj_0991,26,Revenue was about $ 4.5 million .,2,was_8_11,0.6585868682,0.5238095238
+APW20000107.0318,2,Who is he ?,8,is_4_6,0.6592590095,0.5238095238
+wsj_0527,461,Net interest income for the third quarter declined to $ 35.6 million from $ 70.1 million a year ago .,10,interest_4_12 income_13_19 for_20_23 declined_42_50,0.6598358654,0.6053235382
+PRI19980303.2000.2550,511,"Inside the Islamic Saudi academy in Mount Vernon , Virginia , many of the girls wear head scarves and some of the neatly dressed children are in uniforms .",5,in_33_35 head_85_89 are_138_141 in_142_144,0.6619075146,0.5102006458
+wsj_1006,175,"Mr. Nadeau also is chairman and chief executive of Unigesco Inc. , Provigo 's controlling shareholder .",9,is_16_18 controlling_78_89,0.6620050145,0.5495093791
+wsj_0520,620,"In addition to selling Japanese-made photocopiers and facsimile machines in Europe and copier supplies in the U.S. , Nashua has three other major businesses : labels and tapes , data storage disks for computers and mail-order photofinishing .",15,In_0_2 addition_3_11 selling_15_22 in_73_75 in_103_105 has_124_127 businesses_146_156 for_197_200,0.6620099356,0.7060745204
+wsj_1013,248,The results include a $ 130.2 million write-down of the securities in the high-yield portfolio to the lower of their cost or market value .,7,include_12_19,0.6635572789,0.580952381
+wsj_0575,464,Loan covenants require that the company achieve specified levels of operating earnings and meet a rolling four-quarter profitability test .,14,require_15_22 achieve_40_47 operating_68_77 earnings_78_86 meet_91_95 test_133_137,0.6644914231,0.5893779261
+wsj_0583,262,"But even a Japanese company that looks like a dog may turn out to be a good investment for a foreign concern , some management consultants maintain .",20,looks_33_38 turn_54_58 be_66_68 maintain_139_147,0.6650876256,0.5776846766
+wsj_0674,514,"Among other things , Innopac is involved in recycling polystyrene foam products that are often used by fast food chains , such as McDonald 's Corp. , for food packaging .",9,Among_0_5 is_29_31 involved_32_40 in_41_43 are_85_88 used_95_99 for_150_153,0.6651011241,0.5655032996
+wsj_0585,152,No one has big positions and no one wants to take big risks . '',27,has_7_10 wants_36_41 take_45_49,0.6656993656,0.6121250324
+wsj_0533,594,Both offers are conditional on regulatory approvals and enough shares being tendered to give the bidders a majority of Connaught 's shares outstanding .,8,offers_5_11 are_12_15 conditional_16_27 on_28_30 approvals_42_51 being_70_75 tendered_76_84 give_88_92,0.6659304987,0.5668208522
+wsj_0533,240,Both offers are conditional on regulatory approvals and enough shares being tendered to give the bidders a majority of Connaught 's shares outstanding .,8,are_12_15 being_70_75 tendered_76_84 give_88_92,0.666080793,0.6354150083
+NYT20000105.0325,345,`` This was a simple child custody case . '',28,was_8_11 case_35_39,0.6661884827,0.5590331887
+wsj_0527,59,About $ 518 million of debt is affected .,16,is_28_30 affected_31_39,0.6662011603,0.5023689271
+WSJ900813-0157,266,The unpredictability of Iraq 's leader is a principal reason the U.S. is going to such great lengths to build a mammoth force in and around Saudi Arabia .,51,is_39_41 is_70_72 going_73_78 build_104_109,0.666309155,0.614259325
+ABC19980114.1830.0611,30,ABC 's Lisa Stark has more .,2,has_18_21,0.6669984556,0.5238095238
+wsj_0150,131,"Williams , Duluth , Ga. , is an insurance and financial-services holding company .",5,is_26_28 holding_65_72,0.6676405247,0.5590331887
+VOA19980331.1700.1533,123,"Currently , transplant organs are rationed through a regional system of distribution .",2,are_30_33 rationed_34_42,0.6678260392,0.6078076681
+wsj_0950,253,"Revenue from non-GM accounts was 45 % of EDS 's total business in the latest nine months , compared with 40 % a year earlier .",23,was_29_32 compared_91_99,0.6680466614,0.6078076681
+APW19991008.0151,382,"The U.S. Embassy in Pretoria , South Africa , had no comment .",7,in_17_19 had_46_49 comment_53_60,0.6690731251,0.4976067743
+wsj_0781,585,`` It 's going to be the leading edge technology in personal computers for the next few years .,49,s_6_8 going_9_14 be_18_20 in_49_51 for_71_74,0.6698487766,0.6007421057
+wsj_0810,605,"The Paribas offer values Navigation Mixte at about 23 billion francs , depending on how many of Navigation Mixte 's warrants are converted into shares during the takeover battle .",26,offer_12_17 values_18_24 at_42_44 on_81_83 are_125_128 converted_129_138 takeover_162_170 battle_171_177,0.6698898897,0.6159591808
+wsj_0781,516,"Unveiled last April , the chip crams 1.2 million transistors on a sliver of silicon , more than four times as many as on Intel 's earlier model , 80386 .",37,Unveiled_0_8 on_61_63 on_118_120,0.6704171564,0.5913715311
+wsj_0376,607,"In a statement , the company said : `` Both parts can only realize their full potential and be appropriately valued by the market if they are separately quoted companies .",13,In_0_2 statement_5_14 said_29_33 parts_44_49 realize_59_66 be_92_94 valued_109_115 market_123_129 are_138_141 quoted_153_159,0.6706471639,0.6372602364
+NYT19980907.0112,296,"The U.S. Embassy in Nairobi is now operating out of the offices of the Agency for International Development on The Crescent , in the neighborhood of Nairobi known as the Parklands ; -LRB- 254-2 -RRB- 751-613 .",30,is_28_30 operating_35_44 known_157_162,0.6707231205,0.6134719719
+wsj_0950,592,GMAC profits are combined with earnings from the rest of GM 's operations and attributed to the company 's traditional common stock .,17,profits_5_12 are_13_16 combined_17_25 earnings_31_39 operations_63_73 attributed_78_88,0.6708860681,0.5555093028
+NYT19980424.0421,291,But the child of an unwed American father has no citizenship rights unless the father takes the affirmative step of acknowledging paternity and formally agrees to provide support until the child turns 18 .,3,has_42_45 takes_86_91 acknowledging_116_129 agrees_153_159 provide_163_170 turns_195_200,0.6715558386,0.6129423042
+wsj_1014,159,"Third-period sales were $ 2.49 billion , up from last year 's $ 2.34 billion .",9,were_19_23,0.6738465767,0.5238095238
+wsj_0745,494,"In the end , Sir John -- rather than the government or Jaguar shareholders -- may hold the key that unlocks the golden share .",28,In_0_2 end_7_10 hold_82_86,0.674471317,0.6792465691
+WSJ910225-0066,468,"-- Geraldine Brooks in Amman , Jordan , and Craig Forman in Cairo , Egypt , contributed to this article .",74,in_20_22 in_57_59 contributed_76_87,0.6747016269,0.6782808339
+wsj_0768,517,"The fund , with a cash cushion of more than 10 % , has '' met all the redemptions without having to sell one thing , '' Mr. Litvack says .",22,has_51_54 met_58_61 redemptions_70_81 sell_100_104 says_132_136,0.6772994685,0.5747928555
+wsj_0376,214,"The sharper definition and the autonomy which each will thereby gain will benefit shareholders , customers and employees . ''",14,gain_64_68 benefit_74_81,0.6779728718,0.5741359166
+wsj_0991,319,Revenue was about $ 4.5 million .,2,Revenue_0_7 was_8_11,0.6787394284,0.562779839
+ABC19980120.1830.0957,387,And in just a moment Diane Sawyer will have some other news .,22,in_4_6 have_39_43,0.6793526603,0.5678801619
+APW20000107.0318,331,`` This is a volatile and difficult case .,32,is_8_10 difficult_26_35 case_36_40,0.6819186701,0.5938203815
+ABC19980304.1830.1636,311,Being commander is different .,9,Being_0_5 commander_6_15 is_16_18,0.6833918347,0.6074724732
+PRI19980303.2000.2550,560,"And that is a condition of the application , then .",21,is_9_11 condition_14_23,0.6835635877,0.5393087333
+wsj_0557,333,"Nestle S.A. is based in Vevey , Switzerland .",18,is_12_14 based_15_20 in_21_23,0.6845797538,0.5789010447
+NYT20000224.0173,72,`` But the scars will always be there . '',49,be_29_31,0.68488119,0.580952381
+WSJ900813-0157,301,The naval interdiction force is part of an overall American strategy that officials say is designed to leave the Iraqi leader with only the stark choice of backing out of Kuwait or launching new attacks to change his situation .,15,is_29_31 say_84_87 is_88_90 designed_91_99 leave_103_108 backing_156_163 launching_181_190 change_206_212,0.6851098889,0.6364924819
+APW19980213.1310,522,"`` This is an important step along the path towards Australia claiming its full sovereignty , and due recognition that the monarchy can no longer serve us appropriately , '' Keating said .",22,is_8_10 claiming_62_70 sovereignty_80_91 due_98_101 serve_146_151 said_182_186,0.6866821997,0.618743833
+APW19991008.0265,586,"Eight of those are in custody , but the rest remained fugitives , including Saudi radical Osama bin Laden .",9,are_15_18 in_19_21 remained_45_53 including_66_75,0.6870252335,0.5925066994
+NYT19980206.0460,177,"The less money the government needs to borrow , the more is freed for private investment .",22,needs_30_35 borrow_39_45 is_57_59 freed_60_65,0.687374937,0.6397180989
+wsj_0356,217,The plan provides for the distribution of one common stock-purchase right as a dividend for each share of common outstanding .,2,provides_9_17,0.6885666306,0.580952381
+ABC19980108.1830.0711,132,"Of all of Asia 's economies , Hong Kong is the most robust .",21,is_40_42,0.688627685,0.580952381
+wsj_0810,130,One big question now is the likely role of Mr. Fournier 's allies .,18,is_21_23,0.688627685,0.580952381
+wsj_0557,543,"Louis Gerstner Jr. , chairman and chief executive officer of New York-based RJR , called the sale a `` significant step '' in the company 's divestiture program , as well as a `` a strategic divestiture . ''",9,chairman_21_29 officer_50_57 called_82_88 sale_93_97 in_123_125 program_153_160,0.6895300689,0.6653998309
+wsj_0768,417,It made the estimates based on data collected from more than a dozen big junk funds .,3,made_3_7 estimates_12_21 based_22_27 on_28_30,0.6898303926,0.6229259486
+wsj_0924,374,Sales were C$ 348.2 million compared with C$ 307.2 a year earlier .,6,Sales_0_5 were_6_10 compared_28_36,0.6904075721,0.5750557356
+WSJ900813-0157,530,"Iraq 's first option , of course , may be simply to sit tight and hope it can endure a trade embargo longer than the West can live without Iraqi and Kuwaiti oil .",17,be_39_41 hope_66_70 embargo_93_100 live_126_130,0.6910017506,0.6362266674
+APW20000405.0276,314,`` It is inevitable . '',2,is_6_8 inevitable_9_19,0.6912938118,0.562779839
+wsj_0675,437,"Commodities : Dow Jones futures index 129.49 , up 0.27 ; spot index 130.80 , off 0.24 .",29,up_47_49 off_77_80,0.6918902325,0.5393087333
+VOA19980331.1700.1533,238,"Under the new guidelines , donor organs will be made available to the sickest people first , wherever they live in the country .",1,be_45_47 made_48_52 live_107_111,0.695056759,0.6599292887
+PRI19980303.2000.2550,267,"Inside the Islamic Saudi academy in Mount Vernon , Virginia , many of the girls wear head scarves and some of the neatly dressed children are in uniforms .",5,wear_80_84 dressed_121_128 are_138_141,0.6951315975,0.6341429315
+wsj_0585,283,"The problem , market makers say , is that while the industrial average and the SampP 500 usually recover as buy programs kick in , the Nasdaq Composite frequently is left behind .",34,say_28_31 is_34_36 recover_97_104 kick_121_125 is_163_165 left_166_170,0.6983126962,0.6766009882
+NYT20000424.0319,113,"As did Castro , a master manipulator of public opinion in Cuba .",8,did_3_6,0.6994064142,0.580952381
+wsj_0816,485,In late New York trading the dollar was at 1.8400 marks and 142.10 yen compared with 1.8353 marks and 141.52 yen Wednesday .,23,In_0_2 trading_17_24 was_36_39 at_40_42 compared_71_79,0.6996834718,0.7047002158
+WSJ900813-0157,284,There are disagreements among experts about how much pressure will be needed to make Saddam Hussein decide he 's up against the wall and whether simple economic pressure will ever be enough .,46,are_6_9 be_67_69 needed_70_76 make_80_84 decide_100_106 s_110_112 be_180_182,0.6997475075,0.5877705997
+PRI19980205.2000.1890,479,The World 's Nancy Marshall reports on Mr. Blair 's current visit to Washington and the special relationship between the two leaders .,1,reports_28_35 on_36_38 visit_60_65 leaders_125_132,0.7001226186,0.6907324946
+wsj_0586,472,Traders said the market remains extremely nervous because of the wild swings seen on the New York Stock Exchange last week .,35,said_8_12 market_17_23 remains_24_31 seen_77_81 on_82_84,0.7018854271,0.6374813492
+wsj_0585,557,The SampP 500 is often used in arbitrage strategies .,4,is_14_16 used_23_27 in_28_30 arbitrage_31_40 strategies_41_51,0.7020438104,0.6540720276
+NYT19980424.0421,615,But the child of an unwed American father has no citizenship rights unless the father takes the affirmative step of acknowledging paternity and formally agrees to provide support until the child turns 18 .,3,has_42_45 takes_86_91 acknowledging_116_129 agrees_153_159 provide_163_170 support_171_178 turns_195_200,0.7021073613,0.6508082461
+APW19980308.0201,477,"Ethnic Albanians comprise 90 percent of the population in Kosovo , but Serbs maintain control through a large military and police presence .",4,in_55_57 maintain_77_85 control_86_93,0.7033579628,0.6295989781
+PRI19980303.2000.2550,603,"Inside the Islamic Saudi academy in Mount Vernon , Virginia , many of the girls wear head scarves and some of the neatly dressed children are in uniforms .",5,in_33_35 wear_80_84 head_85_89 are_138_141 in_142_144,0.7034095415,0.7404795993
+wsj_0670,312,Revenue was $ 778.6 million .,5,Revenue_0_7 was_8_11,0.7036199195,0.562779839
+WSJ900813-0157,626,"If Iraq chooses a simple war of nerves and economic attrition , the Bush administration knows a long stalemate could try the patience of the American public and the West in general , and could open the possibility that moderate Arabs -- even including Saudi Arabia -- might drop out of the effort against Iraq and accept some deal from Saddam Hussein .",40,chooses_8_15 war_25_28 knows_88_93 try_117_120 in_170_172 open_193_197 including_242_251 drop_274_278 out_279_282 effort_290_296 accept_314_320 deal_326_330,0.7042314687,0.6372942913
+NYT20000601.0442,3,Thank you . '',21,Thank_0_5,0.7047629224,0.580952381
+wsj_0533,231,"Merieux , a vaccine and bioresearch firm based in Lyon , France , is controlled 50.1 % by state-owned Rhone Poulenc S.A. .",5,based_41_46 is_66_68 controlled_69_79,0.7049045958,0.6756716584
+wsj_0568,402,"`` The quarter was terrible , and the future looks anything but encouraging . ''",4,was_15_18 looks_45_50,0.7051922684,0.5876046172
+ABC19980304.1830.1636,414,It means supervising the rest of the crew in training and leading them in flight .,10,means_3_8 in_42_44 leading_58_65 in_71_73 flight_74_80,0.7052683068,0.6628259596
+AP900816-0139,95,"Overall , more than 2 million foreigners are in both countries .",13,are_41_44,0.7053390864,0.5238095238
+wsj_0760,509,"In the year-earlier period , the company had net of $ 77.2 million , or $ 3.68 a share , and a tax credit of $ 7.7 million .",12,In_0_2 had_41_44 net_45_48,0.7070073254,0.5789010447
+WSJ900813-0157,287,"Iraq 's first option , of course , may be simply to sit tight and hope it can endure a trade embargo longer than the West can live without Iraqi and Kuwaiti oil .",17,be_39_41 sit_52_55 hope_66_70 endure_78_84 live_126_130,0.7082037962,0.5648621216
+wsj_0781,288,"Intel 's 80486 chip is the Corvette of Intel 's microprocessors , a super-fast , super-expensive chip that only the most power-hungry computer users are likely to buy for at least several years .",36,is_20_22 are_149_152 buy_163_166,0.7104032547,0.610451793
+PRI19980121.2000.2591,457,"The people here are famous throughout central Asia for their skill in fashioning pottery and tile , glass too .",6,here_11_15 are_16_19 for_51_54 in_67_69,0.7110396206,0.5904761905
+wsj_0816,45,Yield on the issue was 7.88 % .,21,was_19_22,0.7125426849,0.580952381
+WSJ900813-0157,593,"Two Middle East terrorists with records of successful attacks against Western targets , Abu Nidal and Abu Abbas , have ties to Baghdad .",37,successful_43_53 attacks_54_61 targets_78_85 have_114_118,0.713003103,0.6033696616
+wsj_0533,480,"Merieux , a vaccine and bioresearch firm based in Lyon , France , is controlled 50.1 % by state-owned Rhone Poulenc S.A. .",5,based_41_46 in_47_49 is_66_68 controlled_69_79,0.7133839882,0.6756297666
+wsj_0662,445,"Kofcoh is a New York holding company for Rosalco Inc. , which imports furniture and other items .",4,is_7_9 holding_21_28 for_37_40,0.7138712836,0.6258363135
+wsj_0938,521,"MCA holds half of Cineplex 's equity and 33 % of its voting rights through restricted voting shares , while Bronfman interests hold about 24 % of the company 's equity .",6,holds_4_9 half_10_14 hold_127_131,0.7139271891,0.5928766022
+wsj_0159,322,"Dunkin' is based in Randolph , Mass. .",7,is_8_10 based_11_16 in_17_19,0.7140793601,0.6074724732
+WSJ910225-0066,537,"The American hope is that someone from within Iraq , perhaps from the army 's professional ranks , will step forward and push Saddam Hussein aside so that the country can begin recovering from the disaster .",61,hope_13_17 is_18_20 push_121_125 begin_171_176,0.7163356141,0.6615533005
+wsj_0811,380,Merrill Lynch Capital Markets Inc. is the sole underwriter for the offering .,7,is_35_37 for_59_62 offering_67_75,0.7163506166,0.5812601536
+wsj_0575,587,Loan covenants require that the company achieve specified levels of operating earnings and meet a rolling four-quarter profitability test .,14,require_15_22 achieve_40_47 specified_48_57 operating_68_77 earnings_78_86 meet_91_95 test_133_137,0.7166753581,0.6138276039
+APW19991008.0151,121,"The U.S. Embassy in Pretoria , South Africa , had no comment .",7,had_46_49,0.7169545549,0.580952381
+wsj_0760,504,"For the nine months , Norton had net of $ 81.2 million , or $ 3.87 a share , and a tax credit of $ 4.4 million .",11,For_0_3 had_29_32 net_33_36,0.718627364,0.5538570251
+wsj_0768,606,"The fund , with a cash cushion of more than 10 % , has '' met all the redemptions without having to sell one thing , '' Mr. Litvack says .",22,has_51_54 met_58_61 redemptions_70_81 having_90_96 sell_100_104 says_132_136,0.719666527,0.6692764633
+wsj_0810,513,"The Paribas offer values Navigation Mixte at about 23 billion francs , depending on how many of Navigation Mixte 's warrants are converted into shares during the takeover battle .",26,offer_12_17 at_42_44 on_81_83 are_125_128 converted_129_138 takeover_162_170 battle_171_177,0.7200856619,0.6303094197
+APW19991008.0265,53,The U.S. Embassy in Pretoria had no comment .,7,had_29_32,0.7204288786,0.580952381
+ABC19980120.1830.0957,156,Castro has said that you can be a Communist and still be a Christian .,15,has_7_10 said_11_15 be_29_31 be_54_56,0.7216125179,0.691568921
+NYT20000105.0325,31,`` We have done that . '',24,have_6_10 done_11_15,0.7219410671,0.6156974503
+wsj_0918,173,"The largest beneficiary will be Seagram Co. , which owns about 23 % of Du Pont .",10,be_29_31 owns_52_56,0.7234738,0.6352236649
+PRI19980303.2000.2550,403,The school says it teaches the children to be good Muslims and good students .,7,says_11_15 be_43_45 good_46_50 good_63_67,0.7256565426,0.7033841815
+wsj_0938,610,"MCA holds half of Cineplex 's equity and 33 % of its voting rights through restricted voting shares , while Bronfman interests hold about 24 % of the company 's equity .",6,holds_4_9 half_10_14 interests_117_126 hold_127_131,0.7261537066,0.6902832365
+wsj_0586,563,What 's happening here is n't justified by the fundamentals . '',34,s_5_7 happening_8_17 here_18_22 is_23_25,0.7270959371,0.6335836137
+wsj_0584,60,McCaw 's bid also has a similar clause .,24,has_18_21,0.7277259486,0.580952381
+WSJ900813-0157,302,"American strategists are calculating , though , that the trade sanctions -- enforced by an effective though perhaps undeclared naval blockade -- will hold tightly enough to convince Iraq that it will lose in the long run by simply standing pat .",25,are_21_24 calculating_25_36 enforced_76_84 hold_150_154 convince_173_181 lose_200_204 standing_231_239,0.7292299027,0.6505147454
+WSJ900813-0157,486,"Two Middle East terrorists with records of successful attacks against Western targets , Abu Nidal and Abu Abbas , have ties to Baghdad .",37,successful_43_53 attacks_54_61 have_114_118,0.7297942547,0.7233821651
+wsj_0760,117,"In the year-earlier quarter , the tax credit was $ 3.3 million .",4,was_45_48,0.7318404822,0.580952381
+NYT19980206.0460,395,`` The bottom line is that we 've got a lovely economy . '',12,is_19_21 got_34_37,0.732059201,0.6408025833
+wsj_0816,236,In late New York trading the dollar was at 1.8400 marks and 142.10 yen compared with 1.8353 marks and 141.52 yen Wednesday .,23,trading_17_24 was_36_39 compared_71_79,0.7325841739,0.7188979513
+NYT19980424.0421,210,"Under the statute , a child born abroad to an unwed American mother is automatically considered a U.S. citizen .",2,born_28_32 is_68_70 considered_85_95,0.7338407953,0.5924746161
+APW19980213.1310,279,"`` This is an important step along the path towards Australia claiming its full sovereignty , and due recognition that the monarchy can no longer serve us appropriately , '' Keating said .",22,is_8_10 claiming_62_70 serve_146_151 said_182_186,0.7350191134,0.6177537274
+wsj_1008,185,A reinsurance company effectively insures insurance companies that wish to spread the risk of a particular policy .,6,insures_34_41 wish_67_71 spread_75_81,0.7358147808,0.7276698688
+wsj_0520,297,"In addition to selling Japanese-made photocopiers and facsimile machines in Europe and copier supplies in the U.S. , Nashua has three other major businesses : labels and tapes , data storage disks for computers and mail-order photofinishing .",15,selling_15_22 has_124_127,0.7367870797,0.7091032774
+APW19980306.1001,488,"At least one of the sensitive sites was a barracks of the elite Republican Guard , a well-placed source told The Associated Press .",3,At_0_2 was_36_39 told_104_108,0.7372688896,0.6792465691
+ABC19980304.1830.1636,12,Being commander is different .,9,Being_0_5 is_16_18,0.7389758197,0.6408025833
+wsj_0786,378,The price also includes assumption of about $ 1.4 billion in debt .,2,includes_15_23 in_58_60,0.739580906,0.6352236649
+APW20000107.0318,332,`` What right does that man have ? '',5,have_28_32,0.7395847627,0.580952381
+wsj_0661,449,"DPC Acquisition is controlled by Crescott Investment Associates , Wilson Investment Group , Kernel Corp. and Catalyst Partners .",1,Acquisition_4_15 is_16_18 controlled_19_29 Investment_42_52 Investment_73_83,0.7437269518,0.6731475746
+NYT20000414.0296,133,MIAMI _ The small pharmacy on Unity Boulevard in Little Havana is unassuming .,0,is_63_65,0.7437585247,0.6571428571
+wsj_0781,589,"-LRB- A 16-bit microprocessor processes 16 pieces of data at a time and is slower than newer , 32-bit chips . -RRB-",43,processes_30_39 at_58_60 is_72_74,0.7438042433,0.6686364577
+wsj_1042,430,Issuance of those warrants will be at the rate of one-third warrant for each warrant exercised .,7,Issuance_0_8 be_32_34 at_35_37 for_68_71 exercised_85_94,0.7448094418,0.7546506091
+wsj_0928,337,Sun 's results were slightly better than expectations .,3,results_7_14 were_15_19 expectations_41_53,0.7452277261,0.5870860312
+wsj_0585,350,The SampP 500 is often used in arbitrage strategies .,4,is_14_16 used_23_27 in_28_30 arbitrage_31_40,0.745747589,0.698604736
+WSJ900813-0157,622,"American strategists are calculating , though , that the trade sanctions -- enforced by an effective though perhaps undeclared naval blockade -- will hold tightly enough to convince Iraq that it will lose in the long run by simply standing pat .",25,are_21_24 calculating_25_36 sanctions_63_72 enforced_76_84 effective_91_100 blockade_133_141 hold_150_154 convince_173_181 lose_200_204 in_205_207 run_217_220 standing_231_239,0.7478253592,0.7255884611
+wsj_0159,446,"Cara , a food services chain operator and Unicorp , a holding company , are based in Toronto .",8,holding_54_61 are_72_75 based_76_81 in_82_84,0.752385099,0.6616244071
+wsj_0768,419,The 88 mutual funds investing solely in junk bonds hold assets of about $ 32 billion .,16,investing_20_29 in_37_39 hold_51_55,0.7529602225,0.7518517275
+wsj_0570,313,The companies are automotive-emissions-testing concerns .,14,are_14_17 concerns_47_55,0.7529790234,0.6138651821
+wsj_0760,508,"Norton had operating profit of $ 76.8 million , or $ 3.66 a share , up 11 % from $ 69.5 million , or $ 3.31 a share .",13,had_7_10 operating_11_20 profit_21_27 up_68_70,0.7537415833,0.6142857143
+wsj_0557,448,"The Nestle acquisition includes a candy plant in Franklin Park , Ill. , which employs about 800 workers .",4,acquisition_11_22 includes_23_31 in_46_48,0.7548959797,0.6603010959
+wsj_0584,136,`` How many shares will be around in 1995 ? '' he asked .,34,be_24_26 asked_50_55,0.7551850166,0.6408025833
+wsj_0533,361,Lawyers for the two sides were n't immediately available for comment .,14,for_8_11 were_26_30 available_47_56 for_57_60 comment_61_68,0.7553736416,0.6266006541
+wsj_0584,339,McCaw 's bid also has a similar clause .,24,bid_9_12 has_18_21,0.7565735875,0.5836597262
+wsj_0169,29,The other concern was n't identified .,1,was_18_21 identified_26_36,0.7567084195,0.6649505253
+NYT20000414.0296,293,"But the opinion of the woman who runs the modest business , which sells everything from prescription drugs to chewing gum and toys , carries a lot of weight in this part of Miami .",2,runs_33_37 sells_66_71 chewing_110_117 carries_133_140,0.7568054194,0.7062026643
+wsj_0667,285,"These payments consisted of $ 54 million in scheduled payments and $ 121 million in prepayments , funded by $ 82.8 million from operating cash flow , zero-coupon subordinated debt and assets sales .",8,consisted_15_24 scheduled_44_53 funded_98_104 operating_128_137,0.7584605901,0.5775441488
+APW19990312.0251,336,Now the alliance 's mission is more ill-defined .,17,mission_20_27 is_28_30,0.759597263,0.6496495565
+wsj_0541,360,The conversion price for the debentures is $ 41.725 a share .,3,conversion_4_14 for_21_24 is_40_42,0.7596754027,0.6855310677
+wsj_0938,490,"`` Where 's the bid ? '' asked Pierre Panet-Raymond , an analyst and broker with Toronto securities dealer McDermid St. Lawrence Ltd. .",22,bid_16_19 asked_25_30,0.7600046676,0.6839981443
+PRI19980303.2000.2550,122,They 're learning a civics lesson from the residents of Loudon county .,8,re_5_8 learning_9_17,0.7611489969,0.7748127529
+CNN19980213.2130.0155,7,Steve Hurst has that .,1,has_12_15,0.7613164277,0.6571428571
+wsj_0938,595,"`` Where 's the bid ? '' asked Pierre Panet-Raymond , an analyst and broker with Toronto securities dealer McDermid St. Lawrence Ltd. .",22,s_9_11 bid_16_19 asked_25_30,0.7637681347,0.6590096015
+WSJ900813-0157,120,U.S. officials claim they already see signs Saddam Hussein is getting nervous .,48,claim_15_20 see_34_37 is_59_61 getting_62_69,0.7651372228,0.7211296945
+wsj_0585,256,`` It 's harder to sell stocks when the sell programs come in because some market makers do n't want to -LCB- take the orders -RCB- .,26,s_6_8 sell_19_23 come_54_58 do_89_91 want_96_100 take_110_114,0.7654717315,0.7445090507
+wsj_0781,109,`` You can do that but you 're taking a risk .,24,do_11_13 re_27_30 taking_31_37,0.7660464517,0.7480484517
+APW19991008.0265,335,The U.S. Embassy in Pretoria had no comment .,7,in_17_19 had_29_32 comment_36_43,0.7676158866,0.6277873374
+APW19980308.0201,481,"Turks feel they have special ties to the whole region , which they ruled for hundreds of years during the Ottoman Empire .",8,feel_6_10 have_16_20 ruled_67_72 for_73_76,0.7701554429,0.7217958825
+wsj_0695,388,Rally 's operates and franchises about 160 fast-food restaurants throughout the U.S. .,1,Rally_0_5 operates_9_17,0.7702101517,0.7327726238
+ABC19980108.1830.0711,566,"In Hong Kong , is always belongs to the seller 's market .",12,In_0_2 is_15_17 belongs_25_32 seller_40_46 market_50_56,0.7703001246,0.6371513589
+wsj_0781,475,"That 's a break from Compaq tradition , because the company does n't announce products until they 're actually at the dealers .",32,announce_69_77 at_111_113,0.7710111935,0.7731787256
+APW19991008.0151,139,Eight of them are in custody in the United States and one overseas .,9,are_14_17,0.7712719096,0.6571428571
+wsj_1006,92,Sales were C$ 4.2 billion compared with C$ 3.7 billion .,19,were_6_10 compared_26_34,0.771341812,0.7030457634
+wsj_0584,394,`` How many shares will be around in 1995 ? '' he asked .,34,be_24_26 in_34_36 asked_50_55,0.7716254445,0.723863231
+wsj_0585,202,"Merrill Lynch , Goldman Sachs and Kidder Peabody , in addition to Shearson , do program-trade OTC stocks .",15,do_77_79,0.772700072,0.7523809524
+wsj_0584,174,"Indeed , BellSouth 's cellular operations were among the first in the country to become profitable .",39,were_42_46 become_81_87,0.7728941106,0.6233889916
+wsj_0583,263,"But by all accounts foreign companies have bought only a relative handful of Japanese companies this year , while Japanese companies have acquired hundreds of foreign companies .",9,have_38_42 bought_43_49 have_133_137 acquired_138_146,0.7738748837,0.7327726238
+wsj_0661,199,"DPC Acquisition is controlled by Crescott Investment Associates , Wilson Investment Group , Kernel Corp. and Catalyst Partners .",1,is_16_18 controlled_19_29,0.7742233987,0.7081460863
+wsj_0760,90,The company had a tax credit of $ 1.4 million .,3,had_12_15,0.7758823001,0.6571428571
+NYT19980206.0460,143,It was the third consecutive month that job generation has been exceptionally strong .,2,was_3_6 has_55_58 been_59_63,0.7769162102,0.5928355792
+wsj_0781,371,Those companies are paying the price for taking the risk . '',25,are_16_19 paying_20_26 for_37_40 taking_41_47,0.7771566609,0.7767605787
+APW19980308.0201,228,"Ethnic Albanians comprise 90 percent of the population in Kosovo , but Serbs maintain control through a large military and police presence .",4,comprise_17_25 maintain_77_85,0.7781498988,0.6408025833
+NYT19980424.0421,534,But the child of an unwed American father has no citizenship rights unless the father takes the affirmative step of acknowledging paternity and formally agrees to provide support until the child turns 18 .,3,has_42_45 takes_86_91 agrees_153_159 provide_163_170 support_171_178,0.7790688769,0.735626912
+wsj_0150,135,Its subsidiaries ' services are marketed by closely held A.L. Williams amp Associates .,6,are_28_31 marketed_32_40 held_52_56,0.7792123103,0.7441363192
+wsj_0584,1,We 're surprised .,31,re_3_6 surprised_7_16,0.7797478977,0.7327726238
+wsj_0768,286,"Says Michael Hirsch , chief investment officer of Republic National Bank and manager of the FundTrust Group in New York : `` It 's a time bomb just waiting to go off . ''",38,Says_0_4 s_128_130 waiting_148_155 go_159_161,0.7798101561,0.630287418
+wsj_0904,289,"Net for the nine months was $ 254 million , or $ 5.94 a share , up 56 % from $ 163 million , or $ 4.06 a share , a year earlier .",5,was_24_27,0.7801995326,0.6571428571
+VOA19980331.1700.1533,565,"Currently , transplant organs are rationed through a regional system of distribution .",2,transplant_12_22 are_30_33,0.7809944733,0.6565821476
+WSJ900813-0157,307,"If Iraq chooses a simple war of nerves and economic attrition , the Bush administration knows a long stalemate could try the patience of the American public and the West in general , and could open the possibility that moderate Arabs -- even including Saudi Arabia -- might drop out of the effort against Iraq and accept some deal from Saddam Hussein .",40,chooses_8_15 knows_88_93 try_117_120 open_193_197 including_242_251 drop_274_278 accept_314_320,0.7819616693,0.7265431124
+wsj_0745,247,"In the end , Sir John -- rather than the government or Jaguar shareholders -- may hold the key that unlocks the golden share .",28,hold_82_86 unlocks_100_107,0.7821844024,0.7169930595
+APW19991008.0265,460,"Eight of those are in custody , but the rest remained fugitives , including Saudi radical Osama bin Laden .",9,are_15_18 in_19_21 remained_45_53,0.7824616232,0.6726099833
+wsj_0781,453,`` It 's going to be the leading edge technology in personal computers for the next few years .,49,going_9_14 be_18_20 in_49_51 for_71_74,0.7828523441,0.6665264893
+PRI19980303.2000.2550,506,"For an indication of the problems that could face Muslims as they integrate into American life , one need look no farther than Loudon county , Virginia .",30,For_0_3 problems_25_33 face_45_49 look_106_110,0.7849973056,0.6591117815
+wsj_0907,114,The earnings-per-share figures reflect a 25 % stock dividend in June 1989 .,4,reflect_31_38,0.7863827704,0.6571428571
+VOA19980303.1600.2745,103,VOA 's Jim Teple has details from our southeast news bureau .,3,has_17_20,0.7865177649,0.6571428571
+NYT20000424.0319,393,"It was a model of efficient law enforcement , guided by due process .",4,was_3_6 enforcement_32_43 due_56_59 process_60_67,0.7868216528,0.7414794196
+wsj_0150,568,Its subsidiaries ' services are marketed by closely held A.L. Williams amp Associates .,6,services_19_27 are_28_31 marketed_32_40 held_52_56,0.7869720968,0.7040439934
+NYT19980424.0421,459,"Under the statute , a child born abroad to an unwed American mother is automatically considered a U.S. citizen .",2,Under_0_5 born_28_32 is_68_70 considered_85_95,0.7882731005,0.6464996413
+wsj_0768,428,That 's even less than the 4.35 % total return of the Merrill Lynch High-Yield Index .,32,return_40_46,0.7914453239,0.6571428571
+wsj_0768,165,It made the estimates based on data collected from more than a dozen big junk funds .,3,made_3_7 based_22_27 collected_36_45,0.7926900168,0.7259907036
+wsj_0650,353,"The debentures are available through Goldman , Sachs amp Co. .",2,are_15_18 available_19_28,0.7940701819,0.7327726238
+wsj_0557,209,"Thus , it remains crucial for RJR to obtain top dollar for its smaller assets like the candy brands .",8,remains_10_17 obtain_37_43,0.7943059925,0.6728403074
+VOA19980305.1800.2603,497,"An Afghan refugee in Switzerland , Homira Atimadi , is a senior official of a group called the International Working Group on Afghan Women .",6,in_18_20 is_52_54 called_84_90 on_123_125,0.7943200235,0.7466618565
+wsj_0585,73,The SampP 500 is often used in arbitrage strategies .,4,is_14_16 used_23_27,0.7946696211,0.7771236166
+wsj_0781,108,Those companies are paying the price for taking the risk . '',25,are_16_19 paying_20_26 taking_41_47,0.7951071285,0.7845394295
+wsj_0584,306,"Urging LIN directors to conduct `` a fair auction on a level playing field , '' McCaw asked how well the public interest would be served `` with the Bell operating companies controlling over 94 % of all cellular -LCB- potential customers -RCB- in the nation 's top 10 markets . ''",47,conduct_24_31 asked_86_91 be_127_129 served_130_136 operating_154_163 controlling_174_185,0.7956704809,0.7064924568
+VOA19980305.1800.2603,16,Lisa Schlein reports from Geneva .,3,reports_13_20,0.7968123529,0.7523809524
+ea980120.1830.0071,78,Everything that happens in Cuba gets America 's attention .,3,happens_16_23 gets_32_36,0.7999959671,0.7485521881
+NYT19980907.0112,389,Crew-cut FBI agents fill many of the luxury hotels in the two cities .,11,fill_20_24 in_51_53,0.8031925653,0.7327726238
+CNN19980227.2130.0067,582,"Army of god is a secret organization that hates abortion providers , homosexuals and the US government .",20,is_12_14 abortion_48_56,0.8036995154,0.7771236166
+wsj_0670,573,The extrusion unit produces bare and painted custom extrusions for building products and construction industries .,9,produces_19_27 for_63_66 construction_89_101,0.8040921637,0.7951756144
+WSJ910225-0066,294,"The American hope is that someone from within Iraq , perhaps from the army 's professional ranks , will step forward and push Saddam Hussein aside so that the country can begin recovering from the disaster .",61,is_18_20 step_104_108 push_121_125 begin_171_176 recovering_177_187,0.8056585678,0.7342263763
+wsj_0555,564,Waxman sells a variety of hardware products for the home repair market .,4,sells_7_12 for_44_47 market_64_70,0.8058353951,0.7710503747
+wsj_0356,400,Each right entitles shareholders to buy one-half share of common for $ 30 .,3,entitles_11_19 buy_36_39 for_65_68,0.8062874347,0.7424789461
+wsj_0124,334,Edward L. Kane succeeded Mr. Taylor as chairman .,3,succeeded_15_24 chairman_39_47,0.8077625626,0.7327726238
+wsj_0505,201,"Weisfield 's , based in Seattle , Wash. , currently operates 87 specialty jewelry stores in nine states .",5,based_15_20 operates_52_60,0.8082181125,0.7485521881
+wsj_0585,422,"Shearson , Merrill Lynch and Goldman Sachs say they do so only for customers , however .",16,say_43_46 do_52_54 for_63_66,0.8084910083,0.77046189
+wsj_0557,458,"Thus , it remains crucial for RJR to obtain top dollar for its smaller assets like the candy brands .",8,remains_10_17 for_26_29 obtain_37_43 for_55_58,0.8089436985,0.7089631
+ABC19980120.1830.0957,99,This is clearly an opportunity for Cuba to look good internationally .,5,is_5_7 look_43_47,0.8091537059,0.7866474262
+wsj_0695,192,"The group currently holds 3,027,330 Rally 's shares , or 45.2 % of its commmon shares outstanding .",5,holds_20_25,0.8121603197,0.7523809524
+wsj_0760,183,Norton and Texas Eastern had each held a 50 % stake in Eastman in a joint venture .,9,had_25_28 held_34_38,0.8129937528,0.7550882976
+wsj_1008,581,A reinsurance company effectively insures insurance companies that wish to spread the risk of a particular policy .,6,wish_67_71 spread_75_81 policy_107_113,0.8139206493,0.7672038851
+wsj_0695,443,"The group currently holds 3,027,330 Rally 's shares , or 45.2 % of its commmon shares outstanding .",5,holds_20_25 Rally_36_41,0.8139607557,0.7550882976
+PRI19980303.2000.2550,147,The school says it teaches the children to be good Muslims and good students .,7,says_11_15 teaches_19_26 be_43_45,0.8141134666,0.7949483659
+NYT20000414.0296,617,"But the opinion of the woman who runs the modest business , which sells everything from prescription drugs to chewing gum and toys , carries a lot of weight in this part of Miami .",2,opinion_8_15 runs_33_37 business_49_57 sells_66_71 carries_133_140 in_157_159 part_165_169,0.8142776697,0.8057319126
+wsj_0585,452,"Merrill Lynch , Goldman Sachs and Kidder Peabody , in addition to Shearson , do program-trade OTC stocks .",15,in_51_53 addition_54_62 do_77_79,0.8144877125,0.7147862751
+PRI19980121.2000.2591,208,"The people here are famous throughout central Asia for their skill in fashioning pottery and tile , glass too .",6,are_16_19 fashioning_70_80,0.8164918575,0.7731787256
+CNN19980126.1600.1104,320,I mean look at the stock .,7,mean_2_6 look_7_11 at_12_14,0.8169260645,0.7826372813
+ABC19980108.1830.0711,34,Hotels are only thirty percent full .,23,are_7_10,0.81699417,0.6571428571
+APW19980227.0476,321,"The decision , 3rd graf pvs .",3,decision_4_12,0.8178886017,0.7523809524
+PRI19980303.2000.2550,261,"For an indication of the problems that could face Muslims as they integrate into American life , one need look no farther than Loudon county , Virginia .",30,face_45_49 integrate_66_75,0.8182685725,0.7948175631
+wsj_0781,272,"Unveiled last April , the chip crams 1.2 million transistors on a sliver of silicon , more than four times as many as on Intel 's earlier model , 80386 .",37,Unveiled_0_8 crams_31_36,0.8188225076,0.7550882976
+wsj_0583,507,"But even a Japanese company that looks like a dog may turn out to be a good investment for a foreign concern , some management consultants maintain .",20,looks_33_38 turn_54_58 be_66_68 good_71_75 investment_76_86 for_87_90 maintain_139_147,0.8189960671,0.7210243074
+wsj_0584,145,`` There 's nothing preventing BellSouth from buying up shares in the meanwhile . '',36,s_9_11 preventing_20_30 buying_46_52,0.8198123307,0.8097776816
+APW19991008.0151,100,"The rest remained fugitives , including Saudi radical Osama bin Laden .",10,remained_9_17 including_30_39,0.8198708205,0.7327726238
+wsj_0950,500,"Revenue from non-GM accounts was 45 % of EDS 's total business in the latest nine months , compared with 40 % a year earlier .",23,Revenue_0_7 was_29_32 business_54_62 in_63_65 compared_91_99,0.8201308925,0.6515057583
+ABC19980120.1830.0957,499,"At the end of the broadcast this evening , one more trip around Havana to see what it 's been like since the last time .",21,At_0_2 end_7_10 broadcast_18_27 trip_52_56 see_74_77 been_89_93,0.8201859052,0.7231657331
+APW19991008.0151,366,"The rest remained fugitives , including Saudi radical Osama bin Laden .",10,remained_9_17,0.8207723063,0.6571428571
+wsj_0583,503,"Such risk taking is an everyday matter for the brash Mr. Nadir , who is 25 % owner of Polly Peck as well as its chairman .",29,taking_10_16 is_17_19 for_39_42 is_69_71 chairman_112_120,0.8212620366,0.7255889414
+APW19980306.1001,239,"At least one of the sensitive sites was a barracks of the elite Republican Guard , a well-placed source told The Associated Press .",3,was_36_39 told_104_108,0.8230756544,0.7866474262
+wsj_0557,83,"`` For them , it makes all kinds of sense .",16,makes_17_22,0.8239145978,0.7523809524
+wsj_0557,198,"The Nestle acquisition includes a candy plant in Franklin Park , Ill. , which employs about 800 workers .",4,includes_23_31 employs_78_85,0.8267066098,0.7731787256
+wsj_0584,570,`` There 's nothing preventing BellSouth from buying up shares in the meanwhile . '',36,s_9_11 preventing_20_30 buying_46_52 in_63_65,0.8272075324,0.81045695
+wsj_0745,562,Politics also influences the government 's thinking on the anti-takeover restriction .,25,influences_14_24 on_52_54,0.8272355738,0.7327726238
+wsj_0584,64,BellSouth 's `` back-end protection was flawed previously .,29,was_36_39 flawed_40_46,0.8277793599,0.7731787256
+wsj_0557,356,"`` For them , it makes all kinds of sense .",16,For_3_6 makes_17_22 sense_36_41,0.8278371559,0.7891882405
+AP900816-0139,25,The Iraqis also possess chemical weapons .,36,possess_16_23,0.8292955129,0.6571428571
+wsj_0927,40,It will include Messrs. Schwarz and Maurer .,22,include_8_15,0.8314949632,0.7523809524
+WSJ900813-0157,510,The unpredictability of Iraq 's leader is a principal reason the U.S. is going to such great lengths to build a mammoth force in and around Saudi Arabia .,51,is_39_41 is_70_72 going_73_78 build_104_109 force_120_125 in_126_128,0.8401743879,0.7679512884
+ea980120.1830.0071,352,Everything that happens in Cuba gets America 's attention .,3,happens_16_23 in_24_26 gets_32_36,0.8419067008,0.7949483659
+wsj_0542,276,"Dow Jones , which owns 67 % of Telerate , publishes The Wall Street Journal , Barron 's magazine , community newspapers and operates financial news services and computer data bases .",12,owns_18_22 publishes_42_51 operates_124_132,0.8419129386,0.7946000138
+NYT19980907.0112,498,"Still , the televised images of the charred hulks of the American Embassy buildings will likely haunt the travel industry in East Africa for years .",13,travel_106_112 in_122_124 for_137_140,0.8419915801,0.6948714861
+wsj_0583,348,Joann S. Lublin in London contributed to this article .,33,in_16_18 contributed_26_37,0.8422129518,0.8493692018
+wsj_0542,559,Telerate provides information about financial markets through an electronic network .,11,provides_9_17 markets_46_53,0.8422293549,0.8017501541
+wsj_0555,338,The conversion price is $ 9.58 a share .,2,conversion_4_14 is_21_23,0.8433616271,0.7731787256
+APW19980626.0364,158,"The fine is twice the donation , as provided for under German party financing laws .",5,is_9_11 provided_36_44,0.8451211293,0.8605270387
+wsj_0585,502,`` It 's harder to sell stocks when the sell programs come in because some market makers do n't want to -LCB- take the orders -RCB- .,26,sell_19_23 programs_45_53 come_54_58 in_59_61 market_75_81 do_89_91 want_96_100 take_110_114 orders_119_125,0.8466136501,0.7639144357
+wsj_0583,69,Joann S. Lublin in London contributed to this article .,33,contributed_26_37,0.8467587695,0.7523809524
+wsj_0586,454,"Volume was 840.8 million shares , up from 443.6 million Thursday and the week 's most active session .",6,was_7_10 up_34_36 session_93_100,0.8473229373,0.775270589
+ABC19980120.1830.0957,126,And in just a moment Diane Sawyer will have some other news .,22,have_39_43,0.8483015657,0.7523809524
+wsj_0781,330,Andy Zipser in Dallas contributed to this article .,51,in_12_14 contributed_22_33,0.848739212,0.8437902833
+wsj_0321,579,"Mesa flies to 42 cities in New Mexico , Arizona , Wyoming , Colorado and Texas .",6,flies_5_10 in_24_26,0.8492916296,0.877263794
+wsj_0768,167,The 88 mutual funds investing solely in junk bonds hold assets of about $ 32 billion .,16,investing_20_29 hold_51_55,0.8505434673,0.763654916
+wsj_1006,359,Sales were C$ 4.2 billion compared with C$ 3.7 billion .,19,Sales_0_5 were_6_10 compared_26_34,0.8509251954,0.7893000537
+wsj_0542,520,"Dow Jones , which owns 67 % of Telerate , publishes The Wall Street Journal , Barron 's magazine , community newspapers and operates financial news services and computer data bases .",12,owns_18_22 operates_124_132,0.8513796637,0.7411410015
+wsj_0340,505,"The Credit Lyonnais purchase , for 33,000 regular common shares and 10,000 newly created shares , is valued at about slightly more than 80 million French francs .",4,purchase_20_28 for_31_34 created_81_88 is_98_100 valued_101_107 at_108_110,0.8526432256,0.7948853522
+wsj_0981,255,"The resort will include the MGM Grand Hotel , a multi-spired , castle-like facility that will include 5,000 rooms and 85,000 square feet of casino space .",11,include_16_23 include_94_101,0.8561784648,0.7997196452
+wsj_0585,455,"Their motivation , however , has a strong practical aspect : Program trading is hazardous to their paychecks .",1,has_29_32 Program_61_68 trading_69_76 is_77_79,0.8566866893,0.7866290346
+wsj_0781,372,`` You can do that but you 're taking a risk .,24,do_11_13 taking_31_37,0.8567698251,0.8437902833
+WSJ900813-0157,304,"Speaking on the ABC program , Abdul Amir al-Anbari , Iraq 's ambassador to the U.N. , asserted that an embargo on Iraq could plunge the U.S. into a `` depression '' and the rest of the world into an economic `` crisis . ''",18,Speaking_0_8 asserted_86_94 plunge_125_131,0.8597636984,0.8275531465
+ABC19980304.1830.1636,163,It means supervising the rest of the crew in training and leading them in flight .,10,means_3_8 supervising_9_20 leading_58_65,0.8604234993,0.8451485822
+wsj_0585,171,"Shearson , Merrill Lynch and Goldman Sachs say they do so only for customers , however .",16,say_43_46 do_52_54,0.8605456313,0.8224318006
+wsj_0786,501,IMA is a group that includes First Boston Corp. and the Pritzker family of Chicago through the leveraged buy-out fund Harry Gray Melvyn Klein amp Partners .,3,is_4_6 includes_20_28 buy-out_105_112,0.861004763,0.6907432039
+wsj_0585,207,"When the computers say `` sell , '' the composite tumbles as well as the Dow Jones Industrial Average .",33,say_19_22 sell_26_30 tumbles_50_57,0.8646176796,0.7970092724
+wsj_0584,401,`` There 's nothing preventing BellSouth from buying up shares in the meanwhile . '',36,buying_46_52 in_63_65,0.8661271624,0.8437902833
+wsj_0321,355,"StatesWest serves 10 cities in California , Arizona and Nevada .",5,serves_11_17 in_28_30,0.8708330267,0.8493692018
+PRI19980205.2000.1890,230,The World 's Nancy Marshall reports on Mr. Blair 's current visit to Washington and the special relationship between the two leaders .,1,reports_28_35,0.8709700318,0.7523809524
+wsj_0542,609,"Dow Jones , which owns 67 % of Telerate , publishes The Wall Street Journal , Barron 's magazine , community newspapers and operates financial news services and computer data bases .",12,owns_18_22 publishes_42_51 operates_124_132 services_148_156,0.8709711433,0.8607719255
+wsj_0662,574,"Jayark , New York , distributes and rents audio-visual equipment and prints promotional ads for retailers .",6,distributes_20_31 rents_36_41 for_92_95,0.8717850385,0.8761243668
+APW20000210.0328,315,Both great-uncles live in Miami .,4,live_18_22 in_23_25,0.8725795379,0.8493692018
+wsj_0505,451,"Weisfield 's , based in Seattle , Wash. , currently operates 87 specialty jewelry stores in nine states .",5,based_15_20 in_21_23 operates_52_60 in_89_91,0.8739125438,0.7904761905
+wsj_0924,112,Sales were C$ 348.2 million compared with C$ 307.2 a year earlier .,6,were_6_10 compared_28_36,0.8761780927,0.8605270387
+NYT20000424.0319,134,"It was a model of efficient law enforcement , guided by due process .",4,was_3_6 guided_46_52,0.8797952683,0.8391685559
+wsj_0356,144,Each right entitles shareholders to buy one-half share of common for $ 30 .,3,entitles_11_19 buy_36_39,0.8812253919,0.8486923655
+wsj_0585,154,Kidder Peabody does program trading for its own as well as clients ' accounts .,17,does_15_19,0.8816692037,0.8666666667
+wsj_0584,235,"McCaw , the largest provider of cellular telephone service in the U.S. , already owns about 9.4 % of LIN 's stock .",15,owns_81_85,0.8819121981,0.7523809524
+wsj_0585,456,"When the computers say `` sell , '' the composite tumbles as well as the Dow Jones Industrial Average .",33,say_19_22 sell_26_30,0.8921687277,0.8304036967
+wsj_0152,596,"Dow Jones publishes The Wall Street Journal , Barron 's magazine , and community newspapers and operates financial news services and computer data bases .",7,publishes_10_19 operates_96_104 services_120_128,0.8934559974,0.8711812616
+wsj_0938,241,"`` Where 's the bid ? '' asked Pierre Panet-Raymond , an analyst and broker with Toronto securities dealer McDermid St. Lawrence Ltd. .",22,s_9_11 asked_25_30,0.8983077939,0.8995794678
+wsj_0695,128,Rally 's operates and franchises about 160 fast-food restaurants throughout the U.S. .,1,operates_9_17 franchises_22_32,0.901392619,0.8995794678
+NYT20000403.0463,317,Federal officials made no immediate comment .,12,made_18_22 comment_36_43,0.9085584333,0.877263794
+wsj_0661,151,"The investor group owns 1,534,600 Dataproducts common shares , or a 7.6 % stake .",2,owns_19_23,0.9092845034,0.8666666667
+wsj_0768,91,"Other funds hold a smattering of junk bonds , too .",17,hold_12_16,0.9096406014,0.8666666667
+CNN19980227.2130.0067,125,"Live from Atalanta , good evening Lynne Russell , CNN headline news .",0,Live_0_4,0.9119260489,0.8666666667
+wsj_0575,23,"`` Absolutely , '' he said .",35,said_22_26,0.9143082075,0.8666666667
+wsj_0786,116,The price also includes assumption of about $ 1.4 billion in debt .,2,includes_15_23,0.9171279899,0.8666666667
+wsj_0124,52,Edward L. Kane succeeded Mr. Taylor as chairman .,3,succeeded_15_24,0.9178954376,0.8666666667
+PRI19980205.2000.1998,309,Caroline Wyatt reports .,2,reports_15_22,0.9199752356,0.8666666667
+APW20000210.0328,22,Both great-uncles live in Miami .,4,live_18_22,0.9202793187,0.8666666667
+ABC19980114.1830.0611,6,I think so .,16,think_2_7,0.9250380332,0.8666666667
+wsj_0938,278,"MCA holds half of Cineplex 's equity and 33 % of its voting rights through restricted voting shares , while Bronfman interests hold about 24 % of the company 's equity .",6,holds_4_9 hold_127_131,0.9267654638,0.8805318488
+NYT20000113.0267,9,Congress reconvenes Jan. 24 .,17,reconvenes_9_19,0.9342977615,0.8666666667
+wsj_0923,8,Kyle manufactures electronic components .,4,manufactures_5_17,0.9342977615,0.8666666667
+wsj_0527,212,Net interest income for the third quarter declined to $ 35.6 million from $ 70.1 million a year ago .,10,declined_42_50,0.9585825521,0.8666666667
+wsj_0167,127,RMS distributes electronic devices and produces power supplies and plastic literature displays .,2,distributes_4_15 produces_39_47,0.9611409618,0.9609475708
+wsj_0662,166,"Jayark , New York , distributes and rents audio-visual equipment and prints promotional ads for retailers .",6,distributes_20_31 rents_36_41,0.9741199797,0.9609475708
+wsj_0555,119,Waxman sells a variety of hardware products for the home repair market .,4,sells_7_12,1,1
+ABC19980114.1830.0611,5,God bless him .,17,bless_4_9,1,1
+wsj_0152,492,"Dow Jones publishes The Wall Street Journal , Barron 's magazine , and community newspapers and operates financial news services and computer data bases .",7,operates_96_104,1,1
+WSJ910225-0066,219,"-- Geraldine Brooks in Amman , Jordan , and Craig Forman in Cairo , Egypt , contributed to this article .",74,contributed_76_87,1,1
+wsj_0670,160,The extrusion unit produces bare and painted custom extrusions for building products and construction industries .,9,produces_19_27,1,1
+wsj_0152,244,"Dow Jones publishes The Wall Street Journal , Barron 's magazine , and community newspapers and operates financial news services and computer data bases .",7,publishes_10_19 operates_96_104,1,1
+wsj_0584,310,We 're surprised .,31,surprised_7_16,1,1
+wsj_0745,111,"The 15 % restriction covers any would-be suitor , British or foreign .",15,covers_21_27,1,1
+APW19980308.0201,62,They also share Islam with the ethnic Albanians .,9,share_10_15,1,1
+NYT20000403.0463,24,Federal officials made no immediate comment .,12,made_18_22,1,1
+wsj_0585,65,These big stocks greatly influence the Nasdaq Composite Index .,32,influence_25_34,1,1
+wsj_0321,181,"Mesa flies to 42 cities in New Mexico , Arizona , Wyoming , Colorado and Texas .",6,flies_5_10,1,1
+wsj_0585,81,"Shearson Lehman , however , executes program trades for clients .",14,executes_28_36,1,1
+wsj_0321,82,"StatesWest serves 10 cities in California , Arizona and Nevada .",5,serves_11_17,1,1
+wsj_0781,48,Andy Zipser in Dallas contributed to this article .,51,contributed_22_33,1,1
+wsj_0542,86,Telerate provides information about financial markets through an electronic network .,11,provides_9_17,1,1
+wsj_0152,38,Telerate provides an electronic financial information network .,6,provides_9_17,1,1
+WSJ900813-0157,36,-- Andy Pasztor contributed to this article .,59,contributed_16_27,1,1
+wsj_0557,300,"Louis Gerstner Jr. , chairman and chief executive officer of New York-based RJR , called the sale a `` significant step '' in the company 's divestiture program , as well as a `` a strategic divestiture . ''",9,called_82_88,1,1
+wsj_0745,105,Politics also influences the government 's thinking on the anti-takeover restriction .,25,influences_14_24,1,1
+NYT19980907.0112,129,Crew-cut FBI agents fill many of the luxury hotels in the two cities .,11,fill_20_24,1,1
+PRI19980303.2000.2550,383,They 're learning a civics lesson from the residents of Loudon county .,8,learning_9_17,1,1

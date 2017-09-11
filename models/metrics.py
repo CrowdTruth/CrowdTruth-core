@@ -43,11 +43,14 @@ class Metrics():
                     denominator_j += rqs[relation] * (worker_j_vector[relation] * worker_j_vector[relation])
                 
                 if denominator_i < 0.0001:
-                  print(worker_ids[worker_i] + " -> ") 
-                  pdb.set_trace()
+                    denominator_i = 0.0001
+                    #print(worker_ids[worker_i] + " -> ") 
+                    #pdb.set_trace()
                 if denominator_j < 0.0001:
-                  pdb.set_trace()
-                
+                    denominator_j = 0.0001
+                    #print(worker_ids[worker_i] + " -> ")
+                    #pdb.set_trace()
+
                 weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
@@ -82,6 +85,12 @@ class Metrics():
                 denominator_w += rqs[relation] * (worker_vector[relation] * worker_vector[relation])
                 denominator_s += rqs[relation] * ((sentence_vector[relation] - worker_vector[relation]) *
                                                   (sentence_vector[relation] - worker_vector[relation]))
+
+            if denominator_w < 0.0001:
+                denominator_w = 0.0001
+            if denominator_s < 0.0001:
+                denominator_s = 0.0001
+
             weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
             wsa_nominator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
@@ -120,6 +129,12 @@ class Metrics():
                                                           work_sent_rel_dict[worker_id][sentence_id][relation])
                         denominator_ow += rqs[relation] * (sent_work_rel_dict[sentence_id][other_worker_id][relation] *
                                                            sent_work_rel_dict[sentence_id][other_worker_id][relation])
+
+                    if denominator_w < 0.0001:
+                        denominator_w = 0.0001
+                    if denominator_ow < 0.0001:
+                        denominator_ow = 0.0001
+
                     weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
                     wwa_nominator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
@@ -175,9 +190,9 @@ class Metrics():
             
             # prevent division by zero by storing very small value instead
             if rqs[relation] < 0.0001:
-              rqs[relation] = 0.0001
-          else:
-            rqs[relation] = 1.0
+                rqs[relation] = 0.0001
+            else:
+                rqs[relation] = 1.0
         return rqs
 
     @staticmethod
@@ -316,10 +331,21 @@ class Metrics():
           srs[sentence_id] = Counter()
           for relation in sent_rel_dict[sentence_id]:
             srs[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs_list[len(wqs_list) - 1])
+
+        srs_initial = Counter()
+        for sentence_id in sent_rel_dict:
+          srs_initial[sentence_id] = Counter()
+          for relation in sent_rel_dict[sentence_id]:
+            srs_initial[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs_list[0])
         
         results['units']['uqs'] = pd.Series(sqs_list[-1])
+        results['units']['uqs_initial'] = pd.Series(sqs_list[1])
         results['units']['unit_annotation_score'] = pd.Series(srs)
+        results['units']['unit_annotation_score_initial'] = pd.Series(srs_initial)
         results['workers']['wqs'] = pd.Series(wqs_list[-1])
+        results['workers']['wqs_initial'] = pd.Series(wqs_list[1])
         if not config.open_ended_task:
             results['annotations']['aqs'] = pd.Series(rqs_list[-1])
+            results['annotations']['aqs_initial'] = pd.Series(rqs_list[1])
+
         return results
