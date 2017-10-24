@@ -6,7 +6,8 @@ import groundtruthController as gt
 def getConfig(root, directory):
 
 	if os.path.exists(root+directory+'/config.py'):
-		sys.path.append(root+directory)
+		print 'Loading',root+directory
+		sys.path.insert(0, root+directory)
 		from config import Configuration
 		config = Configuration()
 		print 'Loaded configuration for',config.name

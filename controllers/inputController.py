@@ -59,7 +59,7 @@ def processFile(root, directory, filename, config):
 	# else use the default and select them automatically
 	config = getColumnTypes(judgments, config)
 
-
+	#print judgments.head()
 	# allow customization of the judgments
 	judgments = config.processJudgments(judgments)
 
@@ -327,7 +327,7 @@ def getSafeKey(field):
 	pattern = re.compile('(?!,)[\W_]+')
 	cleanField = re.sub(' +',' ', field.replace('"','').lower().strip())
 	# see if the string is an array
-	fields = map(lambda x: pattern.sub(' ', x).strip().replace(' ', '_'), re.split(',|\|',cleanField))
+	fields = map(lambda x: pattern.sub(' ', x).strip().replace(' ', '_'), re.split(',|\||\n',cleanField))
 	
 	fields = [f for f in fields if len(f) > 0]
 	

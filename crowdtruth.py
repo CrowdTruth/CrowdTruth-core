@@ -9,7 +9,6 @@ import sys,os
 from datetime import datetime
 import pandas as pd
 import numpy as np
-import multiprocessing as mp
 
 
 # define our default configuration options
@@ -109,8 +108,8 @@ def scanDirectory(directory='',root=''):
         #likert_corr_df = likert.corr(method='pearson')
         #likert_corr_df.to_csv(wd+'/results/likert_correlations.csv', sep=',')
 
-
-        results = Metrics.run(results, config)
+        # CT metrics 2.0
+        #results = Metrics.run(results, config)
 
         # add customized results
         for c in config.output.items():
