@@ -34,8 +34,7 @@ class CrowdTruth(CementApp):
 
 
 def scanDirectory(directory='',root=''):
-    if root == '':
-        root = os.getcwd()
+    root = os.getcwd()
     files = os.listdir(root+directory)
     app.log.debug("Found directory "+root+directory)
     print 'Directory:',root,directory
@@ -135,7 +134,7 @@ def scanDirectory(directory='',root=''):
 
     # dive into subdirectories
     for f in subdirectories:
-        scanDirectory(directory+'/'+f,root)
+        scanDirectory(directory+'/'+f)
 
 
 

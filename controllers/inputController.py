@@ -80,12 +80,14 @@ def processFile(root, directory, filename, config):
 	# make output values safe keys
 	for col in config.output.values():
 		judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
-		if not config.open_ended_task:
-		  for idx in range(len(judgments)):
-		    for relation in config.annotation_vector:
-		      if relation not in judgments[col][idx]:
-		        judgments[col][idx].update({relation : 0})
-
+		try:
+			openended = config.open_ended_task
+			for idx in range(len(judgments)):
+				for relation in config.annotation_vector:
+					if relation not in judgments[col][idx]:
+						judgments[col][idx].update({relation : 0})
+		except AttributeError:
+			continue
 
 	#outputData = {config.output[col]:row[col] for col in config.output}
 	
@@ -205,11 +207,14 @@ def processFile(root, directory, filename, config):
 	
 	# add missing vector values if closed task
 	for col in config.output.values():
-		if not config.open_ended_task:
-		  for idx in list(units.index):
-		    for relation in config.annotation_vector:
-		      if relation not in units[col][idx]:
-		        units[col][idx].update({relation : 0})
+		try:
+			openended = config.open_ended_task
+			for idx in list(units.index):
+				for relation in config.annotation_vector:
+					if relation not in units[col][idx]:
+						units[col][idx].update({relation : 0})	
+		except AttributeError:
+			continue
 
 	return {
 		'jobs' : job, 
