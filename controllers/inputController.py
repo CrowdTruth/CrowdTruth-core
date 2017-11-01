@@ -13,6 +13,8 @@ from datetime import datetime
 from collections import Counter, OrderedDict
 import re
 import groundtruthController as groundtruth
+import pdb
+
 pd.options.display.multi_sparse = False
 
 
@@ -43,10 +45,22 @@ def processFile(root, directory, filename, config):
 	progress(filename,.05)
 
 	# judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
-	judgments = pd.read_csv(filename)
+	judgments = None
+	
+	if directory != "":
+	  files = os.listdir(directory)
+	  for f in files:
+	    f_data = pd.read_csv(directory + "/" + f, sep = config.column_separator)
+	    
+	    if judgments is None:
+	      judgments = f_data
+	    else:
+	      judgments = judgments.append(f_data, ignore_index=True)
+	else:
+	  judgments = pd.read_csv(filename, sep = config.column_separator)
 
-	if directory == '':
-		directory = '/'
+#	if directory == '':
+#		directory = '/'
 
 	collection = directory
 
@@ -68,7 +82,7 @@ def processFile(root, directory, filename, config):
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
 	progress(filename,.1)
-
+	
 	allColumns = dict(config.input.items() + config.output.items() + platform.items())
 	judgments = judgments.rename(columns=allColumns)
 
@@ -79,11 +93,24 @@ def processFile(root, directory, filename, config):
 	progress(filename,.15)
 	
 	# print("COLUMNS WE WANT: " + " ".join(config.output.values()))
-
+	
+	#config.annotation_vector = [x.replace("per:", "") for x in config.annotation_vector]
+	#config.annotation_vector = [x.replace("org:", "") for x in config.annotation_vector]
+	
 	# make output values safe keys
 	for col in config.output.values():
-		judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
-		if not config.open_ended_task:
+	  #judgments[col] = judgments[col].str.replace("per:", "")
+	  #judgments[col] = judgments[col].str.replace("org:", "")
+	  
+	  #judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
+	  #pdb.set_trace()
+	  
+	  if type(judgments[col].iloc[0]) is dict:
+	    judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x))
+	  else:
+	    judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(",")))
+
+	  if not config.open_ended_task:
 		  for idx in range(len(judgments)):
 		    for relation in config.annotation_vector:
 		      if relation not in judgments[col][idx]:
@@ -261,7 +288,6 @@ def getPlatform(df):
 def getColumnTypes(df, config):
 	# get a dict of the columns with input content and the columns with output judgments
 	# each entry matches [original column name]:[safestring column name]
-
 	if df.columns.values[0] == 'HITId':
 		# Mturk
 		# if config is specified, use those columns

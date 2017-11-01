@@ -15,6 +15,9 @@ class Configuration():
 	
 	open_ended_task = True
 	annotation_vector = []
+	
+	column_separator = ','
+	judgment_separator = ','
 
 	# units to use
 	units = []
