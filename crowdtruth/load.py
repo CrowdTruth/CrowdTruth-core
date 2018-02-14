@@ -1,19 +1,24 @@
 import os
-from models import *
+
+from models.metrics import *
+from models.worker import *
+from models.unit import *
+from models.job import *
+
+
 import sys  
-reload(sys)  
-sys.setdefaultencoding('utf8')
+#reload(sys)  
+#sys.setdefaultencoding('utf8')
 import chardet
 #import Judgment, Worker, Unit, Job, Collection
-class Found(Exception): pass
 import re, string
 import pandas as pd
 import numpy as np
 from datetime import datetime
 from collections import Counter, OrderedDict
 import re
-import groundtruthController as groundtruth
-pd.options.display.multi_sparse = False
+#import groundtruthController as groundtruth
+#pd.options.display.multi_sparse = False
 
 
 # create an ordered counter so that we can maintain the position of tags in the order they were annotated
@@ -21,7 +26,39 @@ class OrderedCounter(Counter, OrderedDict):
 	pass
 
 
-# Connect to MongoDB and call the connection "my-app".
+class Found(Exception): pass
+
+class DefaultConfig():
+
+	name = '' # collection name
+	inputColumns = [] # inputColumns to use
+	outputColumns = [] # outputColumns to use
+	open_ended_task = True
+	annotation_vector = []
+
+	units = [] 	# units to use
+	workers = [] # workers to use
+	jobs = [] # jobs to use
+
+
+	def processUnit(self, unit):
+		return True
+
+	def processWorker(self, worker):
+		return True
+
+	def processJudgments(self, judgments):
+		return judgments
+
+	def processResults(self, results, config=[]):
+		return results
+
+
+
+
+
+
+
 
 def progress(job_title, progress):
 	length = 10 # modify this to change the length
@@ -31,8 +68,65 @@ def progress(job_title, progress):
 	sys.stdout.write(msg)
 	sys.stdout.flush()
 
+def getFileList(directory):
+	filelist = []
 
-def processFile(root, directory, filename, config):
+	# go through all files in this folder
+	for f in os.listdir(directory):
+		# if it is a folder scan it
+		if os.path.isdir(directory+'/'+f):
+			filelist.append(getFileList(directory+'/'+f))
+
+		# if it is a csv file open it
+		elif f.endswith('.csv') and f <> 'groundtruth.csv':
+			filelist.append(f)
+	return filelist
+
+def load(**kwargs):
+
+
+	# placeholder for aggregated results
+	results = {
+		#'collections' : {},
+		'jobs' : [],
+		'units' : [],
+		'workers' : [],
+		'judgments' : [],
+		'annotations' : []
+		}
+
+
+	if 'config' not in kwargs:
+		config = DefaultConfig()
+	else:
+		config = kwargs['config']
+
+	# check if files is a single file or folder
+	if('file' in kwargs and kwargs['file'].endswith('.csv')):
+		files = [kwargs['file']]
+	elif('directory' in kwargs):
+		directory = kwargs['directory']
+		files = getFileList(directory)
+		print 'Found ',len(files),' files'
+	else:
+		raise ValueError('No input was provided')
+
+
+	for f in files:
+		if 'directory' in locals():
+			f = directory+f
+		res, config = processFile(f, config)
+		for x in res:
+			results[x].append(res[x])
+
+
+	for x in results:
+		results[x] = pd.concat(results[x])
+
+	return results, config
+
+
+def processFile(filename, config):
 
 	progress(filename,0)
 	job = filename.split('.csv')[0]
@@ -42,12 +136,13 @@ def processFile(root, directory, filename, config):
 	#    #print result['encoding']
 	progress(filename,.05)
 
-	judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
+	judgments = pd.read_csv(filename)#, encoding=result['encoding'])
 
-	if directory == '':
-		directory = '/'
+	#if directory == '':
+	#	directory = '/'
 
-	collection = directory
+#	collection = directory
+	collection = ''
 
 	platform = getPlatform(judgments)
 	#print df.head()
@@ -119,13 +214,13 @@ def processFile(root, directory, filename, config):
 	#
 	# compute worker agreement
 	#
-	for col in config.output.values():
-		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
-		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
+	#for col in config.output.values():
+	#	judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
+	#	judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
 		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
 	progress(filename,.3)
 
-	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
+	#judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 	progress(filename,.35)
 
 
@@ -141,24 +236,25 @@ def processFile(root, directory, filename, config):
 
 
 	# get the thresholds
-	workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
-	workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
+	#workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
+	#workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
 
 	#
 	# tag spammers
 	#
-	workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
+	#workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
 	progress(filename,.45)
 
 
 	# tag judgments that were spam
- 	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
- 	filteredJudgments = judgments[judgments['spam'] == False]
+	#judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
+	#filteredJudgments = judgments[judgments['spam'] == False]
 
 	#
 	# aggregate units
 	#
-	units = Unit.aggregate(filteredJudgments, config)
+	#units = Unit.aggregate(filteredJudgments, config)
+	units = Unit.aggregate(judgments, config)
 	progress(filename,.8)
 
 
@@ -167,10 +263,11 @@ def processFile(root, directory, filename, config):
 	# aggregate annotations
 	# i.e. output columns
 	#	
+	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
 #		annotations[col] = pd.Series(judgments[col].sum())
-		res = pd.DataFrame(filteredJudgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
+		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
 	progress(filename,.85)
 
@@ -179,12 +276,13 @@ def processFile(root, directory, filename, config):
 	#
 	# aggregate job
 	#
-	job = Job.aggregate(units, filteredJudgments, workers, config)
-	job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	job['spam.judgments'] = workers['spam'].sum()
-	job['spam.workers'] = workers['spam'].count()
-	job['workerAgreementThreshold'] = workerAgreementThreshold
-	job['workerCosineThreshold'] = workerCosineThreshold
+	#job = Job.aggregate(units, filteredJudgments, workers, config)
+	job = Job.aggregate(units, judgments, workers, config)
+	#job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
+	#job['spam.judgments'] = workers['spam'].sum()
+	#job['spam.workers'] = workers['spam'].count()
+	#job['workerAgreementThreshold'] = workerAgreementThreshold
+	#job['workerCosineThreshold'] = workerCosineThreshold
 	progress(filename,.9)
 
 
@@ -193,7 +291,8 @@ def processFile(root, directory, filename, config):
 	# Clean up judgments
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
+	#judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
+	judgments = judgments[outputCol + platform.values() + ['duration','job']]
 	
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
@@ -221,8 +320,8 @@ def processFile(root, directory, filename, config):
 		'units' : units,
 		'workers' : workers,
 		'judgments' : judgments,
-		'annotations' : annotations
-		}
+		'annotations' : annotations,
+		}, config
 
 	'''
 	#j.process(judgments, workers, units)
@@ -340,3 +439,4 @@ def getSafeKey(field):
 		return fields
 	else:
 		return ['__None__']
+

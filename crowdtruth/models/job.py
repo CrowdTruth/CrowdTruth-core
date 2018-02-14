@@ -13,12 +13,12 @@ class Job():
 			'unit' : 'nunique',
 			'judgment' : 'nunique',
 			'worker' : 'nunique',
-			'duration' : 'mean',
-			'worker-cosine' : 'mean'
+			'duration' : 'mean'
+			#'worker-cosine' : 'mean'
 		}
 		job = judgments.groupby('job').agg(agg)
 
-		job['worker-agreement'] = workers['worker-agreement'].mean()
+		#job['worker-agreement'] = workers['worker-agreement'].mean()
 
 		# compute job runtime
 		runtime = (max(judgments['submitted']) - min(judgments['started']))
@@ -28,14 +28,14 @@ class Job():
 
 
 		agg = {}
-		metrics = ['cos_clarity','unique_annotations','annotations']
+		#metrics = ['cos_clarity','unique_annotations','annotations']
 
-		for metric in metrics:
-
-			for col in config.output.values():
-				# aggregate unit metrics
-				job[col+'.'+metric] = units[col+'.'+metric].mean()
-			job['metrics.avg_'+metric] = units['metrics.avg_'+metric].mean()
+#		for metric in metrics:
+#
+#			for col in config.output.values():
+#				# aggregate unit metrics
+#				job[col+'.'+metric] = units[col+'.'+metric].mean()
+#			job['metrics.avg_'+metric] = units['metrics.avg_'+metric].mean()
 		
 
 		job = job.reindex_axis(sorted(job.columns), axis=1)

@@ -1,7 +1,9 @@
 from pymodm import EmbeddedMongoModel, MongoModel, fields
 from pymodm.manager import Manager
 import datetime
-from models import *
+import job
+import unit
+import worker
 
 
 class Judgment(MongoModel):

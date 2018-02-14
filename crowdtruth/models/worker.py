@@ -1,11 +1,12 @@
 import datetime
-from models.unit import *
+import unit
 import numpy as np
 import itertools
 import pandas as pd
 from collections import Counter
 from datetime import datetime
 from collections import defaultdict
+import scipy.spatial as spatial
 
 
 class Worker():
@@ -17,22 +18,22 @@ class Worker():
         workers = judgments.copy().groupby('worker')
 
         # get workerWorkerAgreement on all fields
-        workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers[['unit']+config.output.values()], config.output.values())
+        #workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers[['unit']+config.output.values()], config.output.values())
 
         agg = {
             'job' : 'nunique',
             'unit' : 'nunique',
             'judgment' : 'nunique',
-            'duration' : 'mean',
-            'worker-cosine' : 'mean'
+            'duration' : 'mean'
+        #    'worker-cosine' : 'mean'
             }
-        for col in config.output.values():
-            agg[col+'.count'] = 'mean'
+        #for col in config.output.values():
+        #    agg[col+'.count'] = 'mean'
 
         workers = workers.agg(agg)
 
         #workers = pd.concat([workers, workerWorkerAgreement], axis=1)
-        workers['worker-agreement'] = workerWorkerAgreement['agreement']
+        #workers['worker-agreement'] = workerWorkerAgreement['agreement']
 
         #workerAgreement = Worker.getAvgWorkerAgreement(workers)
         return workers
