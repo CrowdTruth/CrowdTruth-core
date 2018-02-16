@@ -75,7 +75,9 @@ def getFileList(directory):
 	for f in os.listdir(directory):
 		# if it is a folder scan it
 		if os.path.isdir(directory+'/'+f):
-			filelist.append(getFileList(directory+'/'+f))
+			sublist = getFileList(directory+'/'+f)
+			if len(sublist):
+				filelist.append(sublist)
 
 		# if it is a csv file open it
 		elif f.endswith('.csv') and f <> 'groundtruth.csv':
@@ -99,6 +101,7 @@ def load(**kwargs):
 	if 'config' not in kwargs:
 		config = DefaultConfig()
 	else:
+		print 'Config loaded'
 		config = kwargs['config']
 
 	# check if files is a single file or folder
@@ -114,6 +117,7 @@ def load(**kwargs):
 
 	for f in files:
 		if 'directory' in locals():
+			print f
 			f = directory+f
 		res, config = processFile(f, config)
 		for x in res:
@@ -122,6 +126,52 @@ def load(**kwargs):
 
 	for x in results:
 		results[x] = pd.concat(results[x])
+
+
+	# workers and annotations can appear across jobs, so we have to aggregate those extra
+	results['workers'] = results['workers'].groupby(results['workers'].index).agg({
+		'unit' : 'sum',
+		'judgment' : 'sum',
+		'job' : 'count',
+		'duration' : 'mean'
+		#'spam' : 'sum',
+		#'worker-cosine' : 'mean',
+		#'worker-agreement' : 'mean'
+		})
+
+
+
+	# aggregate annotations
+	results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
+	
+
+	#
+	# compute correlations
+	#
+	# remove 'output.' from the annotation column names
+	
+
+	# How many times person a meets person b is described by the following (s.t. a < b)
+
+
+	# DataFrames corr() function calculates pairwise correlations using specified 
+	# algorithm: 'peason, 'kendall', and 'spearman' are supported.
+	# Correlations are returned in a new DataFrame instance (corr_df below).
+	#likert_corr_df = likert.corr(method='pearson')
+	#likert_corr_df.to_csv(wd+'/results/likert_correlations.csv', sep=',')
+
+	# CT metrics 2.0
+	#results = Metrics.run(results, config)
+
+	# add customized results
+#	for c in config.output.items():
+#		results['units'][c[1]] = results['units'][c[1]].apply(lambda x: dict(x))
+
+	# clean up judgments
+	for col in config.output.values():
+		#print col
+		results['judgments'][col] = results['judgments'][col].apply(lambda x: ','.join(x.keys()))
+
 
 	return results, config
 
