@@ -168,9 +168,9 @@ def load(**kwargs):
 #		results['units'][c[1]] = results['units'][c[1]].apply(lambda x: dict(x))
 
 	# clean up judgments
-	for col in config.output.values():
+#	for col in config.output.values():
 		#print col
-		results['judgments'][col] = results['judgments'][col].apply(lambda x: ','.join(x.keys()))
+		#results['judgments'][col] = results['judgments'][col].apply(lambda x: ','.join(x.keys()))
 
 
 	return results, config

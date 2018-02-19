@@ -41,7 +41,10 @@ class Metrics():
                     denominator_i += rqs[relation] * (worker_i_vector[relation] * worker_i_vector[relation])
                     denominator_j += rqs[relation] * (worker_j_vector[relation] * worker_j_vector[relation])
                 
-                weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
+                if(math.sqrt(denominator_i * denominator_j) == 0):
+                    weighted_cosine = 0
+                else:
+                    weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
         
@@ -75,7 +78,11 @@ class Metrics():
                 denominator_w += rqs[relation] * (worker_vector[relation] * worker_vector[relation])
                 denominator_s += rqs[relation] * ((sentence_vector[relation] - worker_vector[relation]) *
                                                   (sentence_vector[relation] - worker_vector[relation]))
-            weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
+                
+            if(math.sqrt(denominator_w * denominator_s) == 0):
+                weighted_cosine = 0
+            else:
+                weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
             wsa_nominator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
         return wsa_nominator / wsa_denominator
@@ -113,7 +120,12 @@ class Metrics():
                                                           work_sent_rel_dict[worker_id][sentence_id][relation])
                         denominator_ow += rqs[relation] * (sent_work_rel_dict[sentence_id][other_worker_id][relation] *
                                                            sent_work_rel_dict[sentence_id][other_worker_id][relation])
-                    weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
+                    
+                    if(math.sqrt(denominator_w * denominator_ow) == 0):
+                        weighted_cosine = 0
+                    else:
+                        weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
+
                     wwa_nominator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
         return wwa_nominator / wwa_denominator
