@@ -6,6 +6,7 @@ import pandas as pd
 from collections import Counter
 from datetime import datetime
 from collections import defaultdict
+import pdb
 
 
 class Worker():
@@ -131,11 +132,12 @@ class Worker():
 
             # pairwise comparison of all the worker vectors
             for col in columns:
-
-                #
-                join = len(workera[col][unit] + workerb[col][unit])
-                overlap = len(workera[col][unit] & workerb[col][unit])
-                pairs.append(overlap / float(join))
+                try:
+                  join = len(workera.loc[unit][col] + workerb.loc[unit][col])
+                  overlap = len(workera.loc[unit][col] & workerb.loc[unit][col])
+                  pairs.append(overlap / float(join))
+                except:
+                  pdb.set_trace()
 
                 #print 'join:',join
                 #print 'overlap:',overlap

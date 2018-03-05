@@ -181,7 +181,8 @@ def processFile(root, directory, filename, config):
 
 	# tag judgments that were spam
  	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
- 	filteredJudgments = judgments[judgments['spam'] == False]
+ 	# filteredJudgments = judgments[judgments['spam'] == False]
+ 	filteredJudgments = judgments
 
 	#
 	# aggregate units

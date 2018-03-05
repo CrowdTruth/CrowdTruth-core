@@ -42,13 +42,16 @@ class Metrics():
                     denominator_i += rqs[relation] * (worker_i_vector[relation] * worker_i_vector[relation])
                     denominator_j += rqs[relation] * (worker_j_vector[relation] * worker_j_vector[relation])
                 
-                weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
+                try:
+                  weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
+                except:
+                  pdb.set_trace()
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
         
-        #if sqs_denominator < 0.0001:
+        if sqs_denominator < 0.0001:
+          sqs_denominator = 0.0001
         #    # pdb.set_trace()
-        #    #sqs_denominator = 0.0001
         return sqs_numerator / sqs_denominator
 
 
@@ -82,8 +85,8 @@ class Metrics():
             weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
             wsa_nominator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
-        #if wsa_denominator < 0.0001:
-        #    wsa_denominator = 0.0001
+        if wsa_denominator < 0.0001:
+          wsa_denominator = 0.0001
         #    # pdb.set_trace()
         return wsa_nominator / wsa_denominator
 
@@ -123,9 +126,9 @@ class Metrics():
                     weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
                     wwa_nominator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
-        #if wwa_denominator < 0.0001:
-        #    # pdb.set_trace()
-        #    wwa_denominator = 0.0001
+        if wwa_denominator < 0.0001:
+          # pdb.set_trace()
+          wwa_denominator = 0.0001
         return wwa_nominator / wwa_denominator
 
 
@@ -138,9 +141,9 @@ class Metrics():
         for worker_id in sent_work_rel_dict[sentence_id]:
             srs_nominator += sent_work_rel_dict[sentence_id][worker_id][relation] * wqs[worker_id]
             srs_denominator += wqs[worker_id]
-        #if srs_denominator < 0.0001:
+        # if srs_denominator < 0.0001:
+        #  srs_denominator = 0.0001
         #    # pdb.set_trace()
-        #    srs_denominator = 0.0001
         return srs_nominator / srs_denominator
 
 
