@@ -74,6 +74,11 @@ def processFile(root, directory, filename, config):
 	# else use the default and select them automatically
 	config = getColumnTypes(judgments, config)
 
+	# remove rows where the worker did not give an answer (AMT issue)
+	for col in config.outputColumns:
+		judgments = judgments[pd.isnull(judgments[col]) == False]
+	judgments = judgments.reset_index(drop=True)
+
 
 	# allow customization of the judgments
 	judgments = config.processJudgments(judgments)
@@ -169,20 +174,20 @@ def processFile(root, directory, filename, config):
 
 
 	# get the thresholds
-	workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
-	workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
+	# workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
+	# workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
 
-	#
-	# tag spammers
-	#
-	workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
-	progress(filename,.45)
+	# #
+	# # tag spammers
+	# #
+	# workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
+	# progress(filename,.45)
 
 
-	# tag judgments that were spam
- 	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
- 	# filteredJudgments = judgments[judgments['spam'] == False]
- 	filteredJudgments = judgments
+	# # tag judgments that were spam
+ # 	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
+ # 	# filteredJudgments = judgments[judgments['spam'] == False]
+  	filteredJudgments = judgments
 
 	#
 	# aggregate units
@@ -209,11 +214,11 @@ def processFile(root, directory, filename, config):
 	# aggregate job
 	#
 	job = Job.aggregate(units, filteredJudgments, workers, config)
-	job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	job['spam.judgments'] = workers['spam'].sum()
-	job['spam.workers'] = workers['spam'].count()
-	job['workerAgreementThreshold'] = workerAgreementThreshold
-	job['workerCosineThreshold'] = workerCosineThreshold
+	# job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
+	# job['spam.judgments'] = workers['spam'].sum()
+	# job['spam.workers'] = workers['spam'].count()
+	# job['workerAgreementThreshold'] = workerAgreementThreshold
+	# job['workerCosineThreshold'] = workerCosineThreshold
 	progress(filename,.9)
 
 
@@ -222,7 +227,8 @@ def processFile(root, directory, filename, config):
 	# Clean up judgments
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
+	# judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
+	judgments = judgments[outputCol + platform.values() + ['duration','job']]
 	
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
