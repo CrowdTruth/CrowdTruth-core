@@ -9,20 +9,21 @@ class Unit():
 
     @staticmethod
     def aggregate(judgments, config):
-
+	#print(judgments)
         agg = {}
         for col in config.input.values():
             # for each input column the first value is taken. all rows have the same value for each unit.
             agg[col] = 'first'
         for col in config.output.values():
+            #print(col)
             # each output column dict is summed
             agg[col] = 'sum'
         agg['job'] = 'first'
         agg['worker'] = 'count'
         agg['duration'] = 'mean'
-
+        #print(judgments[col])
         units = judgments.groupby('unit').agg(agg)
-
+        #print(units)
         #
         # get unit metrics
         #
@@ -30,15 +31,15 @@ class Unit():
         # for each vector in the unit get the unit metrics
         units = units.apply(lambda row: Unit.getMetrics(row, config), axis=1)
 
-        metrics = ['cos_clarity','unique_annotations','annotations']
-
+        #metrics = ['cos_clarity','unique_annotations','annotations']
+        metrics = ['unique_annotations', 'annotations']
         # aggregate unit metrics
-        for val in metrics:
-            units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[col+'.'+val] for col in config.output.values()]), axis=1)
+        #for val in metrics:
+        #    units['metrics.avg_'+val] = units.apply(lambda row: np.mean([row[col+'.'+val] for col in config.output.values()]), axis=1)
 
         # sort columns
         units = units.reindex_axis(sorted(units.columns), axis=1)
-
+        #print(units["output.relations_noOffset"])
         return units
 
     @staticmethod
@@ -52,8 +53,8 @@ class Unit():
 
             #metrics['magnitude'] = Unit.get_magnitude(vector)
             #metrics['norm_magnitude'] = Unit.get_norm_magnitude(vector)
-            cosine_vector = Unit.get_cosine_vector(row[col])
-            row[col+'.cos_clarity'] = max(cosine_vector.values())
+            #cosine_vector = Unit.get_cosine_vector(row[col])
+            #row[col+'.cos_clarity'] = max(cosine_vector.values())
             row[col+'.unique_annotations'] = len(row[col])
             row[col+'.annotations'] = sum(row[col].values())
 

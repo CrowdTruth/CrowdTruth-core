@@ -15,9 +15,6 @@ class Configuration():
 	
 	open_ended_task = True
 	annotation_vector = []
-	
-	column_separator = ','
-	judgment_separator = ','
 
 	# units to use
 	units = []
@@ -25,6 +22,9 @@ class Configuration():
 	workers = []
 	# jobs to use
 	jobs = []
+	
+	column_separator = ','
+	annotation_separator = ','
 
 
 	def processUnit(self, unit):

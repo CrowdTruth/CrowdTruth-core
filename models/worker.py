@@ -16,16 +16,16 @@ class Worker():
     def aggregate(judgments, config):
 
         workers = judgments.copy().groupby('worker')
-
+        
         # get workerWorkerAgreement on all fields
-        workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers[['unit']+config.output.values()], config.output.values())
+        #workerWorkerAgreement = Worker.getAvgWorkerWorkerAgreement(workers[['unit']+config.output.values()], config.output.values())
 
         agg = {
             'job' : 'nunique',
             'unit' : 'nunique',
             'judgment' : 'nunique',
-            'duration' : 'mean',
-            'worker-cosine' : 'mean'
+            'duration' : 'mean'#,
+        #    'worker-cosine' : 'mean'
             }
         for col in config.output.values():
             agg[col+'.count'] = 'mean'
@@ -33,9 +33,10 @@ class Worker():
         workers = workers.agg(agg)
 
         #workers = pd.concat([workers, workerWorkerAgreement], axis=1)
-        workers['worker-agreement'] = workerWorkerAgreement['agreement']
+        #workers['worker-agreement'] = workerWorkerAgreement['agreement']
 
         #workerAgreement = Worker.getAvgWorkerAgreement(workers)
+        
         return workers
 
 
@@ -133,11 +134,11 @@ class Worker():
             # pairwise comparison of all the worker vectors
             for col in columns:
                 try:
-                  join = len(workera.loc[unit][col] + workerb.loc[unit][col])
-                  overlap = len(workera.loc[unit][col] & workerb.loc[unit][col])
-                  pairs.append(overlap / float(join))
+                    join = len(workera.loc[unit][col] + workerb.loc[unit][col])
+                    overlap = len(workera.loc[unit][col] & workerb.loc[unit][col])
+                    pairs.append(overlap / float(join))
                 except:
-                  pdb.set_trace()
+                    pdb.set_trace()
 
                 #print 'join:',join
                 #print 'overlap:',overlap

@@ -37,15 +37,17 @@ class Metrics():
                 worker_i_vector = sent_work_rel_dict[sentence_id][worker_ids[worker_i]]
                 worker_j_vector = sent_work_rel_dict[sentence_id][worker_ids[worker_j]]
                 
-                for relation in sent_work_rel_dict[sentence_id][worker_ids[worker_i]]:
-                    numerator += rqs[relation] * (worker_i_vector[relation] * worker_j_vector[relation])
-                    denominator_i += rqs[relation] * (worker_i_vector[relation] * worker_i_vector[relation])
-                    denominator_j += rqs[relation] * (worker_j_vector[relation] * worker_j_vector[relation])
+                for relation in worker_i_vector:
+                    worker_i_vector_rel = worker_i_vector[relation]
+                    worker_j_vector_rel = worker_j_vector[relation]
+                    numerator += rqs[relation] * (worker_i_vector_rel * worker_j_vector_rel)
+                    denominator_i += rqs[relation] * (worker_i_vector_rel * worker_i_vector_rel)
+                    denominator_j += rqs[relation] * (worker_j_vector_rel * worker_j_vector_rel)
                 
                 try:
-                  weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
+                    weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
                 except:
-                  pdb.set_trace()
+                    pdb.set_trace()
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
         
@@ -66,10 +68,11 @@ class Metrics():
         sqs (sentence quality score): dict sentence_id -> sentence quality (float)
         rqs: dict of relation_id (string) -> relation quality (float)
         '''
-        wsa_nominator = 0.0
+        wsa_numerator = 0.0
         wsa_denominator = 0.0
-        
-        for sentence_id in work_sent_rel_dict[worker_id]:
+        work_sent_rel_dict_worker_id = work_sent_rel_dict[worker_id]
+
+        for sentence_id in work_sent_rel_dict_worker_id:
             numerator = 0.0
             denominator_w = 0.0
             denominator_s = 0.0
@@ -77,18 +80,21 @@ class Metrics():
             worker_vector = work_sent_rel_dict[worker_id][sentence_id]
             sentence_vector = sent_rel_dict[sentence_id]
             
-            for relation in work_sent_rel_dict[worker_id][sentence_id]:
-                numerator += rqs[relation] * worker_vector[relation] * (sentence_vector[relation] - worker_vector[relation])
-                denominator_w += rqs[relation] * (worker_vector[relation] * worker_vector[relation])
-                denominator_s += rqs[relation] * ((sentence_vector[relation] - worker_vector[relation]) *
-                                                  (sentence_vector[relation] - worker_vector[relation]))
+            for relation in worker_vector:
+                worker_vector_relation = worker_vector[relation]
+                sentence_vector_relation = sentence_vector[relation]
+
+                numerator += rqs[relation] * worker_vector_relation * (sentence_vector_relation - worker_vector_relation)
+                denominator_w += rqs[relation] * (worker_vector_relation * worker_vector_relation)
+                denominator_s += rqs[relation] * ((sentence_vector_relation - worker_vector_relation) *
+                                                  (sentence_vector_relation - worker_vector_relation))
             weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
-            wsa_nominator += weighted_cosine * sqs[sentence_id]
+            wsa_numerator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
         if wsa_denominator < 0.0001:
-          wsa_denominator = 0.0001
+            wsa_denominator = 0.0001
         #    # pdb.set_trace()
-        return wsa_nominator / wsa_denominator
+        return wsa_numerator / wsa_denominator
 
 
     # Worker - Worker Agreement
@@ -103,91 +109,217 @@ class Metrics():
         rqs: dict of relation_id (string) -> relation quality (float)
         '''
         
-        wwa_nominator = 0.0
+        wwa_numerator = 0.0
         wwa_denominator = 0.0
         
         wv = work_sent_rel_dict[worker_id]
         sentence_ids = list(work_sent_rel_dict[worker_id].keys())
         
-        for sentence_id in work_sent_rel_dict[worker_id]:
-            for other_worker_id in sent_work_rel_dict[sentence_id]:
+        
+        for sentence_id in sentence_ids:
+            wv_sentence_id = wv[sentence_id]
+            sent_work_rel_dict_sentence_id = sent_work_rel_dict[sentence_id]
+            for other_worker_id in sent_work_rel_dict_sentence_id:
                 if worker_id != other_worker_id:
                     numerator = 0.0
                     denominator_w = 0.0
                     denominator_ow = 0.0
                     
-                    for relation in work_sent_rel_dict[worker_id][sentence_id]:
-                        numerator += rqs[relation] * (work_sent_rel_dict[worker_id][sentence_id][relation] *
-                                                      sent_work_rel_dict[sentence_id][other_worker_id][relation])
-                        denominator_w += rqs[relation] * (work_sent_rel_dict[worker_id][sentence_id][relation] *
-                                                          work_sent_rel_dict[worker_id][sentence_id][relation])
-                        denominator_ow += rqs[relation] * (sent_work_rel_dict[sentence_id][other_worker_id][relation] *
-                                                           sent_work_rel_dict[sentence_id][other_worker_id][relation])
+                    sent_work_rel_dict_sentence_id_other_worker_id = sent_work_rel_dict_sentence_id[other_worker_id]
+                    for relation in wv_sentence_id:
+                        sent_work_rel_dict_sentence_id_other_worker_id_relation = sent_work_rel_dict_sentence_id_other_worker_id[relation]
+                        wv_sentence_id_relation = wv_sentence_id[relation]       
+                   
+                        numerator += rqs[relation] * (wv_sentence_id_relation * sent_work_rel_dict_sentence_id_other_worker_id_relation)
+
+                        denominator_w += rqs[relation] * (wv_sentence_id_relation * wv_sentence_id_relation)
+
+                        denominator_ow += rqs[relation] * (sent_work_rel_dict_sentence_id_other_worker_id_relation *
+                                                           sent_work_rel_dict_sentence_id_other_worker_id_relation)
+
                     weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
-                    wwa_nominator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
+                    wwa_numerator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
         if wwa_denominator < 0.0001:
-          # pdb.set_trace()
-          wwa_denominator = 0.0001
-        return wwa_nominator / wwa_denominator
+            # pdb.set_trace()
+            wwa_denominator = 0.0001
+        return wwa_numerator / wwa_denominator
 
 
     # Sentence - Relation Score
     @staticmethod
     def sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs):
-        srs_nominator = 0.0
+        srs_numerator = 0.0
         srs_denominator = 0.0
         
-        for worker_id in sent_work_rel_dict[sentence_id]:
-            srs_nominator += sent_work_rel_dict[sentence_id][worker_id][relation] * wqs[worker_id]
+        worker_ids = sent_work_rel_dict[sentence_id]
+        for worker_id in worker_ids:
+            srs_numerator += worker_ids[worker_id][relation] * wqs[worker_id]
             srs_denominator += wqs[worker_id]
         # if srs_denominator < 0.0001:
         #  srs_denominator = 0.0001
         #    # pdb.set_trace()
-        return srs_nominator / srs_denominator
+        return srs_numerator / srs_denominator
 
 
     # Relation Quality Score
     @staticmethod
     def relation_quality_score(relations, work_sent_rel_dict, sqs, wqs):
-        
-        rqs_nominator = dict()
+        rqs_numerator = dict()
         rqs_denominator = dict()
         
         for relation in relations:
-            rqs_nominator[relation] = 0.0
+            rqs_numerator[relation] = 0.0
             rqs_denominator[relation] = 0.0
         
         worker_ids = work_sent_rel_dict.keys()
-        for worker_i in worker_ids:
-            for worker_j in worker_ids:
+        for worker_i, work_sent_rel_dict_worker_i in work_sent_rel_dict.iteritems():
+            #work_sent_rel_dict_worker_i = work_sent_rel_dict[worker_i]
+            work_sent_rel_dict_i_keys = work_sent_rel_dict_worker_i.keys()
+            for worker_j, work_sent_rel_dict_worker_j in work_sent_rel_dict.iteritems():
+                #work_sent_rel_dict_worker_j = work_sent_rel_dict[worker_j]
+                work_sent_rel_dict_j_keys = work_sent_rel_dict_worker_j.keys()
+                
                 #print worker_i, worker_j,np.intersect1d(np.array(work_sent_rel_dict[worker_i].keys()),np.array(work_sent_rel_dict[worker_j].keys()))
-                if worker_i != worker_j and len(np.intersect1d(np.array(work_sent_rel_dict[worker_i].keys()),np.array(work_sent_rel_dict[worker_j].keys()))) > 0:
+                if worker_i != worker_j and len(np.intersect1d(np.array(work_sent_rel_dict_i_keys),np.array(work_sent_rel_dict_j_keys))) > 0:
+                        
                     for relation in relations:
-                        nominator = 0.0
+                        numerator = 0.0
                         denominator = 0.0
 
-                        for sentence_id in work_sent_rel_dict[worker_i]:
-                            if sentence_id in work_sent_rel_dict[worker_j]:
+                        for sentence_id, work_sent_rel_dict_worker_i_sent in work_sent_rel_dict_worker_i.iteritems():
+                            if sentence_id in work_sent_rel_dict_worker_j:
+                                #work_sent_rel_dict_worker_i_sent = work_sent_rel_dict_worker_i[sentence_id]
+                                work_sent_rel_dict_worker_j_sent = work_sent_rel_dict_worker_j[sentence_id]
+
+                                work_sent_rel_dict_worker_j_sent_rel = work_sent_rel_dict_worker_j_sent[relation]
                                 #print worker_i,worker_j,sentence_id,relation
-                                nominator += sqs[sentence_id] * (work_sent_rel_dict[worker_i][sentence_id][relation] *
-                                                                 work_sent_rel_dict[worker_j][sentence_id][relation])
-                                denominator += sqs[sentence_id] * work_sent_rel_dict[worker_j][sentence_id][relation]
+                                numerator += sqs[sentence_id] * (work_sent_rel_dict_worker_i_sent[relation] *
+                                                                 work_sent_rel_dict_worker_j_sent_rel)
+                                denominator += sqs[sentence_id] * work_sent_rel_dict_worker_j_sent_rel
 
                         if denominator > 0:
-                            rqs_nominator[relation] += wqs[worker_i] * wqs[worker_j] * nominator / denominator
-                            rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]
+                            rqs_numerator[relation] += wqs[worker_i] * wqs[worker_j] * numerator / denominator
+                            rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]                    
+
+
         rqs = dict()
         for relation in relations:
-          if rqs_denominator[relation] > 0:
-            rqs[relation] = rqs_nominator[relation] / rqs_denominator[relation]
-            
-            # prevent division by zero by storing very small value instead
-            if rqs[relation] < 0.0001:
-              rqs[relation] = 0.0001
-          else:
-            rqs[relation] = 1.0
+            if rqs_denominator[relation] > 0:
+                rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
+                
+                # prevent division by zero by storing very small value instead
+                if rqs[relation] < 0.0001:
+                    rqs[relation] = 0.0001
+            else:
+                rqs[relation] = 1.0
         return rqs
+
+
+    @staticmethod
+    def relation_quality_score3(relations, work_sent_rel_dict, sqs, wqs):
+        rqs_numerator = dict()
+        rqs_denominator = dict()
+
+        for relation in relations:
+            rqs_numerator[relation] = 0.0
+            rqs_denominator[relation] = 0.0
+
+        worker_ids = work_sent_rel_dict.keys()
+        for worker_i, work_sent_rel_dict_worker_i in work_sent_rel_dict.iteritems():
+            #work_sent_rel_dict_worker_i = work_sent_rel_dict[worker_i]
+            work_sent_rel_dict_i_keys = work_sent_rel_dict_worker_i.keys()
+            for worker_j, work_sent_rel_dict_worker_j in work_sent_rel_dict.iteritems():
+                #work_sent_rel_dict_worker_j = work_sent_rel_dict[worker_j]
+                work_sent_rel_dict_j_keys = work_sent_rel_dict_worker_j.keys()
+
+                #print worker_i, worker_j,np.intersect1d(np.array(work_sent_rel_dict[worker_i].keys()),np.array(work_sent_rel_dict[worker_j].keys()))
+                if worker_i != worker_j and len(np.intersect1d(np.array(work_sent_rel_dict_i_keys),np.array(work_sent_rel_dict_j_keys))) > 0:
+
+                    for sentence_id, work_sent_rel_dict_worker_i_sent in work_sent_rel_dict_worker_i.iteritems():
+                        if sentence_id in work_sent_rel_dict_worker_j:
+                            work_sent_rel_dict_worker_j_sent = work_sent_rel_dict_worker_j[sentence_id]
+
+                            for relation in relations:
+                                numerator = 0.0
+                                denominator = 0.0
+                                #work_sent_rel_dict_worker_i_sent = work_sent_rel_dict_worker_i[sentence_id]
+
+                                work_sent_rel_dict_worker_j_sent_rel = work_sent_rel_dict_worker_j_sent[relation]
+                                #print worker_i,worker_j,sentence_id,relation
+                                numerator += sqs[sentence_id] * (work_sent_rel_dict_worker_i_sent[relation] *
+                                                                 work_sent_rel_dict_worker_j_sent_rel)
+                                denominator += sqs[sentence_id] * work_sent_rel_dict_worker_j_sent_rel
+
+                                if denominator > 0:
+                                    rqs_numerator[relation] += wqs[worker_i] * wqs[worker_j] * numerator / denominator
+                                    rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]
+
+
+        rqs = dict()
+        for relation in relations:
+            if rqs_denominator[relation] > 0:
+                rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
+
+                # prevent division by zero by storing very small value instead
+                if rqs[relation] < 0.0001:
+                    rqs[relation] = 0.0001
+            else:
+                rqs[relation] = 1.0
+        return rqs
+
+    @staticmethod
+    def relation_quality_score2(relations, work_sent_rel_dict, sqs, wqs):
+        rqs_numerator = dict()
+        rqs_denominator = dict()
+
+        for relation in relations:
+            rqs_numerator[relation] = 0.0
+            rqs_denominator[relation] = 0.0
+
+        worker_ids = work_sent_rel_dict.keys()
+        for worker_i in worker_ids:
+            work_sent_rel_dict_worker_i = work_sent_rel_dict[worker_i]
+            work_sent_rel_dict_i_keys = work_sent_rel_dict_worker_i.keys()
+            for worker_j in worker_ids:
+                work_sent_rel_dict_worker_j = work_sent_rel_dict[worker_j]
+                work_sent_rel_dict_j_keys = work_sent_rel_dict_worker_j.keys()
+
+                #print worker_i, worker_j,np.intersect1d(np.array(work_sent_rel_dict[worker_i].keys()),np.array(work_sent_rel_dict[worker_j].keys()))
+                if worker_i != worker_j and len(np.intersect1d(np.array(work_sent_rel_dict_i_keys),np.array(work_sent_rel_dict_j_keys))) > 0:
+
+                    for relation in relations:
+                        numerator = 0.0
+                        denominator = 0.0
+
+                        for sentence_id in work_sent_rel_dict_worker_i:
+                            if sentence_id in work_sent_rel_dict_worker_j:
+                                work_sent_rel_dict_worker_i_sent = work_sent_rel_dict_worker_i[sentence_id]
+                                work_sent_rel_dict_worker_j_sent = work_sent_rel_dict_worker_j[sentence_id]
+
+                                work_sent_rel_dict_worker_j_sent_rel = work_sent_rel_dict_worker_j_sent[relation]
+                                #print worker_i,worker_j,sentence_id,relation
+                                numerator += sqs[sentence_id] * (work_sent_rel_dict_worker_i_sent[relation] *
+                                                                 work_sent_rel_dict_worker_j_sent_rel)
+                                denominator += sqs[sentence_id] * work_sent_rel_dict_worker_j_sent_rel
+
+                        if denominator > 0:
+                            rqs_numerator[relation] += wqs[worker_i] * wqs[worker_j] * numerator / denominator
+                            rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]
+
+
+        rqs = dict()
+        for relation in relations:
+            if rqs_denominator[relation] > 0:
+                rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
+
+                # prevent division by zero by storing very small value instead
+                if rqs[relation] < 0.0001:
+                    rqs[relation] = 0.0001
+            else:
+                rqs[relation] = 1.0
+        return rqs
+
 
     @staticmethod
     def run(results, config, max_delta = 0.001):
@@ -315,19 +447,33 @@ class Metrics():
             iterations += 1 
             print str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta)
 
+            #if iterations == 1:
+            #    break
         #pprint(sqs_list)
         #pprint(wqs_list)
         #pprint(rqs_list)
         
         srs = Counter()
         for sentence_id in sent_rel_dict:
-          srs[sentence_id] = Counter()
-          for relation in sent_rel_dict[sentence_id]:
-            srs[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs_list[len(wqs_list) - 1])
+            srs[sentence_id] = Counter()
+            for relation in sent_rel_dict[sentence_id]:
+                srs[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs_list[len(wqs_list) - 1])
         
+        srs_initial = Counter()
+        for sentence_id in sent_rel_dict:
+            srs_initial[sentence_id] = Counter()
+            for relation in sent_rel_dict[sentence_id]:
+                srs_initial[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, relation, sent_work_rel_dict, wqs_list[0])
+
         results['units']['uqs'] = pd.Series(sqs_list[-1])
         results['units']['unit_annotation_score'] = pd.Series(srs)
         results['workers']['wqs'] = pd.Series(wqs_list[-1])
         if not config.open_ended_task:
             results['annotations']['aqs'] = pd.Series(rqs_list[-1])
+
+        results['units']['uqs_initial'] = pd.Series(sqs_list[1])
+        results['units']['unit_annotation_score_initial'] = pd.Series(srs_initial)
+        results['workers']['wqs_initial'] = pd.Series(wqs_list[1])
+        if not config.open_ended_task:
+            results['annotations']['aqs_initial'] = pd.Series(rqs_list[1])
         return results

@@ -14,6 +14,7 @@ from collections import Counter, OrderedDict
 import re
 import groundtruthController as groundtruth
 import pdb
+import cProfile
 
 pd.options.display.multi_sparse = False
 
@@ -22,6 +23,11 @@ pd.options.display.multi_sparse = False
 class OrderedCounter(Counter, OrderedDict):
 	pass
 
+def createOrderedCounter(orderedCounter, annotation_vector):
+	for relation in annotation_vector:
+		if relation not in orderedCounter:
+			orderedCounter.update({relation: 0})
+	return orderedCounter
 
 # Connect to MongoDB and call the connection "my-app".
 
@@ -48,16 +54,18 @@ def processFile(root, directory, filename, config):
 	judgments = None
 	
 	if directory != "":
-	  files = os.listdir(directory)
-	  for f in files:
-	    f_data = pd.read_csv(directory + "/" + f, sep = config.column_separator)
-	    
-	    if judgments is None:
-	      judgments = f_data
-	    else:
-	      judgments = judgments.append(f_data, ignore_index=True)
+		print(directory)
+		files = os.listdir(directory)
+		print(files)
+		for f in files:
+		    f_data = pd.read_csv(root+"/"+directory + "/" + f, sep = config.column_separator)
+		    
+		    if judgments is None:
+		    	judgments = f_data
+		    else:
+		      	judgments = judgments.append(f_data, ignore_index=True)
 	else:
-	  judgments = pd.read_csv(filename, sep = config.column_separator)
+	  	judgments = pd.read_csv(filename, sep = config.column_separator)
 
 #	if directory == '':
 #		directory = '/'
@@ -102,24 +110,36 @@ def processFile(root, directory, filename, config):
 	#config.annotation_vector = [x.replace("per:", "") for x in config.annotation_vector]
 	#config.annotation_vector = [x.replace("org:", "") for x in config.annotation_vector]
 	
+	#print judgments
+
+	n_judgments = len(judgments)
 	# make output values safe keys
 	for col in config.output.values():
-	  #judgments[col] = judgments[col].str.replace("per:", "")
-	  #judgments[col] = judgments[col].str.replace("org:", "")
-	  
-	  #judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
-	  #pdb.set_trace()
-	  
-	  if type(judgments[col].iloc[0]) is dict:
-	    judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x))
-	  else:
-	    judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(",")))
+		if type(judgments[col].iloc[0]) is dict:
+			print("is dict")
+			print(judgments[col].iloc[0])
+			if config.open_ended_task:
+				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x))
+			else:
+				judgements[col] = judgements[col].apply(lambda x: createOrderedCounter(OrderedCounter(x), config.annotation_vector))	
+		else:
+			print("is not dict")
+			print(judgments[col].iloc[0])
+			#judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(",")))
+			if config.open_ended_task:
+				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(config.annotation_separator)))
+			else:
+				judgments[col] = judgments[col].apply(lambda x: createOrderedCounter(OrderedCounter(x.split(config.annotation_separator)), config.annotation_vector))
+		#print judgments[col]
 
-	  if not config.open_ended_task:
-		  for idx in range(len(judgments)):
-		    for relation in config.annotation_vector:
-		      if relation not in judgments[col][idx]:
-		        judgments[col][idx].update({relation : 0})
+		#if not config.open_ended_task:
+		#	for idx in range(n_judgments):
+		#		crnt_test_dict = test_dict[idx]
+		#		for relation in config.annotation_vector:
+					#print type(judgments[col][idx])
+		#			if relation not in crnt_test_dict: #judgments[col][idx]:
+						#judgments[col][idx].update({relation : 0})
+		#				crnt_test_dict.update({relation: 0})
 
 
 	#outputData = {config.output[col]:row[col] for col in config.output}
@@ -134,8 +154,7 @@ def processFile(root, directory, filename, config):
 
 	progress(filename,.2)
 
-
-
+        #print(judgments)
 	# 
 
 
@@ -153,13 +172,13 @@ def processFile(root, directory, filename, config):
 	# compute worker agreement
 	#
 	for col in config.output.values():
-		judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
+	#	judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
 		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
 		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
-	progress(filename,.3)
+	#progress(filename,.3)
 
-	judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
-	progress(filename,.35)
+	#judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
+	#progress(filename,.35)
 
 
 
@@ -174,26 +193,27 @@ def processFile(root, directory, filename, config):
 
 
 	# get the thresholds
-	# workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
-	# workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
+	#workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
+	#workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
 
-	# #
-	# # tag spammers
-	# #
-	# workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
-	# progress(filename,.45)
+	#
+	# tag spammers
+	#
+	#workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
+	#workers['spam'] = []
+        #progress(filename,.45)
 
 
-	# # tag judgments that were spam
- # 	judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
- # 	# filteredJudgments = judgments[judgments['spam'] == False]
-  	filteredJudgments = judgments
+	# tag judgments that were spam
+ 	#judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
+ 	# filteredJudgments = judgments[judgments['spam'] == False]
+ 	#filteredJudgments = judgments
 
 	#
 	# aggregate units
 	#
-	units = Unit.aggregate(filteredJudgments, config)
-	progress(filename,.8)
+	#units = Unit.aggregate(judgments, config)
+	#progress(filename,.8)
 
 
 
@@ -204,7 +224,7 @@ def processFile(root, directory, filename, config):
 	annotations = pd.DataFrame()
 	for col in config.output.values():
 #		annotations[col] = pd.Series(judgments[col].sum())
-		res = pd.DataFrame(filteredJudgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
+		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
 	progress(filename,.85)
 
@@ -213,13 +233,13 @@ def processFile(root, directory, filename, config):
 	#
 	# aggregate job
 	#
-	job = Job.aggregate(units, filteredJudgments, workers, config)
-	# job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	# job['spam.judgments'] = workers['spam'].sum()
-	# job['spam.workers'] = workers['spam'].count()
-	# job['workerAgreementThreshold'] = workerAgreementThreshold
-	# job['workerCosineThreshold'] = workerCosineThreshold
-	progress(filename,.9)
+	#job = Job.aggregate(units, filteredJudgments, workers, config)
+	#job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
+	#job['spam.judgments'] = workers['spam'].sum()
+	#job['spam.workers'] = workers['spam'].count()
+	#job['workerAgreementThreshold'] = workerAgreementThreshold
+	#job['workerCosineThreshold'] = workerCosineThreshold
+	#progress(filename,.9)
 
 
 
@@ -227,7 +247,6 @@ def processFile(root, directory, filename, config):
 	# Clean up judgments
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	# judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
 	judgments = judgments[outputCol + platform.values() + ['duration','job']]
 	
 	# set judgment id as index
@@ -239,17 +258,19 @@ def processFile(root, directory, filename, config):
 
 
 	progress(filename,1)
-	
+	#print(units)
+        #print("\n\n\n\n\n")
 	# add missing vector values if closed task
 	for col in config.output.values():
 		if not config.open_ended_task:
-		  for idx in list(units.index):
-		    for relation in config.annotation_vector:
-		      if relation not in units[col][idx]:
-		        units[col][idx].update({relation : 0})
-
+		    for idx in list(units.index):
+		        for relation in config.annotation_vector:
+		            if relation not in units[col][idx]:
+		                units[col][idx].update({relation : 0})
+        #print(units)
+        #return
 	return {
-		'jobs' : job, 
+	#	'jobs' : job, 
 		'units' : units,
 		'workers' : workers,
 		'judgments' : judgments,

@@ -34,11 +34,12 @@ class CrowdTruth(CementApp):
 
 
 
-def scanDirectory(directory=''):
-    root = os.getcwd()
+def scanDirectory(directory='',root=''):
+    if root == '':
+        root = os.getcwd()
     files = os.listdir(root+directory)
     app.log.debug("Found directory "+root+directory)
-    print 'Directory:',directory
+    print 'Directory:',root,directory
 
 
     results = {
@@ -135,7 +136,7 @@ def scanDirectory(directory=''):
 
     # dive into subdirectories
     for f in subdirectories:
-        scanDirectory(directory+'/'+f)
+        scanDirectory(directory+'/'+f,root)
 
 
 
@@ -145,8 +146,8 @@ with CrowdTruth() as app:
     startTime = datetime.now()
 
     # add arguments to the parser
-    app.args.add_argument('-f', '--foo', action='store', metavar='STR',
-                          help='the notorious foo option')
+    app.args.add_argument('-d', '--dir', action='store', metavar='DIR',
+                          help='Set root directory (provide absolute path)')
 
     # log stuff
     app.log.debug("About to run my myapp application!")
@@ -155,11 +156,15 @@ with CrowdTruth() as app:
     app.run()
 
     # continue with additional application logic
-    #if app.pargs.foo:
-    #    app.log.info("Received option: foo => %s" % app.pargs.foo)
-
+    #
+    if app.pargs.dir:
+        scanDirectory(root=app.pargs.dir)
+    else:
+        scanDirectory()
     # verify that we have something to do
-    scanDirectory()
+
+
+
 
     app.log.info('Finished in ' + str(datetime.now() - startTime))
     
