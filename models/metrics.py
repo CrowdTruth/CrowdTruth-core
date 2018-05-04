@@ -9,6 +9,7 @@ from collections import defaultdict
 from pprint import pprint
 import math
 import pdb
+import logging
 
 class Metrics():
 
@@ -445,7 +446,7 @@ class Metrics():
             if not config.open_ended_task:
                 rqs_list.append(rqs_new.copy())
             iterations += 1 
-            print str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta)
+            logging.info(str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta))
 
             #if iterations == 1:
             #    break

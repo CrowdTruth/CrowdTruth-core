@@ -1,8 +1,8 @@
 import os
 from models import *
 import sys  
-reload(sys)  
-sys.setdefaultencoding('utf8')
+# reload(sys)  
+# sys.setdefaultencoding('utf8')
 import chardet
 #import Judgment, Worker, Unit, Job, Collection
 class Found(Exception): pass
@@ -15,6 +15,7 @@ import re
 import groundtruthController as groundtruth
 import pdb
 import cProfile
+import logging
 
 pd.options.display.multi_sparse = False
 
@@ -31,32 +32,22 @@ def createOrderedCounter(orderedCounter, annotation_vector):
 
 # Connect to MongoDB and call the connection "my-app".
 
-def progress(job_title, progress):
-	length = 10 # modify this to change the length
-	block = int(round(length*progress))
-	msg = "\r{0}: [{1}] {2}%".format(job_title, "#"*block + "-"*(length-block), round(progress*100))
-	if progress >= 1: msg += " DONE\r\n"
-	sys.stdout.write(msg)
-	sys.stdout.flush()
-
 
 def processFile(root, directory, filename, config):
 
-	progress(filename,0)
 	job = filename.split('.csv')[0]
 
 	#with open(root+'/'+directory+'/'+filename, 'rb') as f:
 	#    result = chardet.detect(f.read())  # or readline if the file is large
 	#    #print result['encoding']
-	progress(filename,.05)
 
 	# judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
 	judgments = None
 	
 	if directory != "":
-		print(directory)
+		logging.info("PROCESSING FOLDER: " + directory)
 		files = os.listdir(directory)
-		print(files)
+		logging.info("FILE LIST: { " + ", ".join(files) + " }")
 		for f in files:
 		    f_data = pd.read_csv(root+"/"+directory + "/" + f, sep = config.column_separator)
 		    
@@ -94,7 +85,6 @@ def processFile(root, directory, filename, config):
 
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
-	progress(filename,.1)
 	
 	allColumns = dict(config.input.items() + config.output.items() + platform.items())
 	judgments = judgments.rename(columns=allColumns)
@@ -103,7 +93,6 @@ def processFile(root, directory, filename, config):
 	judgments = judgments[allColumns.values()]
 
 	judgments['job'] = job
-	progress(filename,.15)
 	
 	# print("COLUMNS WE WANT: " + " ".join(config.output.values()))
 	
@@ -116,15 +105,15 @@ def processFile(root, directory, filename, config):
 	# make output values safe keys
 	for col in config.output.values():
 		if type(judgments[col].iloc[0]) is dict:
-			print("is dict")
-			print(judgments[col].iloc[0])
+			# print("is dict")
+			# print(judgments[col].iloc[0])
 			if config.open_ended_task:
 				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x))
 			else:
 				judgements[col] = judgements[col].apply(lambda x: createOrderedCounter(OrderedCounter(x), config.annotation_vector))	
 		else:
-			print("is not dict")
-			print(judgments[col].iloc[0])
+			# print("is not dict")
+			# print(judgments[col].iloc[0])
 			#judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(",")))
 			if config.open_ended_task:
 				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(config.annotation_separator)))
@@ -151,10 +140,6 @@ def processFile(root, directory, filename, config):
 	judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
-
-	progress(filename,.2)
-
-        #print(judgments)
 	# 
 
 
@@ -162,10 +147,6 @@ def processFile(root, directory, filename, config):
 	# aggregate units
 	#
 	units = Unit.aggregate(judgments, config)
-	progress(filename,.25)
-
-
-
 
 
 	#
@@ -175,21 +156,13 @@ def processFile(root, directory, filename, config):
 	#	judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
 		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
 		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
-	#progress(filename,.3)
 
 	#judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
-	#progress(filename,.35)
-
-
-
-
-
 
 	#
 	# aggregate workers
 	#
 	workers = Worker.aggregate(judgments, config)
-	progress(filename,.4)
 
 
 	# get the thresholds
@@ -201,7 +174,6 @@ def processFile(root, directory, filename, config):
 	#
 	#workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
 	#workers['spam'] = []
-        #progress(filename,.45)
 
 
 	# tag judgments that were spam
@@ -213,7 +185,6 @@ def processFile(root, directory, filename, config):
 	# aggregate units
 	#
 	#units = Unit.aggregate(judgments, config)
-	#progress(filename,.8)
 
 
 
@@ -226,7 +197,6 @@ def processFile(root, directory, filename, config):
 #		annotations[col] = pd.Series(judgments[col].sum())
 		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
-	progress(filename,.85)
 
 
 	
@@ -239,7 +209,6 @@ def processFile(root, directory, filename, config):
 	#job['spam.workers'] = workers['spam'].count()
 	#job['workerAgreementThreshold'] = workerAgreementThreshold
 	#job['workerCosineThreshold'] = workerCosineThreshold
-	#progress(filename,.9)
 
 
 
@@ -251,13 +220,10 @@ def processFile(root, directory, filename, config):
 	
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
-	progress(filename,.95)
 
 	# measure performance with ground truth
 	#job, units = groundtruth.process(job, units.copy(), config.groundtruth)
 
-
-	progress(filename,1)
 	#print(units)
         #print("\n\n\n\n\n")
 	# add missing vector values if closed task
@@ -276,11 +242,6 @@ def processFile(root, directory, filename, config):
 		'judgments' : judgments,
 		'annotations' : annotations
 		}
-
-	'''
-	#j.process(judgments, workers, units)
-	'''
-
 
 
 
