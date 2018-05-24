@@ -23,7 +23,7 @@ class Configuration():
 	# jobs to use
 	jobs = []
 	
-	column_separator = ','
+	csv_file_separator = ','
 	annotation_separator = ','
 
 

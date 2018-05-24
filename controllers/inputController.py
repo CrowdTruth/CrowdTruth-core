@@ -37,11 +37,6 @@ def processFile(root, directory, filename, config):
 
 	job = filename.split('.csv')[0]
 
-	#with open(root+'/'+directory+'/'+filename, 'rb') as f:
-	#    result = chardet.detect(f.read())  # or readline if the file is large
-	#    #print result['encoding']
-
-	# judgments = pd.read_csv(root+'/'+directory+'/'+filename)#, encoding=result['encoding'])
 	judgments = None
 	
 	if directory != "":
@@ -49,24 +44,21 @@ def processFile(root, directory, filename, config):
 		files = os.listdir(directory)
 		logging.info("FILE LIST: { " + ", ".join(files) + " }")
 		for f in files:
-		    f_data = pd.read_csv(root+"/"+directory + "/" + f, sep = config.column_separator)
+		    f_data = pd.read_csv(root+"/"+directory + "/" + f, sep = config.csv_file_separator)
 		    
 		    if judgments is None:
 		    	judgments = f_data
 		    else:
 		      	judgments = judgments.append(f_data, ignore_index=True)
 	else:
-	  	judgments = pd.read_csv(filename, sep = config.column_separator)
+		logging.info("PROCESSING FILE: " + filename)
+	  	judgments = pd.read_csv(filename, sep = config.csv_file_separator)
 
-#	if directory == '':
-#		directory = '/'
 
 	collection = directory
 
 	platform = getPlatform(judgments)
-	#print df.head()
 	
-
 	# we must establish which fields were part of the input data and which are output judgments
 	# if there is a config, check if there is a definition of which fields to use
 	#config = []
@@ -78,10 +70,8 @@ def processFile(root, directory, filename, config):
 		judgments = judgments[pd.isnull(judgments[col]) == False]
 	judgments = judgments.reset_index(drop=True)
 
-
 	# allow customization of the judgments
 	judgments = config.processJudgments(judgments)
-
 
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
@@ -93,54 +83,26 @@ def processFile(root, directory, filename, config):
 	judgments = judgments[allColumns.values()]
 
 	judgments['job'] = job
-	
-	# print("COLUMNS WE WANT: " + " ".join(config.output.values()))
-	
-	#config.annotation_vector = [x.replace("per:", "") for x in config.annotation_vector]
-	#config.annotation_vector = [x.replace("org:", "") for x in config.annotation_vector]
-	
-	#print judgments
 
 	n_judgments = len(judgments)
 	# make output values safe keys
 	for col in config.output.values():
 		if type(judgments[col].iloc[0]) is dict:
-			# print("is dict")
-			# print(judgments[col].iloc[0])
+			logging.info("Values stored as dictionary")
 			if config.open_ended_task:
 				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x))
 			else:
 				judgements[col] = judgements[col].apply(lambda x: createOrderedCounter(OrderedCounter(x), config.annotation_vector))	
 		else:
-			# print("is not dict")
-			# print(judgments[col].iloc[0])
-			#judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(",")))
+			logging.info("Values not stored as dictionary")
 			if config.open_ended_task:
 				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(config.annotation_separator)))
 			else:
 				judgments[col] = judgments[col].apply(lambda x: createOrderedCounter(OrderedCounter(x.split(config.annotation_separator)), config.annotation_vector))
-		#print judgments[col]
-
-		#if not config.open_ended_task:
-		#	for idx in range(n_judgments):
-		#		crnt_test_dict = test_dict[idx]
-		#		for relation in config.annotation_vector:
-					#print type(judgments[col][idx])
-		#			if relation not in crnt_test_dict: #judgments[col][idx]:
-						#judgments[col][idx].update({relation : 0})
-		#				crnt_test_dict.update({relation: 0})
-
-
-	#outputData = {config.output[col]:row[col] for col in config.output}
-	
-#	for col in config.output.values():
-#		judgments['annotations.'+col] = judgments[col].apply(lambda x: getAnnotations(x))
 
 	judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
-
-	# 
 
 
 	#
@@ -150,14 +112,12 @@ def processFile(root, directory, filename, config):
 
 
 	#
-	# compute worker agreement
+	# compute total number of annotations and total number of unique annotations
 	#
 	for col in config.output.values():
-	#	judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
 		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
-		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
+		judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
 
-	#judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
 
 	#
 	# aggregate workers
@@ -165,52 +125,13 @@ def processFile(root, directory, filename, config):
 	workers = Worker.aggregate(judgments, config)
 
 
-	# get the thresholds
-	#workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
-	#workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
-
 	#
-	# tag spammers
-	#
-	#workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
-	#workers['spam'] = []
-
-
-	# tag judgments that were spam
- 	#judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
- 	# filteredJudgments = judgments[judgments['spam'] == False]
- 	#filteredJudgments = judgments
-
-	#
-	# aggregate units
-	#
-	#units = Unit.aggregate(judgments, config)
-
-
-
-	#
-	# aggregate annotations
-	# i.e. output columns
+	# aggregate annotations, the output columns
 	#	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
-#		annotations[col] = pd.Series(judgments[col].sum())
 		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
-
-
-	
-	#
-	# aggregate job
-	#
-	#job = Job.aggregate(units, filteredJudgments, workers, config)
-	#job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	#job['spam.judgments'] = workers['spam'].sum()
-	#job['spam.workers'] = workers['spam'].count()
-	#job['workerAgreementThreshold'] = workerAgreementThreshold
-	#job['workerCosineThreshold'] = workerCosineThreshold
-
-
 
 
 	# Clean up judgments
@@ -221,11 +142,6 @@ def processFile(root, directory, filename, config):
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
 
-	# measure performance with ground truth
-	#job, units = groundtruth.process(job, units.copy(), config.groundtruth)
-
-	#print(units)
-        #print("\n\n\n\n\n")
 	# add missing vector values if closed task
 	for col in config.output.values():
 		if not config.open_ended_task:
@@ -233,25 +149,19 @@ def processFile(root, directory, filename, config):
 		        for relation in config.annotation_vector:
 		            if relation not in units[col][idx]:
 		                units[col][idx].update({relation : 0})
-        #print(units)
-        #return
-	return {
-	#	'jobs' : job, 
+	return { 
 		'units' : units,
 		'workers' : workers,
 		'judgments' : judgments,
 		'annotations' : annotations
 		}
 
-
-
 def getPlatform(df):
 	# Get the crowdsourcing platform this file originates to
 
 	if df.columns.values[0] == '_unit_id':
-		# CrowdFlower
+		# FigureEight, CrowdFlower
 		return {
-			#'_platform'		: 'cf',
 			'_id' 			: 'judgment',
 			'_unit_id' 		: 'unit',
 			'_worker_id' 	: 'worker',
@@ -261,7 +171,6 @@ def getPlatform(df):
 	elif df.columns.values[0] == 'HITId':
 		# Mturk
 		return {
-			#'id'		: 'amt',
 			'AssignmentId' 	: 'judgment',
 			'HITId' 		: 'unit',
 			'WorkerId' 		: 'worker',
@@ -269,7 +178,7 @@ def getPlatform(df):
 			'SubmitTime'	: 'submitted'
 		}
 	else:
-		# Not supported
+		# Users must define the following columns
 		return False
 
 
@@ -335,21 +244,3 @@ def getColumnTypes(df, config):
 	else:
 		# unknown platform type
 		return config	
-
-def getAnnotations(field, config = []):
-	return OrderedCounter(getSafeKey(str(field)))
-
-
-# turn values into safe mongo keys
-def getSafeKey(field):
-	pattern = re.compile('(?!,)[\W_]+')
-	cleanField = re.sub(' +',' ', field.replace('"','').lower().strip())
-	# see if the string is an array
-	fields = map(lambda x: pattern.sub(' ', x).strip().replace(' ', '_'), re.split(',|\|',cleanField))
-	
-	fields = [f for f in fields if len(f) > 0]
-	
-	if len(fields):
-		return fields
-	else:
-		return ['__None__']
