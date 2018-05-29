@@ -74,9 +74,17 @@ def processFile(root, directory, filename, config):
 	config = getColumnTypes(judgments, config)
 
 	# remove rows where the worker did not give an answer (AMT issue)
+	empty_rows = set()
+	for col in config.outputColumns:
+		empty_rows = empty_rows.union(judgments[pd.isnull(judgments[col]) == True].index)
 	for col in config.outputColumns:
 		judgments = judgments[pd.isnull(judgments[col]) == False]
 	judgments = judgments.reset_index(drop=True)
+	if len(empty_rows) > 0:
+		if len(empty_rows) == 1:
+			logging.warning(str(len(empty_rows)) + " row with incomplete information in output columns was removed.")
+		else:
+			logging.warning(str(len(empty_rows)) + " rows with incomplete information in output columns were removed.")
 
 
 	# allow customization of the judgments
@@ -140,7 +148,16 @@ def processFile(root, directory, filename, config):
 	judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
-	# 
+	# remove units with just 1 judgment
+	units_1work = judgments.groupby('unit').filter(lambda x: len(x) == 1)["unit"]
+	judgments = judgments[~judgments['unit'].isin(units_1work)]
+	judgments = judgments.reset_index(drop=True)
+	if len(units_1work) > 0:
+		if len(units_1work) == 1:
+			logging.warning(str(len(units_1work)) + " Media Unit that was annotated by only 1 Worker was omitted, since agreement cannot be calculated.")
+		else:
+			logging.warning(str(len(units_1work)) + " Media Units that were annotated by only 1 Worker were omitted, since agreement cannot be calculated.")
+	# pdb.set_trace()
 
 
 	#
