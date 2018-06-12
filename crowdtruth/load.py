@@ -4,7 +4,10 @@ from models.metrics import *
 from models.worker import *
 from models.unit import *
 from models.job import *
+from configuration import DefaultConfig
 
+import logging
+import pdb
 
 import sys  
 #reload(sys)  
@@ -28,45 +31,15 @@ class OrderedCounter(Counter, OrderedDict):
 
 class Found(Exception): pass
 
-class DefaultConfig():
-
-	name = '' # collection name
-	inputColumns = [] # inputColumns to use
-	outputColumns = [] # outputColumns to use
-	open_ended_task = True
-	annotation_vector = []
-
-	units = [] 	# units to use
-	workers = [] # workers to use
-	jobs = [] # jobs to use
-
-
-	def processUnit(self, unit):
-		return True
-
-	def processWorker(self, worker):
-		return True
-
-	def processJudgments(self, judgments):
-		return judgments
-
-	def processResults(self, results, config=[]):
-		return results
-
-
-
-
-
-
-
 
 def progress(job_title, progress):
 	length = 10 # modify this to change the length
 	block = int(round(length*progress))
 	msg = "\r{0}: [{1}] {2}%".format(job_title, "#"*block + "-"*(length-block), round(progress*100))
 	if progress >= 1: msg += " DONE\r\n"
-	sys.stdout.write(msg)
-	sys.stdout.flush()
+	# sys.stdout.write(msg)
+	# sys.stdout.flush()
+	# logging.info(msg)
 
 def getFileList(directory):
 	filelist = []
@@ -101,7 +74,7 @@ def load(**kwargs):
 	if 'config' not in kwargs:
 		config = DefaultConfig()
 	else:
-		print 'Config loaded'
+		logging.info('Config loaded')
 		config = kwargs['config']
 
 	# check if files is a single file or folder
@@ -110,14 +83,14 @@ def load(**kwargs):
 	elif('directory' in kwargs):
 		directory = kwargs['directory']
 		files = getFileList(directory)
-		print 'Found ',len(files),' files'
+		logging.info('Found ' + str(len(files)) + ' files')
 	else:
 		raise ValueError('No input was provided')
 
 
 	for f in files:
 		if 'directory' in locals():
-			print f
+			logging.info("Processing " + f)
 			f = directory+f
 		res, config = processFile(f, config)
 		for x in res:
@@ -195,8 +168,6 @@ def processFile(filename, config):
 	collection = ''
 
 	platform = getPlatform(judgments)
-	#print df.head()
-	
 
 	# we must establish which fields were part of the input data and which are output judgments
 	# if there is a config, check if there is a definition of which fields to use
@@ -204,10 +175,21 @@ def processFile(filename, config):
 	# else use the default and select them automatically
 	config = getColumnTypes(judgments, config)
 
-	#print judgments.head()
+	# remove rows where the worker did not give an answer (AMT issue)
+	empty_rows = set()
+	for col in config.outputColumns:
+		empty_rows = empty_rows.union(judgments[pd.isnull(judgments[col]) == True].index)
+	for col in config.outputColumns:
+		judgments = judgments[pd.isnull(judgments[col]) == False]
+	judgments = judgments.reset_index(drop=True)
+	if len(empty_rows) > 0:
+		if len(empty_rows) == 1:
+			logging.warning(str(len(empty_rows)) + " row with incomplete information in output columns was removed.")
+		else:
+			logging.warning(str(len(empty_rows)) + " rows with incomplete information in output columns were removed.")
+
 	# allow customization of the judgments
 	judgments = config.processJudgments(judgments)
-
 
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
@@ -224,28 +206,35 @@ def processFile(filename, config):
 
 	# make output values safe keys
 	for col in config.output.values():
-		judgments[col] = judgments[col].apply(lambda x: getAnnotations(x))
-		try:
-			openended = config.open_ended_task
-			for idx in range(len(judgments)):
-				for relation in config.annotation_vector:
-					if relation not in judgments[col][idx]:
-						judgments[col][idx].update({relation : 0})
-		except AttributeError:
-			continue
-
-	#outputData = {config.output[col]:row[col] for col in config.output}
-	
-#	for col in config.output.values():
-#		judgments['annotations.'+col] = judgments[col].apply(lambda x: getAnnotations(x))
+		if type(judgments[col].iloc[0]) is dict:
+			logging.info("Values stored as dictionary")
+			if config.open_ended_task:
+				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x))
+			else:
+				judgements[col] = judgements[col].apply(lambda x: createOrderedCounter(OrderedCounter(x), config.annotation_vector))	
+		else:
+			logging.info("Values not stored as dictionary")
+			if config.open_ended_task:
+				judgments[col] = judgments[col].apply(lambda x: OrderedCounter(x.split(config.annotation_separator)))
+			else:
+				judgments[col] = judgments[col].apply(lambda x: createOrderedCounter(OrderedCounter(x.split(config.annotation_separator)), config.annotation_vector))
 
 	judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
 	judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds, axis=1)
 
+	# remove units with just 1 judgment
+	units_1work = judgments.groupby('unit').filter(lambda x: len(x) == 1)["unit"]
+	judgments = judgments[~judgments['unit'].isin(units_1work)]
+	judgments = judgments.reset_index(drop=True)
+	if len(units_1work) > 0:
+		if len(units_1work) == 1:
+			logging.warning(str(len(units_1work)) + " Media Unit that was annotated by only 1 Worker was omitted, since agreement cannot be calculated.")
+		else:
+			logging.warning(str(len(units_1work)) + " Media Units that were annotated by only 1 Worker were omitted, since agreement cannot be calculated.")
+
 
 	progress(filename,.2)
-
 
 
 	# 
@@ -410,28 +399,29 @@ def getPlatform(df):
 
 
 def getColumnTypes(df, config):
+
+	# returns a list of columns that contain are input content
+	config.input = {}
+	config.output = {}
+
 	# get a dict of the columns with input content and the columns with output judgments
 	# each entry matches [original column name]:[safestring column name]
-
 	if df.columns.values[0] == 'HITId':
 		# Mturk
 		# if config is specified, use those columns
 		if config.inputColumns:
-			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.replace('Input.','') in config.inputColumns}
+			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c in config.inputColumns}
 		else:
 			config.input = {c:'input.'+c.replace('Input.','') for c in df.columns.values if c.startswith('Input.')}
 		
 		# if config is specified, use those columns
 		if config.outputColumns:
-			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.replace('Answer.','') in config.outputColumns}
+			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c in config.outputColumns}
 		else:
 			config.output = {c:'output.'+c.replace('Answer.','') for c in df.columns.values if c.startswith('Answer.')}
 		return config
 
 	elif df.columns.values[0] == '_unit_id':
-		# returns a list of columns that contain are input content
-		config.input = {}
-		config.output = {}
 
 		# if a config is specified, use those columns
 		if config.inputColumns:
@@ -471,6 +461,7 @@ def getColumnTypes(df, config):
 	else:
 		# unknown platform type
 		return config	
+
 
 def getAnnotations(field, config = []):
 	return OrderedCounter(getSafeKey(str(field)))

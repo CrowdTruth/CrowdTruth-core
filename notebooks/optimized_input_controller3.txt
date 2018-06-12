@@ -1,0 +1,27 @@
+4287
+crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [----------] 0.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [#---------] 5.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [#---------] 10.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [##--------] 15.0%is not dict
+normal--restored
+crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [##--------] 20.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [###-------] 25.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [####------] 40.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [#########-] 85.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [##########] 95.0%crowdflower/causal_relation_noOffset_lemma_all_batch3.csv: [##########] 100.0% DONE
+./run_metrics_batch3.py:52: FutureWarning: sort(columns=....) is deprecated, use sort_values(by=.....)
+  sortWQS = processed_results_noOffsets["workers"].sort(['wqs'], ascending=[1])
+./run_metrics_batch3.py:55: FutureWarning: sort(columns=....) is deprecated, use sort_values(by=.....)
+  sortAQS = processed_results_noOffsets["annotations"].sort(['aqs'], ascending=[1])
+./run_metrics_batch3.py:58: FutureWarning: sort(columns=....) is deprecated, use sort_values(by=.....)
+  sortUQS = processed_results_noOffsets["units"].sort(['uqs'], ascending=[1])
+1 iterations; max d= 0.9999 ; wqs d= 0.818332017857; sqs d= 0.687603662865; rqs d= 0.720975110267
+2 iterations; max d= 0.544479419901 ; wqs d= 0.0956255852367; sqs d= 0.105966423493; rqs d= 0.0774818697661
+3 iterations; max d= 0.106525936082 ; wqs d= 0.0163179671377; sqs d= 0.0165576765495; rqs d= 0.0116410032299
+4 iterations; max d= 0.043010630763 ; wqs d= 0.00583998798605; sqs d= 0.00738372292108; rqs d= 0.00463347066048
+5 iterations; max d= 0.0227115708987 ; wqs d= 0.00166174680683; sqs d= 0.00186703461821; rqs d= 0.0012901892751
+6 iterations; max d= 0.00753394426132 ; wqs d= 0.000840104392821; sqs d= 0.000884318210646; rqs d= 0.000511402858085
+7 iterations; max d= 0.00591409573983 ; wqs d= 0.000324126398556; sqs d= 0.000423792000365; rqs d= 0.000265979222975
+8 iterations; max d= 0.0025929878396 ; wqs d= 0.000195484694509; sqs d= 0.000173068411762; rqs d= 9.70047294245e-05
+9 iterations; max d= 0.00221364799777 ; wqs d= 9.67543093325e-05; sqs d= 0.000138733223101; rqs d= 7.83282497378e-05
+10 iterations; max d= 0.00114389679267 ; wqs d= 7.00334524602e-05; sqs d= 7.31297993887e-05; rqs d= 3.77322429145e-05
+11 iterations; max d= 0.00127565602839 ; wqs d= 4.54191533313e-05; sqs d= 6.32613408389e-05; rqs d= 3.05464490403e-05
+12 iterations; max d= 0.00097368590363 ; wqs d= 3.61794603481e-05; sqs d= 4.43710318895e-05; rqs d= 1.90032620026e-05
+['duration', 'input.events1', 'input.pair1_noOffset', 'input.pair2_noOffset', 'input.pair3_noOffset', 'input.pair4_noOffset', 'input.pair5_noOffset', 'input.pair6_noOffset', 'input.relations', 'input.sentence1', 'input.sentence1_id', 'job', 'output.relations_noOffset', 'output.relations_noOffset.annotations', 'output.relations_noOffset.unique_annotations', 'worker', 'uqs', 'unit_annotation_score', 'uqs_initial', 'unit_annotation_score_initial']
+['duration', 'output.relations_noOffset.count', 'job', 'judgment', 'unit', 'wqs', 'wqs_initial']
+['output.relations_noOffset', 'aqs', 'aqs_initial']
+15975.48user 95.25system 4:27:50elapsed 100%CPU (0avgtext+0avgdata 13839016maxresident)k
+16inputs+8304outputs (0major+117083344minor)pagefaults 0swaps

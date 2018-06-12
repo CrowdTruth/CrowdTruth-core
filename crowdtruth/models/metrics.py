@@ -8,6 +8,7 @@ from datetime import datetime
 from collections import defaultdict
 from pprint import pprint
 import math
+import logging
 
 class Metrics():
 
@@ -47,7 +48,9 @@ class Metrics():
                     weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
-        
+
+        if sqs_denominator < 0.0001:
+          sqs_denominator = 0.0001
         return sqs_numerator / sqs_denominator
 
 
@@ -85,6 +88,8 @@ class Metrics():
                 weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
             wsa_nominator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
+        if wsa_denominator < 0.0001:
+            wsa_denominator = 0.0001
         return wsa_nominator / wsa_denominator
 
 
@@ -128,6 +133,8 @@ class Metrics():
 
                     wwa_nominator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
+        if wwa_denominator < 0.0001:
+            wwa_denominator = 0.0001
         return wwa_nominator / wwa_denominator
 
 
@@ -175,7 +182,14 @@ class Metrics():
                             rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]
         rqs = dict()
         for relation in relations:
-            rqs[relation] = rqs_nominator[relation] / rqs_denominator[relation]
+            if rqs_denominator[relation] > 0:
+                rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
+                
+                # prevent division by zero by storing very small value instead
+                if rqs[relation] < 0.0001:
+                    rqs[relation] = 0.0001
+            else:
+                rqs[relation] = 1.0
         return rqs
 
     @staticmethod
@@ -300,7 +314,7 @@ class Metrics():
             wsa_list.append(wsa_new.copy())
             
             iterations += 1 
-            print str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta)
+            logging.info(str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta))
 
         #pprint(sqs_list)
         #pprint(wqs_list)
