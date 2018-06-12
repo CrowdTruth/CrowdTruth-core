@@ -28,6 +28,12 @@ import re
 class OrderedCounter(Counter, OrderedDict):
 	pass
 
+def createOrderedCounter(orderedCounter, annotation_vector):
+	for relation in annotation_vector:
+		if relation not in orderedCounter:
+			orderedCounter.update({relation: 0})
+	return orderedCounter
+
 
 class Found(Exception): pass
 

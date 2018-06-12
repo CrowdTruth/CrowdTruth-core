@@ -183,7 +183,7 @@ class Metrics():
         rqs = dict()
         for relation in relations:
             if rqs_denominator[relation] > 0:
-                rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
+                rqs[relation] = rqs_nominator[relation] / rqs_denominator[relation]
                 
                 # prevent division by zero by storing very small value instead
                 if rqs[relation] < 0.0001:
