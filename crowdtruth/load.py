@@ -97,7 +97,7 @@ def load(**kwargs):
 	for f in files:
 		if 'directory' in locals():
 			logging.info("Processing " + f)
-			f = directory+f
+			f = directory + "/" + f
 		res, config = processFile(f, config)
 		for x in res:
 			results[x].append(res[x])
