@@ -10,18 +10,13 @@ import logging
 import pdb
 
 import sys  
-#reload(sys)  
-#sys.setdefaultencoding('utf8')
 import chardet
-#import Judgment, Worker, Unit, Job, Collection
 import re, string
 import pandas as pd
 import numpy as np
 from datetime import datetime
 from collections import Counter, OrderedDict
 import re
-#import groundtruthController as groundtruth
-#pd.options.display.multi_sparse = False
 
 
 # create an ordered counter so that we can maintain the position of tags in the order they were annotated
@@ -37,15 +32,6 @@ def createOrderedCounter(orderedCounter, annotation_vector):
 
 class Found(Exception): pass
 
-
-def progress(job_title, progress):
-	length = 10 # modify this to change the length
-	block = int(round(length*progress))
-	msg = "\r{0}: [{1}] {2}%".format(job_title, "#"*block + "-"*(length-block), round(progress*100))
-	if progress >= 1: msg += " DONE\r\n"
-	# sys.stdout.write(msg)
-	# sys.stdout.flush()
-	# logging.info(msg)
 
 def getFileList(directory):
 	filelist = []
@@ -68,7 +54,6 @@ def load(**kwargs):
 
 	# placeholder for aggregated results
 	results = {
-		#'collections' : {},
 		'jobs' : [],
 		'units' : [],
 		'workers' : [],
@@ -113,64 +98,21 @@ def load(**kwargs):
 		'judgment' : 'sum',
 		'job' : 'count',
 		'duration' : 'mean'
-		#'spam' : 'sum',
-		#'worker-cosine' : 'mean',
-		#'worker-agreement' : 'mean'
 		})
-
-
 
 	# aggregate annotations
 	results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
 	
-
-	#
-	# compute correlations
-	#
-	# remove 'output.' from the annotation column names
-	
-
-	# How many times person a meets person b is described by the following (s.t. a < b)
-
-
-	# DataFrames corr() function calculates pairwise correlations using specified 
-	# algorithm: 'peason, 'kendall', and 'spearman' are supported.
-	# Correlations are returned in a new DataFrame instance (corr_df below).
-	#likert_corr_df = likert.corr(method='pearson')
-	#likert_corr_df.to_csv(wd+'/results/likert_correlations.csv', sep=',')
-
-	# CT metrics 2.0
-	#results = Metrics.run(results, config)
-
-	# add customized results
-#	for c in config.output.items():
-#		results['units'][c[1]] = results['units'][c[1]].apply(lambda x: dict(x))
-
-	# clean up judgments
-#	for col in config.output.values():
-		#print col
-		#results['judgments'][col] = results['judgments'][col].apply(lambda x: ','.join(x.keys()))
-
-
 	return results, config
 
 
 def processFile(filename, config):
 
-	progress(filename,0)
-	job = filename.split('.csv')[0]
 
-	#with open(root+'/'+directory+'/'+filename, 'rb') as f:
-	#    result = chardet.detect(f.read())  # or readline if the file is large
-	#    #print result['encoding']
-	progress(filename,.05)
+	job = filename.split('.csv')[0]
 
 	judgments = pd.read_csv(filename)#, encoding=result['encoding'])
 
-	#if directory == '':
-	#	directory = '/'
-
-#	collection = directory
 	collection = ''
 
 	platform = getPlatform(judgments)
@@ -199,7 +141,6 @@ def processFile(filename, config):
 
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
-	progress(filename,.1)
 
 	allColumns = dict(config.input.items() + config.output.items() + platform.items())
 	judgments = judgments.rename(columns=allColumns)
@@ -208,7 +149,6 @@ def processFile(filename, config):
 	judgments = judgments[allColumns.values()]
 
 	judgments['job'] = job
-	progress(filename,.15)
 
 	# make output values safe keys
 	for col in config.output.values():
@@ -239,116 +179,44 @@ def processFile(filename, config):
 		else:
 			logging.warning(str(len(units_1work)) + " Media Units that were annotated by only 1 Worker were omitted, since agreement cannot be calculated.")
 
-
-	progress(filename,.2)
-
-
-	# 
-
-
 	#
 	# aggregate units
 	#
 	units = Unit.aggregate(judgments, config)
-	progress(filename,.25)
 
-
-
-
-
-	#
-	# compute worker agreement
-	#
-	#for col in config.output.values():
-	#	judgments[col+'.agreement'] = judgments.apply(lambda row: Worker.getUnitAgreement(row[col], units.at[row['unit'], col]), axis=1)	
-	#	judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
-		#judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
-	progress(filename,.3)
-
-	#judgments['worker-cosine'] = 1 - judgments.apply(lambda row: np.array([row[col+'.agreement'] for col in config.output.values()]).mean(), axis=1)
-	progress(filename,.35)
-
-
-
-
+	for col in config.output.values():
+		judgments[col+'.count'] = judgments[col].apply(lambda x: sum(x.values()))	
+		judgments[col+'.unique'] = judgments[col].apply(lambda x: len(x))	
 
 
 	#
 	# aggregate workers
 	#
 	workers = Worker.aggregate(judgments, config)
-	progress(filename,.4)
-
-
-	# get the thresholds
-	#workerAgreementThreshold = workers['worker-agreement'].mean() - (2 * workers['worker-agreement'].std())
-	#workerCosineThreshold = judgments['worker-cosine'].mean() + (2 * judgments['worker-cosine'].std())
-
-	#
-	# tag spammers
-	#
-	#workers['spam'] = (workers['worker-agreement'] < workerAgreementThreshold) & (workers['worker-cosine'] > workerCosineThreshold)
-	progress(filename,.45)
-
-
-	# tag judgments that were spam
-	#judgments['spam'] = judgments['worker'].apply(lambda x: workers.at[x,'spam'])
-	#filteredJudgments = judgments[judgments['spam'] == False]
-
-	#
-	# aggregate units
-	#
-	#units = Unit.aggregate(filteredJudgments, config)
-	units = Unit.aggregate(judgments, config)
-	progress(filename,.8)
-
 
 
 	#
 	# aggregate annotations
 	# i.e. output columns
 	#	
-	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
-#		annotations[col] = pd.Series(judgments[col].sum())
 		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
-	progress(filename,.85)
-
-
 	
 	#
 	# aggregate job
 	#
-	#job = Job.aggregate(units, filteredJudgments, workers, config)
 	job = Job.aggregate(units, judgments, workers, config)
-	#job['spam'] = workers['spam'].sum() / float(workers['spam'].count())
-	#job['spam.judgments'] = workers['spam'].sum()
-	#job['spam.workers'] = workers['spam'].count()
-	#job['workerAgreementThreshold'] = workerAgreementThreshold
-	#job['workerCosineThreshold'] = workerCosineThreshold
-	progress(filename,.9)
-
-
-
 
 	# Clean up judgments
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	#judgments = judgments[outputCol + platform.values() + ['duration','job','spam']]
 	judgments = judgments[outputCol + platform.values() + ['duration','job']]
 	
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)
-	progress(filename,.95)
 
-	# measure performance with ground truth
-	#job, units = groundtruth.process(job, units.copy(), config.groundtruth)
-
-
-	progress(filename,1)
-	
 	# add missing vector values if closed task
 	for col in config.output.values():
 		try:
@@ -367,12 +235,6 @@ def processFile(filename, config):
 		'judgments' : judgments,
 		'annotations' : annotations,
 		}, config
-
-	'''
-	#j.process(judgments, workers, units)
-	'''
-
-
 
 
 def getPlatform(df):
@@ -446,44 +308,21 @@ def getColumnTypes(df, config):
 		units = df.groupby('_unit_id')
 		columns = [c for c in df.columns.values if c <> 'clustering' and not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
 		for c in columns:
-#			if df[c].nunique() == 1:
-				# ignore the column if all values are the same
-#				continue
 			try:
 				for i, unit in units:
 					unique = unit[c].nunique()
 					if unique <> 1 and unique <> 0:
 						raise Found
-#				print 'input:',c
 				if not config.inputColumns:
 					config.input[c] = 'input.'+c
 
 			except Found:
 				if not config.outputColumns:
 					config.output[c] = 'output.'+c
-#				print 'output:',c
 
 		return config
 	else:
 		# unknown platform type
 		return config	
 
-
-def getAnnotations(field, config = []):
-	return OrderedCounter(getSafeKey(str(field)))
-
-
-# turn values into safe mongo keys
-def getSafeKey(field):
-	pattern = re.compile('(?!,)[\W_]+')
-	cleanField = re.sub(' +',' ', field.replace('"','').lower().strip())
-	# see if the string is an array
-	fields = map(lambda x: pattern.sub(' ', x).strip().replace(' ', '_'), re.split(',|\||\n',cleanField))
-	
-	fields = [f for f in fields if len(f) > 0]
-	
-	if len(fields):
-		return fields
-	else:
-		return ['__None__']
 
