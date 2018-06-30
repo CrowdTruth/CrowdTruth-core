@@ -19,6 +19,8 @@ from collections import Counter, OrderedDict
 import re
 
 
+
+
 # create an ordered counter so that we can maintain the position of tags in the order they were annotated
 class OrderedCounter(Counter, OrderedDict):
 	pass
@@ -32,6 +34,12 @@ def createOrderedCounter(orderedCounter, annotation_vector):
 
 class Found(Exception): pass
 
+def validateTimestampField(date_string, date_format):
+	try:
+	  date_obj = datetime.datetime.strptime(date_string, date_format)
+	  print(date_obj)
+	except ValueError:
+	  raise ValueError('Incorrect date format')
 
 def getFileList(directory):
 	filelist = []
@@ -50,7 +58,6 @@ def getFileList(directory):
 	return filelist
 
 def load(**kwargs):
-
 
 	# placeholder for aggregated results
 	results = {
@@ -116,6 +123,24 @@ def processFile(filename, config):
 	collection = ''
 
 	platform = getPlatform(judgments)
+
+	if platform == False:
+		logging.info("Custom crowdsourcing platform!")
+
+		if (len(config.customPlatformColumns) != 5):
+			logging.warning("The following column names are required: judgment id, unit id, worker id, start time, submit time")
+			raise ValueError('No custom platform configuration was provided')
+		else:
+
+			platform = {
+				#'id'		: 'custom',
+				config.customPlatformColumns[0] : 'judgment',
+				config.customPlatformColumns[1] : 'unit',
+				config.customPlatformColumns[2] : 'worker',
+				config.customPlatformColumns[3]	: 'started',
+				config.customPlatformColumns[4]	: 'submitted'
+			}
+
 
 	# we must establish which fields were part of the input data and which are output judgments
 	# if there is a config, check if there is a definition of which fields to use
@@ -261,7 +286,7 @@ def getPlatform(df):
 			'SubmitTime'	: 'submitted'
 		}
 	else:
-		# Not supported
+		
 		return False
 
 
@@ -323,6 +348,12 @@ def getColumnTypes(df, config):
 		return config
 	else:
 		# unknown platform type
-		return config	
 
-
+		# if a config is specified, use those columns
+		if config.inputColumns:
+			config.input = {c:'input.'+c for c in df.columns.values if c in config.inputColumns}
+		if config.outputColumns:
+			config.output = {c:'output.'+c for c in df.columns.values if c in config.outputColumns}
+		# if there is a config for both input and output columns, we can return those
+		if config.inputColumns and config.outputColumns:
+			return config

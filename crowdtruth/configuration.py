@@ -3,6 +3,7 @@ class DefaultConfig():
 	name = '' # collection name
 	inputColumns = [] # inputColumns to use
 	outputColumns = [] # outputColumns to use
+	customPlatformColumns = []
 	open_ended_task = True
 	annotation_vector = []
 
