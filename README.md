@@ -4,7 +4,7 @@ This library processes crowdsourcing results from Amazon Mechanical Turk and Cro
 
 ## Installation
 
-To install the stable version from PyPI, *pip* for your OS, then install using `pip install crowdtruth`
+To install the stable version from PyPI, install *pip* for your OS, then install package using `pip install crowdtruth`
 
 To install the latest version from source, download the library and install it using `python setup.py develop`
 
