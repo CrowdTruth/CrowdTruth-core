@@ -1,4 +1,7 @@
 # CrowdTruth
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1304310.svg)](https://doi.org/10.5281/zenodo.1304310)
+
 This library processes crowdsourcing results from Amazon Mechanical Turk and CrowdFlower following the CrowdTruth methodology. For more information see http://crowdtruth.org.
 
 
@@ -36,3 +39,20 @@ Custom configuration can be added by creating a class that inherits from `Defaul
 ### Documentation
 
 A full description of the metrics is available [here](http://crowdtruth.org/wp-content/uploads/2018/07/metrics-capturing-ambiguity.pdf).
+
+If you use this software in your research, please consider citing:
+
+```
+@misc{anca_dumitrache_2018_1304310,
+  author       = {Anca Dumitrache and
+                  Oana Inel and
+                  Benjamin Timmermans and
+                  Lora Aroyo and
+                  Chris Welty},
+  title        = {CrowdTruth Metrics 2.0},
+  month        = jul,
+  year         = 2018,
+  doi          = {10.5281/zenodo.1304310},
+  url          = {https://doi.org/10.5281/zenodo.1304310}
+}
+```
