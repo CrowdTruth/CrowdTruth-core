@@ -217,8 +217,6 @@ class Metrics():
 
     @staticmethod
     def run(results, config, max_delta = 0.001):
-
-        logging.info("Using experimental version a2")
         
         judgments = results['judgments'].copy()
         units = results['units'].copy()
