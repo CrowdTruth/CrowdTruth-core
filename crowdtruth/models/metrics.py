@@ -10,6 +10,8 @@ from pprint import pprint
 import math
 import logging
 
+SMALL_NUMBER_CONST = 0.00000001
+
 class Metrics():
 
 
@@ -51,8 +53,8 @@ class Metrics():
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
         
-        if sqs_denominator < 0.0001:
-          sqs_denominator = 0.0001
+        if sqs_denominator < SMALL_NUMBER_CONST:
+          sqs_denominator = SMALL_NUMBER_CONST
         return sqs_numerator / sqs_denominator
 
 
@@ -90,8 +92,8 @@ class Metrics():
             weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
             wsa_numerator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
-        if wsa_denominator < 0.0001:
-            wsa_denominator = 0.0001
+        if wsa_denominator < SMALL_NUMBER_CONST:
+            wsa_denominator = SMALL_NUMBER_CONST
         #    # pdb.set_trace()
         return wsa_numerator / wsa_denominator
 
@@ -139,9 +141,8 @@ class Metrics():
                     weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
                     wwa_numerator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
-        if wwa_denominator < 0.0001:
-            # pdb.set_trace()
-            wwa_denominator = 0.0001
+        if wwa_denominator < SMALL_NUMBER_CONST:
+            wwa_denominator = SMALL_NUMBER_CONST
         return wwa_numerator / wwa_denominator
 
 
@@ -156,9 +157,8 @@ class Metrics():
         for worker_id in worker_ids:
             srs_numerator += worker_ids[worker_id][relation] * wqs[worker_id]
             srs_denominator += wqs[worker_id]
-        # if srs_denominator < 0.0001:
-        #  srs_denominator = 0.0001
-        #    # pdb.set_trace()
+        if srs_denominator < SMALL_NUMBER_CONST:
+            srs_denominator = SMALL_NUMBER_CONST
         return srs_numerator / srs_denominator
 
 
@@ -205,14 +205,14 @@ class Metrics():
 
         rqs = dict()
         for relation in relations:
-            if rqs_denominator[relation] > 0:
+            if rqs_denominator[relation] > SMALL_NUMBER_CONST:
                 rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
                 
                 # prevent division by zero by storing very small value instead
-                if rqs[relation] < 0.0001:
-                    rqs[relation] = 0.0001
+                if rqs[relation] < SMALL_NUMBER_CONST:
+                    rqs[relation] = SMALL_NUMBER_CONST
             else:
-                rqs[relation] = 1.0
+                rqs[relation] = SMALL_NUMBER_CONST
         return rqs
 
     @staticmethod
