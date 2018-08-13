@@ -12,7 +12,6 @@ python:
 install:
   - pip install pymodm
   - pip install pandas
-  - pip install numpy
   - pip install .
 # command to run tests
 script:
