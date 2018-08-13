@@ -38,7 +38,8 @@ setup(name='crowdtruth',
         'pymodm>=0.3.0',
         'pandas>=0.23.1',
         'numpy>=1.13.3',
-        'scipy>=1.0.0'
+        'scipy>=1.0.0',
+        'chardet>=3.0.4'
         ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
