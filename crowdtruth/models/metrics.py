@@ -9,6 +9,7 @@ from collections import defaultdict
 from pprint import pprint
 import math
 import logging
+import pdb
 
 SMALL_NUMBER_CONST = 0.00000001
 
@@ -139,6 +140,7 @@ class Metrics():
                                                            sent_work_rel_dict_sentence_id_other_worker_id_relation)
 
                     weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
+                    # pdb.set_trace()
                     wwa_numerator += weighted_cosine * wqs[other_worker_id] * sqs[sentence_id]
                     wwa_denominator += wqs[other_worker_id] * sqs[sentence_id]
         if wwa_denominator < SMALL_NUMBER_CONST:

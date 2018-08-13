@@ -33,12 +33,13 @@ setup(name='crowdtruth',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
-    test_suite='nose.collector',
+    test_suite='test',
     install_requires=[
         'pymodm>=0.3.0',
         'pandas>=0.23.1'
         ],
-    setup_requires=[],
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest"],
     entry_points="""
         [console_scripts]
         CrowdTruth = crowdtruth:CrowdTruth
