@@ -12,4 +12,4 @@ def save(results, config, directory=''):
 	for tab in results:
 		results[tab].to_excel(writer, tab)
 	writer.save()
-	print 'Saved to: '+directory+'/results.xlsx'
+	print('Saved to: ', directory+'/results.xlsx')

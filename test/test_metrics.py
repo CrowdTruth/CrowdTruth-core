@@ -1,9 +1,9 @@
 import unittest
+import logging
+import string
 
 import crowdtruth
 from crowdtruth.configuration import DefaultConfig
-import logging
-import string
 
 class TestConfigOpen(DefaultConfig):
 	inputColumns = ["in_col"]

@@ -1,11 +1,5 @@
 import os
 
-from models.metrics import *
-from models.worker import *
-from models.unit import *
-from models.job import *
-from configuration import DefaultConfig
-
 import logging
 import pdb
 
@@ -17,6 +11,12 @@ import numpy as np
 from datetime import datetime
 from collections import Counter, OrderedDict
 import re
+
+from crowdtruth.models.metrics import *
+from crowdtruth.models.worker import *
+from crowdtruth.models.unit import *
+from crowdtruth.models.job import *
+from crowdtruth.configuration import DefaultConfig
 
 
 
@@ -167,11 +167,12 @@ def processFile(filename, config):
 	# update the config after the preprocessing of judgments
 	config = getColumnTypes(judgments, config)
 
-	allColumns = dict(config.input.items() + config.output.items() + platform.items())
+	allColumns = dict(list(config.input.items()) + list(config.output.items()) + list(platform.items()))
+	# allColumns = dict(config.input.items() | config.output.items() | platform.items())
 	judgments = judgments.rename(columns=allColumns)
 
 	# remove columns we don't care about
-	judgments = judgments[allColumns.values()]
+	judgments = judgments[list(allColumns.values())]
 
 	judgments['job'] = job
 
@@ -226,7 +227,7 @@ def processFile(filename, config):
 	#	
 	annotations = pd.DataFrame()
 	for col in config.output.values():
-		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(x.keys()).value_counts()).sum(),columns=[col])
+		res = pd.DataFrame(judgments[col].apply(lambda x: pd.Series(list(x.keys())).value_counts()).sum(),columns=[col])
 		annotations = pd.concat([annotations, res], axis=0)
 	
 	#
@@ -237,7 +238,7 @@ def processFile(filename, config):
 	# Clean up judgments
 	# remove input columns from judgments
 	outputCol = [col for col in judgments.columns.values if col.startswith('output') or col.startswith('metric')]
-	judgments = judgments[outputCol + platform.values() + ['duration','job']]
+	judgments = judgments[outputCol + list(platform.values()) + ['duration','job']]
 	
 	# set judgment id as index
 	judgments.set_index('judgment', inplace=True)

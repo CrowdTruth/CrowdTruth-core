@@ -1,5 +1,4 @@
 import datetime
-import unit
 import numpy as np
 import itertools
 import pandas as pd
@@ -10,6 +9,8 @@ from pprint import pprint
 import math
 import logging
 import pdb
+
+import crowdtruth.models.unit
 
 SMALL_NUMBER_CONST = 0.00000001
 
@@ -175,10 +176,10 @@ class Metrics():
             rqs_denominator[relation] = 0.0
         
         worker_ids = work_sent_rel_dict.keys()
-        for worker_i, work_sent_rel_dict_worker_i in work_sent_rel_dict.iteritems():
+        for worker_i, work_sent_rel_dict_worker_i in work_sent_rel_dict.items():
             #work_sent_rel_dict_worker_i = work_sent_rel_dict[worker_i]
             work_sent_rel_dict_i_keys = work_sent_rel_dict_worker_i.keys()
-            for worker_j, work_sent_rel_dict_worker_j in work_sent_rel_dict.iteritems():
+            for worker_j, work_sent_rel_dict_worker_j in work_sent_rel_dict.items():
                 #work_sent_rel_dict_worker_j = work_sent_rel_dict[worker_j]
                 work_sent_rel_dict_j_keys = work_sent_rel_dict_worker_j.keys()
                 
@@ -189,7 +190,7 @@ class Metrics():
                         numerator = 0.0
                         denominator = 0.0
 
-                        for sentence_id, work_sent_rel_dict_worker_i_sent in work_sent_rel_dict_worker_i.iteritems():
+                        for sentence_id, work_sent_rel_dict_worker_i_sent in work_sent_rel_dict_worker_i.items():
                             if sentence_id in work_sent_rel_dict_worker_j:
                                 #work_sent_rel_dict_worker_i_sent = work_sent_rel_dict_worker_i[sentence_id]
                                 work_sent_rel_dict_worker_j_sent = work_sent_rel_dict_worker_j[sentence_id]
@@ -225,7 +226,7 @@ class Metrics():
 
         #sent_work_rel_dict, work_sent_rel_dict, sent_rel_dict
         # TODO: change to use all vectors in one unit
-        col = config.output.values()[0]
+        col = list(config.output.values())[0]
         sent_rel_dict = dict(units.copy()[col])
 
         def expandedVector(worker, unit):
@@ -240,7 +241,8 @@ class Metrics():
 
         # fill judgment vectors with unit keys
         for index,row in judgments.iterrows():
-            judgments.set_value(index, col, expandedVector(row[col], units.at[row['unit'], col]))
+            # judgments.set_value(index, col, expandedVector(row[col], units.at[row['unit'], col]))
+            judgments.at[index, col] = expandedVector(row[col], units.at[row['unit'], col])
 
         #print judgments.head()
 
@@ -276,7 +278,7 @@ class Metrics():
         # initialize RQS depending on whether or not it is an open ended task
         rqs = dict()
         if not config.open_ended_task:
-            rqs_keys = sent_rel_dict[sent_rel_dict.keys()[0]].keys()
+            rqs_keys = list(sent_rel_dict[list(sent_rel_dict.keys())[0]].keys())
             for relation in rqs_keys:
                 rqs[relation] = 1.0
         else:

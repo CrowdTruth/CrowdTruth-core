@@ -29,7 +29,7 @@ class Job():
 				# aggregate unit metrics
 				job[col+'.'+metric] = units[col+'.'+metric].mean()
 		
-		job = job.reindex_axis(sorted(job.columns), axis=1)
+		job = job.reindex(sorted(job.columns), axis=1)
 		
 		return job
 

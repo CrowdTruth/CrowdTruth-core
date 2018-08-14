@@ -29,7 +29,7 @@ class Unit():
         units = units.apply(lambda row: Unit.getMetrics(row, config), axis=1)
 
         # sort columns
-        units = units.reindex_axis(sorted(units.columns), axis=1)
+        units = units.reindex(sorted(units.columns), axis=1)
 
         return units
 

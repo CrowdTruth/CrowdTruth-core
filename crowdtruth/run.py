@@ -1,4 +1,4 @@
-from models.metrics import *
+from crowdtruth.models.metrics import *
 
 def run(data, config):
 	processed_results = Metrics.run(data, config)

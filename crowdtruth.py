@@ -1,14 +1,15 @@
 from cement.core.foundation import CementApp
 from cement.core import hook
 from cement.utils.misc import init_defaults
-import controllers.inputController as ic
-import controllers.outputController as oc
-import controllers.configController as cc
-from models import *
 import sys,os
 from datetime import datetime
 import pandas as pd
 import numpy as np
+
+from crowdtruth.models import *
+import crowdtruth.controllers.inputController as ic
+import crowdtruth.controllers.outputController as oc
+import crowdtruth.controllers.configController as cc
 
 
 # define our default configuration options
