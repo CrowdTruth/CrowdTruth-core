@@ -175,13 +175,13 @@ class Metrics():
             rqs_numerator[relation] = 0.0
             rqs_denominator[relation] = 0.0
         
-        worker_ids = work_sent_rel_dict.keys()
+        worker_ids = list(work_sent_rel_dict.keys())
         for worker_i, work_sent_rel_dict_worker_i in work_sent_rel_dict.items():
             #work_sent_rel_dict_worker_i = work_sent_rel_dict[worker_i]
-            work_sent_rel_dict_i_keys = work_sent_rel_dict_worker_i.keys()
+            work_sent_rel_dict_i_keys = list(work_sent_rel_dict_worker_i.keys())
             for worker_j, work_sent_rel_dict_worker_j in work_sent_rel_dict.items():
                 #work_sent_rel_dict_worker_j = work_sent_rel_dict[worker_j]
-                work_sent_rel_dict_j_keys = work_sent_rel_dict_worker_j.keys()
+                work_sent_rel_dict_j_keys = list(work_sent_rel_dict_worker_j.keys())
                 
                 #print worker_i, worker_j,np.intersect1d(np.array(work_sent_rel_dict[worker_i].keys()),np.array(work_sent_rel_dict[worker_j].keys()))
                 if worker_i != worker_j and len(np.intersect1d(np.array(work_sent_rel_dict_i_keys),np.array(work_sent_rel_dict_j_keys))) > 0:
@@ -287,6 +287,10 @@ class Metrics():
                     rqs[relation] = 1.0
         rqs_list.append(rqs.copy())
 
+        sqs_len = len(list(sqs.keys())) * 1.0
+        wqs_len = len(list(wqs.keys())) * 1.0
+        rqs_len = len(list(rqs.keys())) * 1.0
+
         # compute metrics until stable values
         iterations = 0
         while max_delta >= 0.001:
@@ -304,25 +308,25 @@ class Metrics():
             
             if not config.open_ended_task:
                 # compute relation quality score (RQS)
-                rqs_new = Metrics.relation_quality_score(rqs.keys(), work_sent_rel_dict,
+                rqs_new = Metrics.relation_quality_score(list(rqs.keys()), work_sent_rel_dict,
                                                  sqs_list[len(sqs_list) - 1],
                                                  wqs_list[len(wqs_list) - 1])
-                for relation in rqs_new:
+                for relation, _ in rqs_new.items():
                     max_delta = max(max_delta, abs(rqs_new[relation] - rqs_list[len(rqs_list) - 1][relation]))
                     avg_rqs_delta += abs(rqs_new[relation] - rqs_list[len(rqs_list) - 1][relation])
-                avg_rqs_delta /= len(rqs_new.keys()) * 1.0
+                avg_rqs_delta /= rqs_len
             
             # compute sentence quality score (SQS)
-            for sentence_id in sent_work_rel_dict:
+            for sentence_id, _ in sent_work_rel_dict.items():
                 sqs_new[sentence_id] = Metrics.sentence_quality_score(sentence_id, sent_work_rel_dict,
                                                               wqs_list[len(wqs_list) - 1],
                                                               rqs_list[len(rqs_list) - 1])
                 max_delta = max(max_delta, abs(sqs_new[sentence_id] - sqs_list[len(sqs_list) - 1][sentence_id]))
                 avg_sqs_delta += abs(sqs_new[sentence_id] - sqs_list[len(sqs_list) - 1][sentence_id])
-            avg_sqs_delta /= len(sqs_new.keys()) * 1.0
-            
+            avg_sqs_delta /= sqs_len
+
             # compute worker quality score (WQS)
-            for worker_id in work_sent_rel_dict:
+            for worker_id, _ in work_sent_rel_dict.items():
                 wwa_new[worker_id] = Metrics.worker_worker_agreement(worker_id, work_sent_rel_dict, sent_work_rel_dict,
                                                              wqs_list[len(wqs_list) - 1],
                                                              sqs_list[len(sqs_list) - 1],
@@ -333,7 +337,7 @@ class Metrics():
                 wqs_new[worker_id] = wwa_new[worker_id] * wsa_new[worker_id]
                 max_delta = max(max_delta, abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id]))
                 avg_wqs_delta += abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id])
-            avg_wqs_delta /= len(wqs_new.keys()) * 1.0
+            avg_wqs_delta /= wqs_len
             
             # save results for current iteration
             sqs_list.append(sqs_new.copy())
@@ -343,6 +347,21 @@ class Metrics():
             if not config.open_ended_task:
                 rqs_list.append(rqs_new.copy())
             iterations += 1 
+            
+            # reconstruct sent_rel_dict with worker scores
+            new_sent_rel_dict = dict()
+            for sent_id, rel_dict in sent_rel_dict.items():
+                new_sent_rel_dict[sent_id] = dict()
+                for relation, _ in rel_dict.items():
+                    new_sent_rel_dict[sent_id][relation] = 0.0
+            for work_id, srd in work_sent_rel_dict.items():
+                wqs_work_id = wqs_new[work_id]
+                for sent_id, rel_dict in srd.items():
+                    for relation, score in rel_dict.items():
+                        new_sent_rel_dict[sent_id][relation] += score * wqs_work_id
+            # pdb.set_trace()
+            sent_rel_dict = new_sent_rel_dict
+
             logging.info(str(iterations) + " iterations; max d= " + str(max_delta) + " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + "; rqs d= " + str(avg_rqs_delta))
 
             #if iterations == 1:

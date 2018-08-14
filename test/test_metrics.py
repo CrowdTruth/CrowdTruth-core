@@ -147,8 +147,8 @@ class TestAgreementClosed(unittest.TestCase):
 					results["annotations"]["aqs"].at["C"],
 					results["annotations"]["aqs"].at["E"])
 
-# class TestAgreementOpen(TestAgreementClosed):
-#	test_conf_const = TestConfigOpen()
+class TestAgreementOpen(TestAgreementClosed):
+	test_conf_const = TestConfigOpen()
 
 if __name__ == '__main__':
 	unittest.main()
