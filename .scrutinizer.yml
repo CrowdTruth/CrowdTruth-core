@@ -1,0 +1,19 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - py-scrutinizer-run
+    coverage:
+      tests:
+        override:
+          - command: 'coverage run --source=crowdtruth/ setup.py test'
+            coverage:
+              file: '.coverage'
+              config_file: '.coveragerc'
+              format: 'py-cc'

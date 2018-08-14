@@ -48,10 +48,8 @@ class Metrics():
                     denominator_i += rqs[relation] * (worker_i_vector_rel * worker_i_vector_rel)
                     denominator_j += rqs[relation] * (worker_j_vector_rel * worker_j_vector_rel)
                 
-                try:
-                    weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
-                except:
-                    pdb.set_trace()
+                weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
+                
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
         
