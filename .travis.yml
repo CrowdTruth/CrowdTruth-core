@@ -8,3 +8,6 @@ install:
 # command to run tests
 script:
   - pytest # or py.test for Python versions 3.5 and below
+  - coverage run --source=crowdtruth/ setup.py test
+after_success:
+  - codecov
