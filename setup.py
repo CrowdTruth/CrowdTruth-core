@@ -39,6 +39,7 @@ setup(name='crowdtruth',
         'numpy>=1.13.3',
         'scipy>=1.0.0',
         'chardet>=3.0.4',
+        'coverage>=4.5.1',
         'codecov>=2.0.15'
         ],
     setup_requires=["pytest-runner"],
