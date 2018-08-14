@@ -1,6 +1,6 @@
 # CrowdTruth
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1304310.svg)](https://doi.org/10.5281/zenodo.1304310)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1304310.svg)](https://doi.org/10.5281/zenodo.1304310) [![Build Status](https://travis-ci.org/CrowdTruth/CrowdTruth-core.svg?branch=master)](https://travis-ci.org/CrowdTruth/CrowdTruth-core)
 
 This library processes crowdsourcing results from Amazon Mechanical Turk and CrowdFlower following the CrowdTruth methodology. For more information see http://crowdtruth.org.
 
