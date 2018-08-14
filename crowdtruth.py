@@ -61,7 +61,7 @@ def scanDirectory(directory='',root=''):
             subdirectories.append(directory+'/'+f)
 
         # if it is a csv file open it
-        elif f.endswith('.csv') and f <> 'groundtruth.csv':
+        elif f.endswith('.csv') and f != 'groundtruth.csv':
             # open csv
             res = ic.processFile(root, directory, f, config)
             for x in res:

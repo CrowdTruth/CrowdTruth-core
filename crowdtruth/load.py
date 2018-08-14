@@ -53,7 +53,7 @@ def getFileList(directory):
 				filelist.append(sublist)
 
 		# if it is a csv file open it
-		elif f.endswith('.csv') and f <> 'groundtruth.csv':
+		elif f.endswith('.csv') and f != 'groundtruth.csv':
 			filelist.append(f)
 	return filelist
 
@@ -331,12 +331,12 @@ def getColumnTypes(df, config):
 		# it is best to make a settings.py file for a collection
 
 		units = df.groupby('_unit_id')
-		columns = [c for c in df.columns.values if c <> 'clustering' and not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
+		columns = [c for c in df.columns.values if c != 'clustering' and not c.startswith('_') and not c.startswith('e_') and not c.endswith('_gold') and not c.endswith('_reason') and not c.endswith('browser')]
 		for c in columns:
 			try:
 				for i, unit in units:
 					unique = unit[c].nunique()
-					if unique <> 1 and unique <> 0:
+					if unique != 1 and unique != 0:
 						raise Found
 				if not config.inputColumns:
 					config.input[c] = 'input.'+c
