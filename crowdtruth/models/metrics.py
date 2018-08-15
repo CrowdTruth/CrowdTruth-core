@@ -1,16 +1,20 @@
-import datetime
-import numpy as np
-import itertools
-import pandas as pd
-from collections import Counter
-from datetime import datetime
-from collections import defaultdict
-from pprint import pprint
-import math
-import logging
-import pdb
 
-import crowdtruth.models.unit
+
+import logging
+import math
+# import datetime
+# import itertools
+# import pdb
+
+from collections import Counter
+# from pprint import pprint
+# from datetime import datetime
+# from collections import defaultdict
+
+import numpy as np
+import pandas as pd
+
+# import crowdtruth.models.unit
 
 SMALL_NUMBER_CONST = 0.00000001
 
@@ -26,7 +30,7 @@ class Metrics():
         rqs: dict of relation_id (string) -> relation quality (float)
         wqs: dict of worker_id (string) -> worker quality score
         '''
-        
+
         sqs_numerator = 0.0
         sqs_denominator = 0.0
         worker_ids = list(sent_work_rel_dict[sentence_id].keys())
@@ -37,24 +41,24 @@ class Metrics():
                 numerator = 0.0
                 denominator_i = 0.0
                 denominator_j = 0.0
-                
+
                 worker_i_vector = sent_work_rel_dict[sentence_id][worker_ids[worker_i]]
                 worker_j_vector = sent_work_rel_dict[sentence_id][worker_ids[worker_j]]
-                
+
                 for relation in worker_i_vector:
                     worker_i_vector_rel = worker_i_vector[relation]
                     worker_j_vector_rel = worker_j_vector[relation]
                     numerator += rqs[relation] * (worker_i_vector_rel * worker_j_vector_rel)
                     denominator_i += rqs[relation] * (worker_i_vector_rel * worker_i_vector_rel)
                     denominator_j += rqs[relation] * (worker_j_vector_rel * worker_j_vector_rel)
-                
+
                 weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
-                
+
                 sqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
                 sqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
-        
+
         if sqs_denominator < SMALL_NUMBER_CONST:
-          sqs_denominator = SMALL_NUMBER_CONST
+            sqs_denominator = SMALL_NUMBER_CONST
         return sqs_numerator / sqs_denominator
 
 

@@ -1,10 +1,12 @@
-from cement.core.foundation import CementApp
-from cement.core import hook
-from cement.utils.misc import init_defaults
-import sys,os
+import os
+import sys
 from datetime import datetime
 import pandas as pd
 import numpy as np
+from cement.core.foundation import CementApp
+from cement.core import hook
+from cement.utils.misc import init_defaults
+
 
 from crowdtruth.models import *
 import crowdtruth.controllers.inputController as ic
@@ -27,11 +29,6 @@ class CrowdTruth(CementApp):
         label = 'CrowdTruth'
         config_defaults = defaults
         extensions = ['json', 'yaml']
-
-
-
-
-
 
 
 def scanDirectory(directory='',root=''):
