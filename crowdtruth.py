@@ -2,7 +2,6 @@ import os
 import sys
 from datetime import datetime
 import pandas as pd
-import numpy as np
 from cement.core.foundation import CementApp
 from cement.core import hook
 from cement.utils.misc import init_defaults
@@ -22,7 +21,6 @@ defaults['crowdtruth']['some_param'] = 'some value'
 # define any hook functions here
 
 
-
 # define the application class
 class CrowdTruth(CementApp):
     class Meta:
@@ -31,11 +29,10 @@ class CrowdTruth(CementApp):
         extensions = ['json', 'yaml']
 
 
-def scanDirectory(directory='',root=''):
+def scanDirectory(directory='', root=''):
     root = os.getcwd()
     files = os.listdir(root+directory)
     app.log.debug("Found directory "+root+directory)
-    print 'Directory:',root,directory
 
 
     results = {
@@ -55,8 +52,8 @@ def scanDirectory(directory='',root=''):
     for f in files:
 
         # if it is a folder scan it
-        if os.path.isdir(root+directory+'/'+f):
-            subdirectories.append(directory+'/'+f)
+        if os.path.isdir(root + directory + '/' + f):
+            subdirectories.append(directory + '/' + f)
 
         # if it is a csv file open it
         elif f.endswith('.csv') and f != 'groundtruth.csv':
@@ -88,18 +85,18 @@ def scanDirectory(directory='',root=''):
 
         # aggregate annotations
         results['annotations'] = results['annotations'].groupby(results['annotations'].index).sum()
-        
+
 
         #
         # compute correlations
         #
         # remove 'output.' from the annotation column names
-        
+
 
         # How many times person a meets person b is described by the following (s.t. a < b)
 
 
-        # DataFrames corr() function calculates pairwise correlations using specified 
+        # DataFrames corr() function calculates pairwise correlations using specified
         # algorithm: 'peason, 'kendall', and 'spearman' are supported.
         # Correlations are returned in a new DataFrame instance (corr_df below).
         #likert_corr_df = likert.corr(method='pearson')
@@ -163,5 +160,5 @@ with CrowdTruth() as app:
 
 
     app.log.info('Finished in ' + str(datetime.now() - startTime))
-    
+
     app.close()
