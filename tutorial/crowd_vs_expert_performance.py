@@ -6,90 +6,90 @@ Created on Thu Apr 26 11:39:03 2018
 @author: oanainel
 """
 
-def compute_precision(true_positive, false_positive):
-    """ Function to compute Precision"""
-    if true_positive == 0:
+def compute_P(tp, fp):
+    if tp == 0:
         return 0
-    return float(true_positive) / float(true_positive + false_positive)
+    return float(tp) / float(tp + fp)
 
-def compute_recall(true_positive, false_negative):
-    """ Function to compute Recall"""
-    if true_positive == 0:
-        return 0
-    return float(true_positive) / float(true_positive + false_negative)
 
-def compute_accuracy(true_positive, true_negative, false_positive, false_negative):
-    """ Function to compute Accuracy"""
-    if true_positive + true_negative == 0:
+def compute_R(tp, fn):
+    if tp == 0:
         return 0
-    return float(true_positive + true_negative) / \
-           float(true_positive + true_negative + false_positive + false_negative)
+    return float(tp) / float(tp + fn)
 
-def compute_f1score(precision, recall):
-    """ Function to compute F1 Score"""
-    if precision * recall == 0:
+def compute_A(tp, tn, fp, fn):
+    if tp + tn == 0:
         return 0
-    return float(2 * precision * recall) / float(precision + recall)
+    return float(tp + tn) / float(tp + tn + fp + fn)
+
+def compute_F1(p, r):
+    if p * r == 0:
+        return 0
+    return float(2 * p * r) / float(p + r)
+    
+
 
 def compute_crowd_performance(df_crowd_results, crowd_score_column, experts_score_column):
-    """ Function to evaluate the answers of the crowd at each posible crowd score threshold"""
     rows = []
     header = ["Thresh", "TP", "TN", "FP", "FN", "Precision", "Recall", "Accuracy", "F1-score"]
     rows.append(header)
-
-    precision = 0.0
-    recall = 0.0
-    accuracy = 0.0
-    f1score = 0.0
-
+    
     for i in range(5, 101, 5):
         row = []
         thresh = i / 100.0
 
-        true_pos, true_neg, false_pos, false_neg = count_positives_and_negatives(df_crowd_results, \
-                                                  crowd_score_column, experts_score_column, thresh)
-
-        precision = compute_precision(true_pos, false_pos)
-        recall = compute_recall(true_pos, false_neg)
-        accuracy = compute_accuracy(true_pos, true_neg, false_pos, false_neg)
-        f1score = compute_f1score(precision, recall)
-
-        row = [thresh, true_pos, true_neg, false_pos, false_neg, \
-               precision, recall, accuracy, f1score]
+        tp = 0
+        tn = 0
+        fp = 0
+        fn = 0
+        
+        for j in range(len(df_crowd_results.index)):
+                if df_crowd_results[crowd_score_column].iloc[j] >= thresh:
+                    if df_crowd_results[experts_score_column].iloc[j] == 1:
+                        tp = tp + 1
+                    else:
+                        fp = fp + 1
+                else:
+                    if df_crowd_results[experts_score_column].iloc[j] == 1:
+                        fn = fn + 1                            
+                    else:
+                        tn = tn + 1    
+        p = compute_P(tp, fp)
+        r = compute_R(tp, fn)
+        a = compute_A(tp, tn, fp, fn)
+        f1 = compute_F1(p, r)
+        
+        row = [thresh, tp, tn, fp, fn, p, r, a, f1]
         rows.append(row)
-
+        
     return rows
 
-def compute_majority_vote(df_crowd_results, crowd_score_column, experts_score_column, no_workers):
-    """ Function to evaluate the answers of the crowd using majority vote"""
 
-    true_pos, true_neg, false_pos, false_neg = count_positives_and_negatives(df_crowd_results, \
-                                            crowd_score_column, experts_score_column, no_workers)
-
-    precision = compute_precision(true_pos, false_pos)
-    recall = compute_recall(true_pos, false_neg)
-    accuracy = compute_accuracy(true_pos, true_neg, false_pos, false_neg)
-    f1score = compute_f1score(precision, recall)
-
-    return true_pos, true_neg, false_pos, false_neg, \
-            precision, recall, accuracy, f1score
-
-def count_positives_and_negatives(df_crowd_results, crowd_score_col, experts_score_col, crowd_value):
-    """ Help function for reading the crowd results """
-    true_positive = 0
-    true_negative = 0
-    false_positive = 0
-    false_negative = 0
-
+def compute_majority_vote(df_crowd_results, crowd_score_column, experts_score_column, no_of_workers):
+    tp = 0
+    tn = 0
+    fp = 0
+    fn = 0
+        
     for j in range(len(df_crowd_results.index)):
-        if df_crowd_results[crowd_score_col].iloc[j] >= crowd_value:
-            if df_crowd_results[experts_score_col].iloc[j] == 1:
-                true_positive = true_positive + 1
+            if df_crowd_results[crowd_score_column].iloc[j] >= no_of_workers:
+                if df_crowd_results[experts_score_column].iloc[j] == 1:
+                    tp = tp + 1
+                else:
+                    fp = fp + 1
             else:
-                false_positive = false_positive + 1
-        else:
-            if df_crowd_results[experts_score_col].iloc[j] == 1:
-                false_negative = false_negative + 1
-            else:
-                true_negative = true_negative + 1
-    return true_positive, true_negative, false_positive, false_negative
+                if df_crowd_results[experts_score_column].iloc[j] == 1:
+                    fn = fn + 1
+                else:
+                    tn = tn + 1
+    
+    p = compute_P(tp, fp)
+    r = compute_R(tp, fn)
+    a = compute_A(tp, tn, fp, fn)
+    f1 = compute_F1(p, r)
+        
+    return tp, tn, fp, fn, p, r, a, f1
+
+
+
+    
