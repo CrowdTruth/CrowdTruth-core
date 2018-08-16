@@ -1,4 +1,4 @@
-from crowdtruth.models.metrics import *
+from crowdtruth.models.metrics import Metrics
 
 def run(data, config):
     """Run the CrowdTruth metrics with the given processing configuration"""

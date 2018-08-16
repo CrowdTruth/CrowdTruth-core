@@ -1,4 +1,3 @@
-
 from setuptools import setup, find_packages
 # import os
 # import sys
@@ -30,7 +29,8 @@ setup(
         'Topic :: Scientific/Engineering :: Crowdsourcing',
         'Topic :: Text Processing',
         'Topic :: Text Processing :: Linguistic'],
-    keywords=['CrowdTruth', 'crowdsourcing', 'disagreement', 'metrics', 'crowdflower', 'amazon mechanical turk'],
+    keywords=['CrowdTruth', 'crowdsourcing', 'disagreement', 'metrics', \
+              'crowdflower', 'amazon mechanical turk'],
     author='Vrije Universiteit Amsterdam',
     author_email='crowdwatson@gmail.com',
     url='http://crowdtruth.org',
