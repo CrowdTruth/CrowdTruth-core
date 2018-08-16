@@ -12,7 +12,7 @@ class TestConfigOpen(DefaultConfig):
     open_ended_task = True
     annotation_vector = list(string.ascii_uppercase)
     def processJudgments(self, judgments):
-        return(judgments)
+        return judgments
 
 class TestConfigClosed(DefaultConfig):
     inputColumns = ["in_col"]
@@ -21,11 +21,32 @@ class TestConfigClosed(DefaultConfig):
     annotation_separator = " "
     annotation_vector = list(string.ascii_uppercase)
     def processJudgments(self, judgments):
-        return(judgments)
+        return judgments
 
-# test_conf_const = TestConfigOpen()
+class TutorialConfig(DefaultConfig):
+    inputColumns = ["term1", "b1", "e1", "term2", "b2", "e2", "sentence"]
+    outputColumns = ["relations"]
+
+    # processing of a closed task
+    open_ended_task = False
+    annotation_separator = " "
+    annotation_vector = [
+        "causes", "manifestation", "treats", "prevents", "symptom", "diagnose_by_test_or_drug",
+        "location", "side_effect", "contraindicates", "associated_with", "is_a", "part_of",
+        "other", "none"]
+
+    def processJudgments(self, judgments):
+        # any pre-processing of the input data goes here
+        for col in self.outputColumns:
+            # remove square brackets from annotations
+            judgments[col] = judgments[col].apply(lambda x: str(x).replace('[', ''))
+            judgments[col] = judgments[col].apply(lambda x: str(x).replace(']', ''))
+            judgments[col] = judgments[col].apply(lambda x: str(x).lower())
+        return judgments
+
+# test_conf_const = TutorialConfig()
 # test_config = test_conf_const.__class__
-# data, config = crowdtruth.load(file = "4work_outlier.csv", config = test_config())
+# data, config = crowdtruth.load(file = "tutorial/relex_example.csv", config = test_config())
 # results = crowdtruth.run(data, config)
 
 class TestAgreementClosed(unittest.TestCase):
@@ -35,8 +56,8 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(2,11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file = "test/" + str(w) + "work_agr.csv",
-                config = test_config())
+                file="test/" + str(w) + "work_agr.csv",
+                config=test_config())
             results = crowdtruth.run(data, config)
             self.assertAlmostEqual(results["units"]["uqs"].at[1], 1.0)
             for wid in range(w):
@@ -45,11 +66,11 @@ class TestAgreementClosed(unittest.TestCase):
                 self.assertAlmostEqual(results["annotations"]["aqs"]["A"], 1.0)
 
     def test_all_workers_disagree(self):
-        for w in range(2,11):
+        for w in range(2, 11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file = "test/" + str(w) + "work_disagr.csv",
-                config = test_config())
+                file="test/" + str(w) + "work_disagr.csv",
+                config=test_config())
             results = crowdtruth.run(data, config)
             self.assertAlmostEqual(results["units"]["uqs"].at[1], 0.0)
             for wid in range(w):
@@ -63,8 +84,8 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(3, 11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file = "test/" + str(w) + "work_outlier.csv",
-                config = test_config())
+                file="test/" + str(w) + "work_outlier.csv",
+                config=test_config())
             results = crowdtruth.run(data, config)
             self.assertAlmostEqual(
                 results["workers"]["wqs"].at["W1"],
@@ -88,8 +109,8 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(4, 11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file = "test/" + str(w - 2) + "vs" + str(w - 1) + "work_agr.csv",
-                config = test_config())
+                file="test/" + str(w - 2) + "vs" + str(w - 1) + "work_agr.csv",
+                config=test_config())
             results = crowdtruth.run(data, config)
 
             # print str(config.open_ended_task)
@@ -150,6 +171,28 @@ class TestAgreementClosed(unittest.TestCase):
 
 class TestAgreementOpen(TestAgreementClosed):
     test_conf_const = TestConfigOpen()
+
+class TestTutorial(unittest.TestCase):
+    def test_metrics_correct_interval(self):
+        test_conf_const = TutorialConfig()
+        test_config = test_conf_const.__class__
+        data, config = crowdtruth.load(
+            file="tutorial/relex_example.csv",
+            config=test_config())
+        results = crowdtruth.run(data, config)
+        # for _, val_arr in results["units"]["unit_annotation_score"].items():
+        #     for _, val in val_arr.items():
+        #         self.assertGreaterEqual(val, 0.0)
+        #         self.assertLessEqual(val, 1.0)
+        for _, val in results["units"]["uqs"].items():
+            self.assertGreaterEqual(val, 0.0)
+            self.assertLessEqual(val, 1.0)
+        for _, val in results["workers"]["wqs"].items():
+            self.assertGreaterEqual(val, 0.0)
+            self.assertLessEqual(val, 1.0)
+        for _, val in results["annotations"]["aqs"].items():
+            self.assertGreaterEqual(val, 0.0)
+            self.assertLessEqual(val, 1.0)
 
 if __name__ == '__main__':
     unittest.main()

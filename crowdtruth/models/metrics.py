@@ -64,7 +64,7 @@ class Metrics():
 
     # Worker - Sentence Agreement
     @staticmethod
-    def worker_sentence_agreement(worker_id, sent_rel_dict, work_sent_rel_dict, sqs, rqs):
+    def worker_sentence_agreement(worker_id, sent_rel_dict, work_sent_rel_dict, sqs, rqs, wqs):
         '''
         worker_id
         sent_rel_dict
@@ -72,6 +72,7 @@ class Metrics():
         sentence_vectors: data frame of sentence vectors
         sqs (sentence quality score): dict sentence_id -> sentence quality (float)
         rqs: dict of relation_id (string) -> relation quality (float)
+        wqs: quality score of the given worker
         '''
         wsa_numerator = 0.0
         wsa_denominator = 0.0
@@ -81,24 +82,30 @@ class Metrics():
             numerator = 0.0
             denominator_w = 0.0
             denominator_s = 0.0
-            
+
             worker_vector = work_sent_rel_dict[worker_id][sentence_id]
             sentence_vector = sent_rel_dict[sentence_id]
-            
+
             for relation in worker_vector:
-                worker_vector_relation = worker_vector[relation]
+                worker_vector_relation = worker_vector[relation] * wqs
                 sentence_vector_relation = sentence_vector[relation]
 
-                numerator += rqs[relation] * worker_vector_relation * (sentence_vector_relation - worker_vector_relation)
-                denominator_w += rqs[relation] * (worker_vector_relation * worker_vector_relation)
-                denominator_s += rqs[relation] * ((sentence_vector_relation - worker_vector_relation) *
-                                                  (sentence_vector_relation - worker_vector_relation))
-            weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
+                numerator += rqs[relation] * worker_vector_relation * \
+                    (sentence_vector_relation - worker_vector_relation)
+                denominator_w += rqs[relation] * \
+                    (worker_vector_relation * worker_vector_relation)
+                denominator_s += rqs[relation] * ( \
+                    (sentence_vector_relation - worker_vector_relation) * \
+                    (sentence_vector_relation - worker_vector_relation))
+            weighted_cosine = None
+            if math.sqrt(denominator_w * denominator_s) < SMALL_NUMBER_CONST:
+                weighted_cosine = SMALL_NUMBER_CONST
+            else:
+                weighted_cosine = numerator / math.sqrt(denominator_w * denominator_s)
             wsa_numerator += weighted_cosine * sqs[sentence_id]
             wsa_denominator += sqs[sentence_id]
         if wsa_denominator < SMALL_NUMBER_CONST:
             wsa_denominator = SMALL_NUMBER_CONST
-        #    # pdb.set_trace()
         return wsa_numerator / wsa_denominator
 
 
@@ -329,15 +336,23 @@ class Metrics():
 
             # compute worker quality score (WQS)
             for worker_id, _ in work_sent_rel_dict.items():
-                wwa_new[worker_id] = Metrics.worker_worker_agreement(worker_id, work_sent_rel_dict, sent_work_rel_dict,
-                                                             wqs_list[len(wqs_list) - 1],
-                                                             sqs_list[len(sqs_list) - 1],
-                                                             rqs_list[len(rqs_list) - 1])
-                wsa_new[worker_id] = Metrics.worker_sentence_agreement(worker_id, sent_rel_dict, work_sent_rel_dict,
-                                                               sqs_list[len(sqs_list) - 1],
-                                                               rqs_list[len(rqs_list) - 1])
+                wwa_new[worker_id] = Metrics.worker_worker_agreement(
+                    worker_id, work_sent_rel_dict,
+                    sent_work_rel_dict,
+                    wqs_list[len(wqs_list) - 1],
+                    sqs_list[len(sqs_list) - 1],
+                    rqs_list[len(rqs_list) - 1])
+                wsa_new[worker_id] = Metrics.worker_sentence_agreement(
+                    worker_id,
+                    sent_rel_dict,
+                    work_sent_rel_dict,
+                    sqs_list[len(sqs_list) - 1],
+                    rqs_list[len(rqs_list) - 1],
+                    wqs_list[len(rqs_list) - 1][worker_id])
                 wqs_new[worker_id] = wwa_new[worker_id] * wsa_new[worker_id]
-                max_delta = max(max_delta, abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id]))
+                max_delta = max(
+                    max_delta,
+                    abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id]))
                 avg_wqs_delta += abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id])
             avg_wqs_delta /= wqs_len
             
@@ -387,12 +402,16 @@ class Metrics():
         results['units']['uqs'] = pd.Series(sqs_list[-1])
         results['units']['unit_annotation_score'] = pd.Series(srs)
         results['workers']['wqs'] = pd.Series(wqs_list[-1])
+        results['workers']['wwa'] = pd.Series(wwa_list[-1])
+        results['workers']['wsa'] = pd.Series(wsa_list[-1])
         if not config.open_ended_task:
             results['annotations']['aqs'] = pd.Series(rqs_list[-1])
 
         results['units']['uqs_initial'] = pd.Series(sqs_list[1])
         results['units']['unit_annotation_score_initial'] = pd.Series(srs_initial)
         results['workers']['wqs_initial'] = pd.Series(wqs_list[1])
+        results['workers']['wwa_initial'] = pd.Series(wwa_list[1])
+        results['workers']['wsa_initial'] = pd.Series(wsa_list[1])
         if not config.open_ended_task:
             results['annotations']['aqs_initial'] = pd.Series(rqs_list[1])
         return results
