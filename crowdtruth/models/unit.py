@@ -1,17 +1,13 @@
-import datetime
-import numpy as np
-import scipy.spatial as spatial
-
-
 class Unit():
 
 
     @staticmethod
     def aggregate(judgments, config):
-
+        """ aggregate the judgments of a unit """
         agg = {}
         for col in config.input.values():
-            # for each input column the first value is taken. all rows have the same value for each unit.
+            # for each input column the first value is taken.
+            # all rows have the same value for each unit.
             agg[col] = 'first'
         for col in config.output.values():
             # each output column dict is summed
@@ -26,7 +22,7 @@ class Unit():
         # get unit metrics
         #
         # for each vector in the unit get the unit metrics
-        units = units.apply(lambda row: Unit.getMetrics(row, config), axis=1)
+        units = units.apply(lambda row: Unit.get_metrics(row, config), axis=1)
 
         # sort columns
         units = units.reindex(sorted(units.columns), axis=1)
@@ -34,11 +30,9 @@ class Unit():
         return units
 
     @staticmethod
-    def getMetrics(row, config):
+    def get_metrics(row, config):
+        """ count the number of annotations for each unit """
         for col in config.output.values():
             row[col+'.unique_annotations'] = len(row[col])
             row[col+'.annotations'] = sum(row[col].values())
         return row
-
-
-

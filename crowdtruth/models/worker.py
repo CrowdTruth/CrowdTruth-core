@@ -1,21 +1,9 @@
-import datetime
-import numpy as np
-import itertools
-import pandas as pd
-from collections import Counter
-from datetime import datetime
-from collections import defaultdict
-import scipy.spatial as spatial
-
-import crowdtruth.models.unit
-
-
 class Worker():
 
 
     @staticmethod
     def aggregate(judgments, config):
-
+        """ aggregate judgments of workers """
         workers = judgments.copy().groupby('worker')
 
         agg = {

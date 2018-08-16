@@ -1,5 +1,7 @@
-from crowdtruth.models.metrics import *
+from crowdtruth.models.metrics import Metrics
 
 def run(data, config):
-	processed_results = Metrics.run(data, config)
-	return processed_results
+    """Run the CrowdTruth metrics with the given processing configuration"""
+
+    processed_results = Metrics.run(data, config)
+    return processed_results
