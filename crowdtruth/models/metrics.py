@@ -514,20 +514,20 @@ class Metrics():
 
         def save_unit_ann_score(unit_ann_dict, unit_work_ann_dict, iteration_value):
             """ save the unit annotation score for print """
-            srs = Counter()
+            uas = Counter()
             for unit_id in unit_ann_dict:
-                srs[unit_id] = Counter()
+                uas[unit_id] = Counter()
                 for ann in unit_ann_dict[unit_id]:
-                    srs[unit_id][ann] = Metrics.unit_annotation_score(unit_id, \
+                    uas[unit_id][ann] = Metrics.unit_annotation_score(unit_id, \
                                                 ann, unit_work_ann_dict, \
                                                 iteration_value)
-            return srs
+            return uas
 
-        srs = save_unit_ann_score(unit_ann_dict, unit_work_ann_dict, wqs_list[len(wqs_list) - 1])
-        srs_initial = save_unit_ann_score(unit_ann_dict, unit_work_ann_dict, wqs_list[0])
+        uas = save_unit_ann_score(unit_ann_dict, unit_work_ann_dict, wqs_list[len(wqs_list) - 1])
+        uas_initial = save_unit_ann_score(unit_ann_dict, unit_work_ann_dict, wqs_list[0])
 
         results['units']['uqs'] = pd.Series(uqs_list[-1])
-        results['units']['unit_annotation_score'] = pd.Series(srs)
+        results['units']['unit_annotation_score'] = pd.Series(uas)
         results['workers']['wqs'] = pd.Series(wqs_list[-1])
         results['workers']['wwa'] = pd.Series(wwa_list[-1])
         results['workers']['wsa'] = pd.Series(wsa_list[-1])
@@ -535,7 +535,7 @@ class Metrics():
             results['annotations']['aqs'] = pd.Series(aqs_list[-1])
 
         results['units']['uqs_initial'] = pd.Series(uqs_list[1])
-        results['units']['unit_annotation_score_initial'] = pd.Series(srs_initial)
+        results['units']['unit_annotation_score_initial'] = pd.Series(uas_initial)
         results['workers']['wqs_initial'] = pd.Series(wqs_list[1])
         results['workers']['wwa_initial'] = pd.Series(wwa_list[1])
         results['workers']['wsa_initial'] = pd.Series(wsa_list[1])

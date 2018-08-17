@@ -44,6 +44,28 @@ class TutorialConfig(DefaultConfig):
             judgments[col] = judgments[col].apply(lambda x: str(x).lower())
         return judgments
 
+class TutorialCustomizedConfig(DefaultConfig):
+    inputColumns = ["term1", "b1", "e1", "term2", "b2", "e2", "sentence"]
+    outputColumns = ["relations"]
+    customColumns = ["_id", "_unit_id", "_worker_id", "started_at", "created_at"]
+
+    # processing of a closed task
+    open_ended_task = False
+    annotation_separator = " "
+    annotation_vector = [
+        "causes", "manifestation", "treats", "prevents", "symptom", "diagnose_by_test_or_drug",
+        "location", "side_effect", "contraindicates", "associated_with", "is_a", "part_of",
+        "other", "none"]
+
+    def processJudgments(self, judgments):
+        # any pre-processing of the input data goes here
+        for col in self.outputColumns:
+            # remove square brackets from annotations
+            judgments[col] = judgments[col].apply(lambda x: str(x).replace('[', ''))
+            judgments[col] = judgments[col].apply(lambda x: str(x).replace(']', ''))
+            judgments[col] = judgments[col].apply(lambda x: str(x).lower())
+        return judgments
+
 # test_conf_const = TutorialConfig()
 # test_config = test_conf_const.__class__
 # data, config = crowdtruth.load(file = "tutorial/relex_example.csv", config = test_config())
@@ -104,7 +126,7 @@ class TestAgreementClosed(unittest.TestCase):
                     results["annotations"]["aqs"].at["B"],
                     1.0)
 
-    
+
     def test_incremental_worker_agreement(self):
         for w in range(4, 11):
             test_config = self.test_conf_const.__class__
@@ -178,6 +200,28 @@ class TestTutorial(unittest.TestCase):
         test_config = test_conf_const.__class__
         data, config = crowdtruth.load(
             file="tutorial/relex_example.csv",
+            config=test_config())
+        results = crowdtruth.run(data, config)
+        # for _, val_arr in results["units"]["unit_annotation_score"].items():
+        #     for _, val in val_arr.items():
+        #         self.assertGreaterEqual(val, 0.0)
+        #         self.assertLessEqual(val, 1.0)
+        for _, val in results["units"]["uqs"].items():
+            self.assertGreaterEqual(val, 0.0)
+            self.assertLessEqual(val, 1.0)
+        for _, val in results["workers"]["wqs"].items():
+            self.assertGreaterEqual(val, 0.0)
+            self.assertLessEqual(val, 1.0)
+        for _, val in results["annotations"]["aqs"].items():
+            self.assertGreaterEqual(val, 0.0)
+            self.assertLessEqual(val, 1.0)
+
+class TestCustomizedTutorial(unittest.TestCase):
+    def test_metrics_correct_interval(self):
+        test_conf_const = TutorialCustomizedConfig()
+        test_config = test_conf_const.__class__
+        data, config = crowdtruth.load(
+            file="tutorial/relex_example_custom.csv",
             config=test_config())
         results = crowdtruth.run(data, config)
         # for _, val_arr in results["units"]["unit_annotation_score"].items():

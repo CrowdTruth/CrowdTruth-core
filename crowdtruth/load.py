@@ -79,6 +79,8 @@ def load(**kwargs):
         logging.info('Config loaded')
         config = kwargs['config']
 
+    files = []
+    directory = ""
     # check if files is a single file or folder
     if 'file' in kwargs and kwargs['file'].endswith('.csv'):
         files = [kwargs['file']]
@@ -93,8 +95,7 @@ def load(**kwargs):
     for file in files:
         if 'directory' in locals():
             logging.info("Processing " + file)
-            file = directory + "/" + file
-        res, config = process_file(file, config)
+        res, config = process_file(directory + "/" + file, config)
         for value in res:
             results[value].append(res[value])
 
