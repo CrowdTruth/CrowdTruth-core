@@ -47,7 +47,7 @@ class TutorialConfig(DefaultConfig):
 class TutorialCustomizedConfig(DefaultConfig):
     inputColumns = ["term1", "b1", "e1", "term2", "b2", "e2", "sentence"]
     outputColumns = ["relations"]
-    customColumns = ["_id", "_unit_id", "_worker_id", "started_at", "created_at"]
+    customPlatformColumns = ["_id", "unit_id", "_worker_id", "_started_at", "_created_at"]
 
     # processing of a closed task
     open_ended_task = False
@@ -202,10 +202,10 @@ class TestTutorial(unittest.TestCase):
             file="tutorial/relex_example.csv",
             config=test_config())
         results = crowdtruth.run(data, config)
-        # for _, val_arr in results["units"]["unit_annotation_score"].items():
-        #     for _, val in val_arr.items():
-        #         self.assertGreaterEqual(val, 0.0)
-        #         self.assertLessEqual(val, 1.0)
+        for _, val_arr in results["units"]["unit_annotation_score"].items():
+            for _, val in val_arr.items():
+                self.assertGreaterEqual(val, 0.0)
+                self.assertLessEqual(val, 1.0)
         for _, val in results["units"]["uqs"].items():
             self.assertGreaterEqual(val, 0.0)
             self.assertLessEqual(val, 1.0)
@@ -224,10 +224,10 @@ class TestCustomizedTutorial(unittest.TestCase):
             file="tutorial/relex_example_custom.csv",
             config=test_config())
         results = crowdtruth.run(data, config)
-        # for _, val_arr in results["units"]["unit_annotation_score"].items():
-        #     for _, val in val_arr.items():
-        #         self.assertGreaterEqual(val, 0.0)
-        #         self.assertLessEqual(val, 1.0)
+        for _, val_arr in results["units"]["unit_annotation_score"].items():
+            for _, val in val_arr.items():
+                self.assertGreaterEqual(val, 0.0)
+                self.assertLessEqual(val, 1.0)
         for _, val in results["units"]["uqs"].items():
             self.assertGreaterEqual(val, 0.0)
             self.assertLessEqual(val, 1.0)
