@@ -233,6 +233,36 @@ class Metrics():
             uas_denominator = SMALL_NUMBER_CONST
         return uas_numerator / uas_denominator
 
+    @staticmethod
+    def compute_ann_quality_factors(numerator, denominator, work_unit_ann_dict_worker_i, \
+                                    work_unit_ann_dict_worker_j, ann, uqs):
+        """
+        Computes the factors for each unit annotation.
+        """
+        for unit_id, work_unit_ann_dict_worker_i_unit in work_unit_ann_dict_worker_i.items():
+            if unit_id in work_unit_ann_dict_worker_j:
+                work_unit_ann_dict_worker_j_unit = work_unit_ann_dict_worker_j[unit_id]
+
+                work_unit_ann_dict_worker_j_unit_ann = work_unit_ann_dict_worker_j_unit[ann]
+
+                def compute_numerator_aqs(unit_id_ann_value, worker_i_ann_value, \
+                                                          worker_j_ann_value):
+                    """ compute numerator """
+                    numerator = unit_id_ann_value * worker_i_ann_value * \
+                                                worker_j_ann_value
+                    return numerator
+
+                def compute_denominator_aqs(unit_id_ann_value, worker_j_ann_value):
+                    """ compute denominator """
+                    denominator = unit_id_ann_value * worker_j_ann_value
+                    return denominator
+
+                numerator += compute_numerator_aqs(uqs[unit_id], \
+                                                    work_unit_ann_dict_worker_i_unit[ann], \
+                                                    work_unit_ann_dict_worker_j_unit_ann)
+                denominator += compute_denominator_aqs(uqs[unit_id], \
+                                                        work_unit_ann_dict_worker_j_unit_ann)
+        return numerator, denominator
 
     # Annotation Quality Score (AQS)
     @staticmethod
@@ -281,29 +311,9 @@ class Metrics():
                         numerator = 0.0
                         denominator = 0.0
 
-                        for unit_id, work_unit_ann_dict_worker_i_unit in work_unit_ann_dict_worker_i.items():
-                            if unit_id in work_unit_ann_dict_worker_j:
-                                work_unit_ann_dict_worker_j_unit = work_unit_ann_dict_worker_j[unit_id]
-
-                                work_unit_ann_dict_worker_j_unit_ann = work_unit_ann_dict_worker_j_unit[ann]
-
-                                def compute_numerator_aqs(unit_id_ann_value, worker_i_ann_value, \
-                                                          worker_j_ann_value):
-                                    """ compute numerator """
-                                    numerator = unit_id_ann_value * worker_i_ann_value * \
-                                                worker_j_ann_value
-                                    return numerator
-
-                                def compute_denominator_aqs(unit_id_ann_value, worker_j_ann_value):
-                                    """ compute denominator """
-                                    denominator = unit_id_ann_value * worker_j_ann_value
-                                    return denominator
-
-                                numerator += compute_numerator_aqs(uqs[unit_id], \
-                                                    work_unit_ann_dict_worker_i_unit[ann], \
-                                                    work_unit_ann_dict_worker_j_unit_ann)
-                                denominator += compute_denominator_aqs(uqs[unit_id], \
-                                                        work_unit_ann_dict_worker_j_unit_ann)
+                        numerator, denominator = Metrics.compute_ann_quality_factors(numerator, \
+                                                    denominator, work_unit_ann_dict_worker_i, \
+                                                    work_unit_ann_dict_worker_j, ann, uqs)
 
                         if denominator > 0:
                             aqs_numerator[ann] += wqs[worker_i] * wqs[worker_j] * \
