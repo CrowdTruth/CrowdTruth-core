@@ -192,7 +192,10 @@ class Metrics():
                 #work_sent_rel_dict_worker_j = work_sent_rel_dict[worker_j]
                 work_sent_rel_dict_j_keys = list(work_sent_rel_dict_worker_j.keys())
 
-                if worker_i != worker_j and len(np.intersect1d(np.array(work_sent_rel_dict_i_keys), np.array(work_sent_rel_dict_j_keys))) > 0:
+                length_keys = len(np.intersect1d(np.array(work_sent_rel_dict_i_keys), \
+                                                 np.array(work_sent_rel_dict_j_keys)))
+
+                if worker_i != worker_j and length_keys > 0:
                     for relation in relations:
                         numerator = 0.0
                         denominator = 0.0
@@ -203,28 +206,45 @@ class Metrics():
                                 work_sent_rel_dict_worker_j_sent = work_sent_rel_dict_worker_j[sentence_id]
 
                                 work_sent_rel_dict_worker_j_sent_rel = work_sent_rel_dict_worker_j_sent[relation]
-                                #print worker_i,worker_j,sentence_id,relation
-                                numerator += sqs[sentence_id] * (work_sent_rel_dict_worker_i_sent[relation] *
-                                                                 work_sent_rel_dict_worker_j_sent_rel)
-                                denominator += sqs[sentence_id] * work_sent_rel_dict_worker_j_sent_rel
+
+                                def compute_numerator_rqs(sent_id_rel_value, worker_i_rel_value, \
+                                                          worker_j_rel_value):
+                                    """ compute numerator """
+                                    numerator = sent_id_rel_value * worker_i_rel_value * \
+                                                worker_j_rel_value
+                                    return numerator
+
+                                def compute_denominator_rqs(sent_id_rel_value, worker_j_rel_value):
+                                    """ compute denominator """
+                                    denominator = sent_id_rel_value * worker_j_rel_value
+                                    return denominator
+
+                                numerator += compute_numerator_rqs(sqs[sentence_id], \
+                                                    work_sent_rel_dict_worker_i_sent[relation], \
+                                                    work_sent_rel_dict_worker_j_sent_rel)
+                                denominator += compute_denominator_rqs(sqs[sentence_id], \
+                                                        work_sent_rel_dict_worker_j_sent_rel)
 
                         if denominator > 0:
                             rqs_numerator[relation] += wqs[worker_i] * wqs[worker_j] * \
                                                         numerator / denominator
                             rqs_denominator[relation] += wqs[worker_i] * wqs[worker_j]
 
+        def rqs_dict(relations, rqs_numerator, rqs_denominator):
+            """ create the dictionary of RQS values """
+            rqs = dict()
+            for relation in relations:
+                if rqs_denominator[relation] > SMALL_NUMBER_CONST:
+                    rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
 
-        rqs = dict()
-        for relation in relations:
-            if rqs_denominator[relation] > SMALL_NUMBER_CONST:
-                rqs[relation] = rqs_numerator[relation] / rqs_denominator[relation]
-
-                # prevent division by zero by storing very small value instead
-                if rqs[relation] < SMALL_NUMBER_CONST:
+                    # prevent division by zero by storing very small value instead
+                    if rqs[relation] < SMALL_NUMBER_CONST:
+                        rqs[relation] = SMALL_NUMBER_CONST
+                else:
                     rqs[relation] = SMALL_NUMBER_CONST
-            else:
-                rqs[relation] = SMALL_NUMBER_CONST
-        return rqs
+            return rqs
+
+        return rqs_dict(relations, rqs_numerator, rqs_denominator)
 
 
     @staticmethod
@@ -255,7 +275,6 @@ class Metrics():
 
         # fill judgment vectors with unit keys
         for index, row in judgments.iterrows():
-            # judgments.set_value(index, col, expandedVector(row[col], units.at[row['unit'], col]))
             judgments.at[index, col] = expanded_vector(row[col], units.at[row['unit'], col])
 
         sent_work_rel_dict = judgments[['unit', 'worker', col]].copy().groupby('unit')
@@ -283,16 +302,20 @@ class Metrics():
         wwa_list.append(wwa.copy())
         wsa_list.append(wsa.copy())
 
-        # initialize RQS depending on whether or not it is an open ended task
-        rqs = dict()
-        if not config.open_ended_task:
-            rqs_keys = list(sent_rel_dict[list(sent_rel_dict.keys())[0]].keys())
-            for relation in rqs_keys:
-                rqs[relation] = 1.0
-        else:
-            for sentence_id in sent_rel_dict:
-                for relation in sent_rel_dict[sentence_id]:
+        def init_rqs(config, sent_rel_dict):
+            """ initialize RQS depending on whether or not it is an open ended task """
+            rqs = dict()
+            if not config.open_ended_task:
+                rqs_keys = list(sent_rel_dict[list(sent_rel_dict.keys())[0]].keys())
+                for relation in rqs_keys:
                     rqs[relation] = 1.0
+            else:
+                for sentence_id in sent_rel_dict:
+                    for relation in sent_rel_dict[sentence_id]:
+                        rqs[relation] = 1.0
+            return rqs
+
+        rqs = init_rqs(config, sent_rel_dict)
         rqs_list.append(rqs.copy())
 
         sqs_len = len(list(sqs.keys())) * 1.0
@@ -335,7 +358,8 @@ class Metrics():
                     wqs_new[worker_id] = wwa_new[worker_id] * wsa_new[worker_id]
                     max_delta = max(max_delta, \
                                 abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id]))
-                    avg_wqs_delta += abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id])
+                    avg_wqs_delta += abs(wqs_new[worker_id] - \
+                                         wqs_list[len(wqs_list) - 1][worker_id])
                 avg_wqs_delta /= wqs_len
 
                 return wwa_new, wsa_new, wqs_new, max_delta, avg_wqs_delta
@@ -354,17 +378,6 @@ class Metrics():
                             new_sent_rel_dict[sent_id][relation] += score * wqs_work_id
 
                 return new_sent_rel_dict
-
-            def save_unit_rel_score(sent_rel_dict, sent_work_rel_dict, iteration_value):
-                """ save the unit relation score for print """
-                srs = Counter()
-                for sentence_id in sent_rel_dict:
-                    srs[sentence_id] = Counter()
-                    for relation in sent_rel_dict[sentence_id]:
-                        srs[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, \
-                                                    relation, sent_work_rel_dict, \
-                                                    iteration_value)
-                return srs
 
             def compute_rqs(rqs, work_sent_rel_dict, sqs_list, wqs_list, rqs_list, rqs_len, max_delta, avg_rqs_delta):
                 """ compute relation quality score (RQS) """
@@ -418,6 +431,17 @@ class Metrics():
             logging.info(str(iterations) + " iterations; max d= " + str(max_delta) + \
                         " ; wqs d= " + str(avg_wqs_delta) + "; sqs d= " + str(avg_sqs_delta) + \
                         "; rqs d= " + str(avg_rqs_delta))
+
+        def save_unit_rel_score(sent_rel_dict, sent_work_rel_dict, iteration_value):
+            """ save the unit relation score for print """
+            srs = Counter()
+            for sentence_id in sent_rel_dict:
+                srs[sentence_id] = Counter()
+                for relation in sent_rel_dict[sentence_id]:
+                    srs[sentence_id][relation] = Metrics.sentence_relation_score(sentence_id, \
+                                                relation, sent_work_rel_dict, \
+                                                iteration_value)
+            return srs
 
         srs = save_unit_rel_score(sent_rel_dict, sent_work_rel_dict, wqs_list[len(wqs_list) - 1])
         srs_initial = save_unit_rel_score(sent_rel_dict, sent_work_rel_dict, wqs_list[0])
