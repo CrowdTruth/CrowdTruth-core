@@ -1,9 +1,27 @@
+"""
+Unit initialization.
+"""
 class Unit():
-
+    """
+    Performs general statistics over the units in the jobs.
+    """
 
     @staticmethod
     def aggregate(judgments, config):
-        """ aggregate the judgments of a unit """
+        """
+        Aggregates information for each unit in the job. For each unit we save the
+        data that was used as input (in the crowdsourcing template), the job in which
+        it appeared, the number of workers that annotated the unit and the total
+        amount of time spent by the workers to annotate it.
+
+        Args:
+            judgments: Judgments contained in the job.
+            config: Job configuration as provided as input for the metrics.
+
+        Returns:
+            A dataframe containing all units that appear in the jobs and the
+            statistics relevant for them.
+        """
         agg = {}
         for col in config.input.values():
             # for each input column the first value is taken.
@@ -31,7 +49,9 @@ class Unit():
 
     @staticmethod
     def get_metrics(row, config):
-        """ count the number of annotations for each unit """
+        """
+        Counts the number of annotations and the number of unique annotations for each unit.
+        """
         for col in config.output.values():
             row[col+'.unique_annotations'] = len(row[col])
             row[col+'.annotations'] = sum(row[col].values())

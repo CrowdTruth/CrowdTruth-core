@@ -1,10 +1,26 @@
+"""
+Job initialization.
+"""
+
 class Job():
+    """
+    Performs general statistics over the crowdsourcing jobs.
+    """
 
     @staticmethod
     def aggregate(units, judgments, config):
+        """
+        Aggregates information about the total number of units, total number of judgments,
+        total number of workers that provided annotations and the total duration of the job.
 
-        """ each output column dict is summed """
+        Args:
+            units: Units contained in the job.
+            judgments: Judgments contained in the job.
+            config: Job configuration as provided as input for the metrics.
 
+        Returns:
+            A dataframe of one row that stores general stats on the crowdsourcing jobs.
+        """
         agg = {
             'unit' : 'nunique',
             'judgment' : 'nunique',
