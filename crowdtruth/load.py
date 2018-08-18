@@ -66,7 +66,7 @@ def get_file_list(directory):
             filelist.append(file)
     return filelist
 
-def list_files(kwargs):
+def list_files(kwargs, results, config):
     """ Creates a list of files to be processed. """
     files = []
     directory = ""
@@ -78,7 +78,16 @@ def list_files(kwargs):
         logging.info('Found ' + str(len(files)) + ' files')
     else:
         raise ValueError('No input was provided')
-    return files, directory
+
+    for file in files:
+        if 'directory' in locals() and directory != "":
+            logging.info("Processing " + file)
+            file = directory + "/" + file
+        res, config = process_file(file, config)
+        for value in res:
+            results[value].append(res[value])
+
+    return results
 
 def load(**kwargs):
     """ Loads the input files. """
@@ -98,15 +107,7 @@ def load(**kwargs):
         logging.info('Config loaded')
         config = kwargs['config']
 
-    files, directory = list_files(kwargs)
-
-    for file in files:
-        if 'directory' in locals() and directory != "":
-            logging.info("Processing " + file)
-            file = directory + "/" + file
-        res, config = process_file(file, config)
-        for value in res:
-            results[value].append(res[value])
+    results = list_files(kwargs, results, config)
 
     for value in results:
         results[value] = pd.concat(results[value])
@@ -179,8 +180,22 @@ def make_output_cols_safe_keys(config, judgments):
                                  config.annotation_vector))
     return judgments
 
+
+def add_missing_values(config, units):
+    """ Adds missing vector values if is a closed task """
+    for col in config.output.values():
+        try:
+            # openended = config.open_ended_task
+            for idx in list(units.index):
+                for relation in config.annotation_vector:
+                    if relation not in units[col][idx]:
+                        units[col][idx].update({relation : 0})
+            return units
+        except AttributeError:
+            continue
+
 def process_file(filename, config):
-    """ process input files with the given configuration"""
+    """ Processes input files with the given configuration """
 
     judgments = pd.read_csv(filename)#, encoding=result['encoding'])
 
@@ -280,15 +295,7 @@ def process_file(filename, config):
     judgments.set_index('judgment', inplace=True)
 
     # add missing vector values if closed task
-    for col in config.output.values():
-        try:
-            # openended = config.open_ended_task
-            for idx in list(units.index):
-                for relation in config.annotation_vector:
-                    if relation not in units[col][idx]:
-                        units[col][idx].update({relation : 0})
-        except AttributeError:
-            continue
+    units = add_missing_values(config, units)
 
     return {
         'jobs' : job,
@@ -358,6 +365,26 @@ def configure_platform_columns(dframe, config):
                          if c in config.outputColumns}
     return config.input, config.output
 
+def configure_with_missing_columns(dframe, config):
+    """ Identifies the type of the column based on naming """
+    units = dframe.groupby('_unit_id')
+    columns = [c for c in dframe.columns.values if c != 'clustering' and not c.startswith('_') \
+                   and not c.startswith('e_') and not c.endswith('_gold') \
+                   and not c.endswith('_reason') and not c.endswith('browser')]
+    for colname in columns:
+        try:
+            for _, unit in units:
+                unique = unit[colname].nunique()
+                if unique != 1 and unique != 0:
+                    raise Found
+            if not config.inputColumns:
+                config.input[colname] = 'input.'+colname
+
+        except Found:
+            if not config.outputColumns:
+                config.output[colname] = 'output.'+colname
+
+    return config
 
 def get_column_types(dframe, config):
     """ return input and output columns """
@@ -387,24 +414,8 @@ def get_column_types(dframe, config):
         # this is not failsafe but should give decent results without settings
         # it is best to make a settings.py file for a collection
 
-        units = dframe.groupby('_unit_id')
-        columns = [c for c in dframe.columns.values if c != 'clustering' and not c.startswith('_')
-                   and not c.startswith('e_') and not c.endswith('_gold')
-                   and not c.endswith('_reason') and not c.endswith('browser')]
-        for colname in columns:
-            try:
-                for _, unit in units:
-                    unique = unit[colname].nunique()
-                    if unique != 1 and unique != 0:
-                        raise Found
-                if not config.inputColumns:
-                    config.input[colname] = 'input.'+colname
+        return configure_with_missing_columns(dframe, config)
 
-            except Found:
-                if not config.outputColumns:
-                    config.output[colname] = 'output.'+colname
-
-        return config
     else:
         # unknown platform type
 
