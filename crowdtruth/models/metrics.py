@@ -238,12 +238,23 @@ class Metrics():
                                     work_unit_ann_dict_worker_j, ann, uqs):
         """
         Computes the factors for each unit annotation.
-        """
-        for unit_id, work_unit_ann_dict_worker_i_unit in work_unit_ann_dict_worker_i.items():
-            if unit_id in work_unit_ann_dict_worker_j:
-                work_unit_ann_dict_worker_j_unit = work_unit_ann_dict_worker_j[unit_id]
 
-                work_unit_ann_dict_worker_j_unit_ann = work_unit_ann_dict_worker_j_unit[ann]
+        Args:
+            numerator: Current numerator
+            denominator: Current denominator
+            work_unit_ann_dict_worker_i: Dict of worker i annotation vectors on annotated units.
+            work_unit_ann_dict_worker_j: Dict of worker j annotation vectors on annotated units.
+            ann: Annotation value
+            uqs: Dict unit_id that contains the unit quality scores (float).
+
+        Returns:
+            The annotation quality factors.
+        """
+        for unit_id, work_unit_ann_dict_work_i_unit in work_unit_ann_dict_worker_i.items():
+            if unit_id in work_unit_ann_dict_worker_j:
+                work_unit_ann_dict_work_j_unit = work_unit_ann_dict_worker_j[unit_id]
+
+                work_unit_ann_dict_wj_unit_ann = work_unit_ann_dict_work_j_unit[ann]
 
                 def compute_numerator_aqs(unit_id_ann_value, worker_i_ann_value, \
                                                           worker_j_ann_value):
@@ -258,11 +269,38 @@ class Metrics():
                     return denominator
 
                 numerator += compute_numerator_aqs(uqs[unit_id], \
-                                                    work_unit_ann_dict_worker_i_unit[ann], \
-                                                    work_unit_ann_dict_worker_j_unit_ann)
+                                                    work_unit_ann_dict_work_i_unit[ann], \
+                                                    work_unit_ann_dict_wj_unit_ann)
                 denominator += compute_denominator_aqs(uqs[unit_id], \
-                                                        work_unit_ann_dict_worker_j_unit_ann)
+                                                        work_unit_ann_dict_wj_unit_ann)
         return numerator, denominator
+
+    @staticmethod
+    def aqs_dict(annotations, aqs_numerator, aqs_denominator):
+        """
+        Create the dictionary of annotation quality score values.
+
+        Args:
+            annotations: Dictionary of annotations.
+            aqs_numerator: Annotation numerator.
+            aqs_denominator: Annotation denominator.
+
+
+        Returns:
+            The dictionary of annotation quality scores.
+        """
+
+        aqs = dict()
+        for ann in annotations:
+            if aqs_denominator[ann] > SMALL_NUMBER_CONST:
+                aqs[ann] = aqs_numerator[ann] / aqs_denominator[ann]
+                # prevent division by zero by storing very small value instead
+                if aqs[ann] < SMALL_NUMBER_CONST:
+                    aqs[ann] = SMALL_NUMBER_CONST
+            else:
+                aqs[ann] = SMALL_NUMBER_CONST
+        return aqs
+
 
     # Annotation Quality Score (AQS)
     @staticmethod
@@ -320,21 +358,7 @@ class Metrics():
                                                         numerator / denominator
                             aqs_denominator[ann] += wqs[worker_i] * wqs[worker_j]
 
-        def aqs_dict(annotations, aqs_numerator, aqs_denominator):
-            """ create the dictionary of aqs values """
-            aqs = dict()
-            for ann in annotations:
-                if aqs_denominator[ann] > SMALL_NUMBER_CONST:
-                    aqs[ann] = aqs_numerator[ann] / aqs_denominator[ann]
-
-                    # prevent division by zero by storing very small value instead
-                    if aqs[ann] < SMALL_NUMBER_CONST:
-                        aqs[ann] = SMALL_NUMBER_CONST
-                else:
-                    aqs[ann] = SMALL_NUMBER_CONST
-            return aqs
-
-        return aqs_dict(annotations, aqs_numerator, aqs_denominator)
+        return Metrics.aqs_dict(annotations, aqs_numerator, aqs_denominator)
 
 
     @staticmethod

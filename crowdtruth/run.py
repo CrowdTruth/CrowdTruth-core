@@ -1,3 +1,7 @@
+"""
+Module used to run the CrowdTruth metrics.
+"""
+
 from crowdtruth.models.metrics import Metrics
 
 def run(data, config):

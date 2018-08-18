@@ -1,4 +1,9 @@
 #pylint: disable=W0223
+
+"""
+Module used to process and load the input files to be evaluated with the CrowdTruth metrics.
+"""
+
 import os
 
 import logging
@@ -19,11 +24,11 @@ from crowdtruth.configuration import DefaultConfig
 # create an ordered counter so that we can maintain
 # the position of tags in the order they were annotated
 class OrderedCounter(Counter, OrderedDict):
-    """ ordered counter """
+    """ Instantiates an ordered counter. """
     pass
 
 def create_ordered_counter(ordered_counter, annotation_vector):
-    """ ordered counter """
+    """ Instantiates an ordered counter from a given annotation vector. """
     for relation in annotation_vector:
         if relation not in ordered_counter:
             ordered_counter.update({relation: 0})
@@ -31,11 +36,11 @@ def create_ordered_counter(ordered_counter, annotation_vector):
 
 
 class Found(Exception):
-    """ Exception """
+    """ Exception. """
     pass
 
 def validate_timestamp_field(date_string, date_format):
-    """ function to validate time columns in input files """
+    """ Validates the time columns (started time and submitted time) in input files. """
 
     try:
         date_obj = datetime.datetime.strptime(date_string, date_format)
@@ -44,7 +49,7 @@ def validate_timestamp_field(date_string, date_format):
         raise ValueError('Incorrect date format')
 
 def get_file_list(directory):
-    """ return list of documents in folder """
+    """ List the files in the directry given as argument. """
     filelist = []
 
     # go through all files in this folder
@@ -57,12 +62,27 @@ def get_file_list(directory):
                 filelist.append(sublist)
 
         # if it is a csv file open it
-        elif file.endswith('.csv') and file != 'groundtruth.csv':
+        if file.endswith('.csv') and file != 'groundtruth.csv':
             filelist.append(file)
     return filelist
 
+def list_files(kwargs):
+    """ Creates a list of files to be processed. """
+    files = []
+    directory = ""
+    if 'file' in kwargs and kwargs['file'].endswith('.csv'):
+        files = [kwargs['file']]
+    elif 'directory' in kwargs:
+        directory = kwargs['directory']
+        files = get_file_list(directory)
+        logging.info('Found ' + str(len(files)) + ' files')
+    else:
+        raise ValueError('No input was provided')
+    return files, directory
+
 def load(**kwargs):
-    """ Load judgment files """
+    """ Loads the input files. """
+
     # placeholder for aggregated results
     results = {
         'jobs' : [],
@@ -72,26 +92,16 @@ def load(**kwargs):
         'annotations' : []
         }
 
-
     if 'config' not in kwargs:
         config = DefaultConfig()
     else:
         logging.info('Config loaded')
         config = kwargs['config']
 
-    # check if files is a single file or folder
-    if 'file' in kwargs and kwargs['file'].endswith('.csv'):
-        files = [kwargs['file']]
-    elif 'directory' in kwargs:
-        directory = kwargs['directory']
-        files = get_file_list(directory)
-        logging.info('Found ' + str(len(files)) + ' files')
-    else:
-        raise ValueError('No input was provided')
-
+    files, directory = list_files(kwargs)
 
     for file in files:
-        if 'directory' in locals():
+        if 'directory' in locals() and directory != "":
             logging.info("Processing " + file)
             file = directory + "/" + file
         res, config = process_file(file, config)
@@ -314,6 +324,40 @@ def get_platform(dframe):
         }
     return False
 
+def configure_amt_columns(dframe, config):
+    """ Configures AMT input and output columns. """
+    config.input = {}
+    config.output = {}
+
+    if config.inputColumns:
+        config.input = {c: 'input.'+c.replace('Input.', '') \
+                        for c in dframe.columns.values if c in config.inputColumns}
+    else:
+        config.input = {c: 'input.'+c.replace('Input.', '') \
+                        for c in dframe.columns.values if c.startswith('Input.')}
+
+    # if config is specified, use those columns
+    if config.outputColumns:
+        config.output = {c: 'output.'+c.replace('Answer.', '') \
+                         for c in dframe.columns.values if c in config.outputColumns}
+    else:
+        config.output = {c: 'output.'+c.replace('Answer.', '') \
+                         for c in dframe.columns.values if c.startswith('Answer.')}
+    return config.input, config.output
+
+def configure_platform_columns(dframe, config):
+    """ Configures FigureEight and custom platforms input and output columns. """
+    config.input = {}
+    config.output = {}
+
+    if config.inputColumns:
+        config.input = {c: 'input.'+c for c in dframe.columns.values \
+                        if c in config.inputColumns}
+    if config.outputColumns:
+        config.output = {c: 'output.'+c for c in dframe.columns.values \
+                         if c in config.outputColumns}
+    return config.input, config.output
+
 
 def get_column_types(dframe, config):
     """ return input and output columns """
@@ -326,31 +370,14 @@ def get_column_types(dframe, config):
     if dframe.columns.values[0] == 'HITId':
         # Mturk
         # if config is specified, use those columns
-        if config.inputColumns:
-            config.input = {c: 'input.'+c.replace('Input.', '')
-                            for c in dframe.columns.values if c in config.inputColumns}
-        else:
-            config.input = {c: 'input.'+c.replace('Input.', '')
-                            for c in dframe.columns.values if c.startswith('Input.')}
+        config.input, config.output = configure_amt_columns(dframe, config)
 
-        # if config is specified, use those columns
-        if config.outputColumns:
-            config.output = {c: 'output.'+c.replace('Answer.', '')
-                             for c in dframe.columns.values if c in config.outputColumns}
-        else:
-            config.output = {c: 'output.'+c.replace('Answer.', '')
-                             for c in dframe.columns.values if c.startswith('Answer.')}
         return config
 
     elif dframe.columns.values[0] == '_unit_id':
 
         # if a config is specified, use those columns
-        if config.inputColumns:
-            config.input = {c: 'input.'+c for c in dframe.columns.values \
-                            if c in config.inputColumns}
-        if config.outputColumns:
-            config.output = {c: 'output.'+c for c in dframe.columns.values \
-                             if c in config.outputColumns}
+        config.input, config.output = configure_platform_columns(dframe, config)
         # if there is a config for both input and output columns, we can return those
         if config.inputColumns and config.outputColumns:
             return config
@@ -382,12 +409,7 @@ def get_column_types(dframe, config):
         # unknown platform type
 
         # if a config is specified, use those columns
-        if config.inputColumns:
-            config.input = {c: 'input.'+c for c in dframe.columns.values \
-                            if c in config.inputColumns}
-        if config.outputColumns:
-            config.output = {c: 'output.'+c for c in dframe.columns.values \
-                             if c in config.outputColumns}
+        config.input, config.output = configure_platform_columns(dframe, config)
         # if there is a config for both input and output columns, we can return those
         if config.inputColumns and config.outputColumns:
             return config
