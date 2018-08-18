@@ -44,27 +44,8 @@ class TutorialConfig(DefaultConfig):
             judgments[col] = judgments[col].apply(lambda x: str(x).lower())
         return judgments
 
-class TutorialCustomizedConfig(DefaultConfig):
-    inputColumns = ["term1", "b1", "e1", "term2", "b2", "e2", "sentence"]
-    outputColumns = ["relations"]
+class TutorialCustomizedConfig(TutorialConfig):
     customPlatformColumns = ["_id", "unit_id", "_worker_id", "_started_at", "_created_at"]
-
-    # processing of a closed task
-    open_ended_task = False
-    annotation_separator = " "
-    annotation_vector = [
-        "causes", "manifestation", "treats", "prevents", "symptom", "diagnose_by_test_or_drug",
-        "location", "side_effect", "contraindicates", "associated_with", "is_a", "part_of",
-        "other", "none"]
-
-    def processJudgments(self, judgments):
-        # any pre-processing of the input data goes here
-        for col in self.outputColumns:
-            # remove square brackets from annotations
-            judgments[col] = judgments[col].apply(lambda x: str(x).replace('[', ''))
-            judgments[col] = judgments[col].apply(lambda x: str(x).replace(']', ''))
-            judgments[col] = judgments[col].apply(lambda x: str(x).lower())
-        return judgments
 
 # test_conf_const = TutorialConfig()
 # test_config = test_conf_const.__class__
