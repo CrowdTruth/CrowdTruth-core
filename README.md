@@ -1,16 +1,31 @@
-# CrowdTruth
+# ![CrowdTruth](http://crowdtruth.org/wp-content/uploads/2016/11/CrowdTruth.png)
 
-[![Build Status](https://travis-ci.org/CrowdTruth/CrowdTruth-core.svg?branch=master)](https://travis-ci.org/CrowdTruth/CrowdTruth-core) [![codecov](https://codecov.io/gh/CrowdTruth/CrowdTruth-core/branch/master/graph/badge.svg)](https://codecov.io/gh/CrowdTruth/CrowdTruth-core) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1304310.svg)](https://doi.org/10.5281/zenodo.1304310)
+[![PyPI version](https://badge.fury.io/py/CrowdTruth.svg)](https://badge.fury.io/py/CrowdTruth) [![Build Status](https://travis-ci.org/CrowdTruth/CrowdTruth-core.svg?branch=master)](https://travis-ci.org/CrowdTruth/CrowdTruth-core) [![codecov](https://codecov.io/gh/CrowdTruth/CrowdTruth-core/branch/master/graph/badge.svg)](https://codecov.io/gh/CrowdTruth/CrowdTruth-core) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CrowdTruth/CrowdTruth-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CrowdTruth/CrowdTruth-core/?branch=master)
 
+This library processes crowdsourcing results from Amazon Mechanical Turk and CrowdFlower following the CrowdTruth methodology. A full description of the metrics is available [in this paper](http://crowdtruth.org/wp-content/uploads/2018/07/metrics-capturing-ambiguity.pdf). For more information see http://crowdtruth.org.
 
-This library processes crowdsourcing results from Amazon Mechanical Turk and CrowdFlower following the CrowdTruth methodology. For more information see http://crowdtruth.org.
+If you use this software in your research, please consider citing:
+
+```
+@article{DBLP:journals/corr/CrowdTruth2,
+   author    = {Anca Dumitrache and Oana Inel and Lora Aroyo and Benjamin Timmermans and Chris Welty},
+  title     = {CrowdTruth 2.0: Quality Metrics for Crowdsourcing with Disagreement},
+  year      = {2018},
+}
+```
 
 
 ## Installation
 
-To install the stable version from PyPI, install *pip* for your OS, then install package using `pip install crowdtruth`
+To install the stable version from PyPI, install *pip* for your OS, then install package using:
+```
+$ pip install crowdtruth
+```
 
-To install the latest version from source, download the library and install it using `python setup.py develop`
+To install the latest version from source, download the library and install it using:
+```
+$ python setup.py install
+```
 
 ## Getting Started
 
@@ -36,24 +51,3 @@ Custom configuration can be added by creating a class that inherits from `Defaul
 * `jobs`: a list of jobs to use. If empty all jobs are used.
 * `processJudgments(self, judgments):` a function to alter the judgments before they are processed in CrowdTruth. The `judgments` variable is a Pandas dataframe with all judgments of one input file. This function should always return the same dataframe, with only the input or output columns altered. The identified input columns are stored in `self.input.keys()` and the output columns in `self.output.keys()`.
 * `processResults(self, results):` a function to alter the results after they are processed in CrowdTruth. This allows custom metrics to be run, or additional visualizations to be generated. The `results` variable is a dictionary with a Pandas dataframe for the *jobs*, *units*, *workers*, *judgments* and *annotations*. Each of these dataframes may be altered and new dataframes may be added to the dictionary. Each of the dataframes is saved as a tab in the `results.xlsx` file. Additionally, plots can be generated, which will be saved into the folder that is being processed.
-
-### Documentation
-
-A full description of the metrics is available [here](http://crowdtruth.org/wp-content/uploads/2018/07/metrics-capturing-ambiguity.pdf).
-
-If you use this software in your research, please consider citing:
-
-```
-@misc{anca_dumitrache_2018_1304310,
-  author       = {Anca Dumitrache and
-                  Oana Inel and
-                  Benjamin Timmermans and
-                  Lora Aroyo and
-                  Chris Welty},
-  title        = {CrowdTruth Metrics 2.0},
-  month        = jul,
-  year         = 2018,
-  doi          = {10.5281/zenodo.1304310},
-  url          = {https://doi.org/10.5281/zenodo.1304310}
-}
-```
