@@ -1,10 +1,12 @@
-""" Unit testing module """
+""" Unit testing module for metrics functions """
 
 import unittest
 import string
 
 import crowdtruth
 from crowdtruth.configuration import DefaultConfig
+
+TEST_FILE_PREF = "test/test_data/metrics/"
 
 class TestConfigOpen(DefaultConfig):
     inputColumns = ["in_col"]
@@ -59,7 +61,7 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(2,11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file="test/" + str(w) + "work_agr.csv",
+                file=TEST_FILE_PREF + str(w) + "work_agr.csv",
                 config=test_config())
             results = crowdtruth.run(data, config)
             self.assertAlmostEqual(results["units"]["uqs"].at[1], 1.0)
@@ -72,7 +74,7 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(2, 11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file="test/" + str(w) + "work_disagr.csv",
+                file=TEST_FILE_PREF + str(w) + "work_disagr.csv",
                 config=test_config())
             results = crowdtruth.run(data, config)
             self.assertAlmostEqual(results["units"]["uqs"].at[1], 0.0)
@@ -87,7 +89,7 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(3, 11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file="test/" + str(w) + "work_outlier.csv",
+                file=TEST_FILE_PREF + str(w) + "work_outlier.csv",
                 config=test_config())
             results = crowdtruth.run(data, config)
             self.assertAlmostEqual(
@@ -112,7 +114,7 @@ class TestAgreementClosed(unittest.TestCase):
         for w in range(4, 11):
             test_config = self.test_conf_const.__class__
             data, config = crowdtruth.load(
-                file="test/" + str(w - 2) + "vs" + str(w - 1) + "work_agr.csv",
+                file=TEST_FILE_PREF + str(w - 2) + "vs" + str(w - 1) + "work_agr.csv",
                 config=test_config())
             results = crowdtruth.run(data, config)
 
@@ -218,6 +220,3 @@ class TestCustomizedTutorial(unittest.TestCase):
         for _, val in results["annotations"]["aqs"].items():
             self.assertGreaterEqual(val, 0.0)
             self.assertLessEqual(val, 1.0)
-
-if __name__ == '__main__':
-    unittest.main()

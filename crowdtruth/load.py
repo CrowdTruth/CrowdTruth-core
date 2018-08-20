@@ -254,6 +254,7 @@ def process_file(filename, config):
 
     # remove units with just 1 judgment
     judgments = remove_single_judgment_units(judgments)
+    
     judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(str(x)))
     judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
     judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds,
