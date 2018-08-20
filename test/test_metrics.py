@@ -1,7 +1,7 @@
+""" Unit testing module """
 
 import unittest
 import string
-# import logging
 
 import crowdtruth
 from crowdtruth.configuration import DefaultConfig

@@ -174,10 +174,6 @@ def make_output_cols_safe_keys(config, judgments):
                 judgments[col] = judgments[col].apply(lambda x: create_ordered_counter( \
                                  OrderedCounter(x.split(config.annotation_separator)), \
                                  config.annotation_vector))
-    judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(str(x)))
-    judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
-    judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds,
-                                            axis=1)
     return judgments
 
 
@@ -258,6 +254,10 @@ def process_file(filename, config):
 
     # remove units with just 1 judgment
     judgments = remove_single_judgment_units(judgments)
+    judgments['started'] = judgments['started'].apply(lambda x: pd.to_datetime(str(x)))
+    judgments['submitted'] = judgments['submitted'].apply(lambda x: pd.to_datetime(str(x)))
+    judgments['duration'] = judgments.apply(lambda row: (row['submitted'] - row['started']).seconds,
+                                            axis=1)
 
     #
     # aggregate units
