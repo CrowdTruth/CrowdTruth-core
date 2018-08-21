@@ -2,15 +2,16 @@
 
 [![PyPI version](https://badge.fury.io/py/CrowdTruth.svg)](https://badge.fury.io/py/CrowdTruth) [![Build Status](https://travis-ci.org/CrowdTruth/CrowdTruth-core.svg?branch=master)](https://travis-ci.org/CrowdTruth/CrowdTruth-core) [![codecov](https://codecov.io/gh/CrowdTruth/CrowdTruth-core/branch/master/graph/badge.svg)](https://codecov.io/gh/CrowdTruth/CrowdTruth-core) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CrowdTruth/CrowdTruth-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CrowdTruth/CrowdTruth-core/?branch=master)
 
-This library processes crowdsourcing results from Amazon Mechanical Turk and CrowdFlower following the CrowdTruth methodology. A full description of the metrics is available [in this paper](http://crowdtruth.org/wp-content/uploads/2018/07/metrics-capturing-ambiguity.pdf). For more information see http://crowdtruth.org.
+This library processes crowdsourcing results from Amazon Mechanical Turk and CrowdFlower following the CrowdTruth methodology. A full description of the metrics is available [in this paper](https://arxiv.org/abs/1808.06080). For more information see http://crowdtruth.org.
 
 If you use this software in your research, please consider citing:
 
 ```
-@article{DBLP:journals/corr/CrowdTruth2,
+@article{CrowdTruth2,
   author    = {Anca Dumitrache and Oana Inel and Lora Aroyo and Benjamin Timmermans and Chris Welty},
   title     = {CrowdTruth 2.0: Quality Metrics for Crowdsourcing with Disagreement},
   year      = {2018},
+  url       = {https://arxiv.org/abs/1808.06080},
 }
 ```
 
@@ -19,12 +20,12 @@ If you use this software in your research, please consider citing:
 
 To install the stable version from PyPI, install *pip* for your OS, then install package using:
 ```
-$ pip install crowdtruth
+pip install crowdtruth
 ```
 
 To install the latest version from source, download the library and install it using:
 ```
-$ python setup.py install
+python setup.py install
 ```
 
 ## Getting Started
