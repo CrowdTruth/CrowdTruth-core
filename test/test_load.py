@@ -1,4 +1,3 @@
-#pylint: disable=E1126
 """ Unit testing module for pre-processing functions """
 
 import unittest
@@ -18,28 +17,17 @@ class TestConfig(DefaultConfig):
     def processJudgments(self, judgments):
         return judgments
 
-# test_conf_const = TestConfig()
-# test_config_amt = test_conf_const.__class__
-# data_amt, config_amt = crowdtruth.load(
-#   file=TEST_FILE_PREF + "platform_amt" + str(1) + ".csv",
-#   config=test_config_amt())
-
-# test_config_cf = test_conf_const.__class__
-# data_cf, config_cf = crowdtruth.load(
-#   file=TEST_FILE_PREF + "platform_cf" + str(1) + ".csv",
-#   config=test_config_cf())
-
 class TestLoad(unittest.TestCase):
     test_conf_const = TestConfig()
 
     def test_platform(self):
         for w in range(1, 6):
             test_config_amt = self.test_conf_const.__class__
-            data_amt, config_amt = crowdtruth.load(
+            data_amt, _ = crowdtruth.load(
                 file=TEST_FILE_PREF + "platform_amt" + str(w) + ".csv",
                 config=test_config_amt())
             test_config_cf = self.test_conf_const.__class__
-            data_cf, config_cf = crowdtruth.load(
+            data_cf, _ = crowdtruth.load(
                 file=TEST_FILE_PREF + "platform_cf" + str(w) + ".csv",
                 config=test_config_cf())
             self.assertEqual(
@@ -53,3 +41,12 @@ class TestLoad(unittest.TestCase):
             self.assertEqual(
                 set(data_cf["workers"]["judgment"] - data_amt["workers"]["judgment"]),
                 set([0]))
+
+    def test_folder(self):
+        test_config = self.test_conf_const.__class__
+        data, _ = crowdtruth.load(
+            directory=TEST_FILE_PREF + "dir/",
+            config=test_config())
+        self.assertEqual(data["workers"].shape[0], 7)
+        self.assertEqual(data["units"].shape[0], 2)
+        self.assertEqual(data["judgments"].shape[0], 12)
