@@ -47,7 +47,8 @@ setup(
         'scipy>=1.0.0',
         'chardet>=3.0.4',
         'coverage>=4.5.1',
-        'codecov>=2.0.15'
+        'codecov>=2.0.15',
+        'dateparser>=0.7.0'
         ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
