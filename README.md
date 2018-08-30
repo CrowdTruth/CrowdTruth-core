@@ -19,7 +19,7 @@ Useful links:
 
 * [Data](http://data.crowdtruth.org/) collected with CrowdTruth
 * [Papers](http://crowdtruth.org/papers/) that use CrowdTruth
-* Previous version of [CrowdTruth v.1.0](https://github.com/CrowdTruth/CrowdTruth)
+* Previous version [CrowdTruth v.1.0](https://github.com/CrowdTruth/CrowdTruth)
 
 
 ## Installation
