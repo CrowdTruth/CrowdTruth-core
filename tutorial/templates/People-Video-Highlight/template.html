@@ -1,0 +1,95 @@
+<!-- Main container -->
+<div class="container">
+
+  <!-- Ordered list that hold the steps -->
+  <ol>
+    
+    <!-- Step 1: Video -->
+    <li>
+      <h2>Please look at this video in full.</h2>
+      
+      
+      
+      
+      <div id="videocontainer">
+        <video class= "video" controls="true">
+          <source src="{{videolocation}}" type="video/mp4" />
+        Your browser does not support the video tag, please close this job.
+        </video>
+      </div> 
+      <!-- this one is for video.
+      <div id="imagecontainer">
+        <img src="{{imagelocation}}" />
+      </div>
+      -->
+    </li>
+    
+    <!-- Step 2: Selectable tag list -->
+    <li>
+      <div id="addtags_container">
+        
+        <h2>Highlight the WORDS or PHRASES in the text that identify or refer to PEOPLE in the video.</h2>
+        <div id="videodescription_container">
+            
+          <fieldset>
+            <div class='passage' id='videodescription'>{{description}} </div>
+            <div class='passage' id='videosubtitles'>{{subtitles}}</div>
+          </fieldset>
+            
+          <div class="clearboth"></div>
+          <div id="tags_list"></div>
+          <div class="clearboth"></div>
+            
+        </div>
+        
+        
+        <cml:text name="hiddeninput"></cml:text>
+    
+      </div>      
+    </li>
+    
+    <li>
+      <cml:textarea class='notPossible' name="notpossible" label="Explain WHY you were NOT able to highlight relevant tags:" validates="required minLength:10" />
+    </li>
+    
+    <!-- Pre submit row; required so the last number is displayed, 
+         The submitactions are contained in the CrowdFlower .form-actions element
+    -->
+    <li>
+      <h2>Have you selected all relevant tags? Submit your result: </h2>
+    </li>
+  </ol>
+  
+  <!-- Additional fields -->
+  
+  <cml:hidden name="keyframeid" value="{{ctunitid}}" validates="required" />
+  <cml:hidden name="taggedindescription" value="" validates="required" />
+  <cml:hidden name="taggedinsubtitles" value="" validates="required" />
+  
+  
+  <div class='events'>
+    <cml:hidden name='e_abort' value='0' />
+    <cml:hidden name='e_canplay' value='0' />
+    <cml:hidden name='e_canplaythrough' value='0' />
+    <cml:hidden name='e_durationchange' value='0' />
+    <cml:hidden name='e_emptied' value='0' />
+    <cml:hidden name='e_ended' value='0' />
+    <cml:hidden name='e_error' value='0' />
+    <cml:hidden name='e_loadeddata' value='0' />
+    <cml:hidden name='e_loadedmetadata' value='0' />
+    <cml:hidden name='e_loadstart' value='0' />
+    <cml:hidden name='e_pause' value='0' />
+    <cml:hidden name='e_play' value='0' />
+    <cml:hidden name='e_playing' value='0' />
+    <cml:hidden name='e_progress' value='0' />
+    <cml:hidden name='e_ratechange' value='0' />
+    <cml:hidden name='e_seeked' value='0' />
+    <cml:hidden name='e_seeking' value='0' />
+    <cml:hidden name='e_stalled' value='0' />
+    <cml:hidden name='e_suspend' value='0' />
+    <cml:hidden name='e_timeupdate' value='0' />
+    <cml:hidden name='e_volumechange' value='0' />
+    <cml:hidden name='e_waiting' value='0' />
+  </div>
+  
+</div>

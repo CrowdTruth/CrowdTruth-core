@@ -1,0 +1,59 @@
+<!-- Main container -->
+<div class="container">
+
+  <!-- Ordered list that hold the steps -->
+  <ol>
+    
+    <!-- Step 1: Text -->
+    <li>
+      <h2>In the following text:</h2>
+  
+      <div class="alignment">
+        <fieldset>
+          <legend>Text:</legend>
+          <div class="passage" id="people">{{processed_sentence}}</div>
+        </fieldset>
+      </div>
+      <br/>
+    </li>
+    
+    <!-- Step 2: Selectable tag list -->
+    <li>
+      <div id="addtags_container">
+        
+        <h2>Which phrases refer to events or actions?</h2>
+        <ul>
+          <li>Mouse-over the word phrases to see where they are located in the text.</li>
+          
+        </ul>
+          
+        <div class="tags">
+          {% assign validateArray = {{events}} | split: "###" %}
+          {% for verb in validateArray %}
+            {% assign eventsp1 = {{verb}} | split: '__' %}
+          <button type="button" class="clickbutton btn" tagtype="description" tagid="{{verb}}">{{eventsp1.first}}</button>
+          {% endfor %}
+          
+          <br/>
+          <button type="button" class="clickbutton btn" tagtype="description" tagid="no_event">None of the Above </button>
+          
+        </div>
+        <cml:text name="hiddeninput"></cml:text>
+    
+      </div>      
+    </li>
+    
+    <!-- Pre submit row; required so the last number is displayed, 
+         The submitactions are contained in the CrowdFlower .form-actions element
+    -->
+    <li>
+      <h2>Submit your result: </h2>
+    </li>
+  </ol>
+  
+  <!-- Additional fields -->
+  
+  <cml:hidden name="selectedtags_desc" value="" validates="required" />
+
+</div>
+

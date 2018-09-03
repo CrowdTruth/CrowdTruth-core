@@ -1,0 +1,87 @@
+<!-- Main container -->
+<div class="container">
+
+  <!-- Ordered list that hold the steps -->
+  <ol>
+    
+    <!-- Step 1: Video -->
+    <li>
+      <h2>Look at the video carefully.</h2>
+
+      <div id="videocontainer">
+        <video class= "video" controls="true">
+          <source src="{{videolocation}}" type="video/mp4" />
+        Your browser does not support the video tag, please close this job.
+        </video>
+      </div> 
+      
+    </li>
+    
+    <!-- Step 2: Selectable tag list -->
+    <li>
+      <div id="addtags_container">
+        
+        <h2>Select all tags that identify or refer to people explicitly shown in the video.</h2>
+        
+        <div class="tags" style="margin-bottom: 0px;">
+          <small>Selected by me:</small>
+          <br />
+          {% assign splittedtags = {{descriptiontags}} | split: '_###_' %}
+          {% for desctag in splittedtags  %}
+          {% assign curdesctag = {{desctag}} | split: '__' %}
+          <button type="button" class="clickbutton btn" tagtype="description" tagid="{{curdesctag[1]}}">{{curdesctag[0]}}</button>
+          {% endfor %}
+          
+          {% assign splittedsubs = {{subtitletags}} | split: '_###_' %}
+          {% for subtag in splittedsubs  %}
+          {% assign cursubtag = {{subtag}} | split: '__' %}
+          <button type="button" class="clickbutton btn" tagtype="subtitles" tagid="{{cursubtag[1]}}">{{cursubtag[0]}}</button>
+          {% endfor %}
+      
+          {% assign splittedtags = {{imagetags}} | split: '_###_' %}
+          {% for tagtag in splittedtags %}
+          {% assign curtagtag = {{tagtag}} | split: '__' %}
+          <button type="button" class="clickbutton btn" tagtype="image" tagid="{{curtagtag[1]}}">{{curtagtag[0]}}</button>
+          {% endfor %}
+          
+        </div>
+        <div id="newtags">
+          
+          <div class="tags">
+            <small>Added by me: (click to remove)</small>
+            <br />
+            
+          </div>
+        </div>
+        <cml:text name="hiddeninput"></cml:text>
+    
+      </div>      
+    </li>
+    <li class="lastli">
+      <h2>Add new tags to the list:</h2>
+      <span class="inputgroup">
+        <input type="text" id="addnewtags" placeholder="Type your tag here"/>
+        <button id="button_addnewtag">ADD +</button>
+      </span>
+    </li>
+    <!-- Pre submit row; required so the last number is displayed, 
+         The submitactions are contained in the CrowdFlower .form-actions element
+    -->
+    <li>
+      <h2>Check your answers.</h2>
+      <ul>
+        <li>Make sure you have selected all relevant tags.</li>
+      </ul>
+    </li>
+  </ol>
+  
+  <!-- Additional fields -->
+  
+  <cml:hidden name="keyframeid" value="{{ctunitid}}" validates="required" />
+  <cml:hidden name="selectedtags_desc" value="" validates="required" />
+  <cml:hidden name="selectedtags_subs" value="" validates="required" />
+  <cml:hidden name="selectedtags_tags" value="" validates="required" />
+  <cml:hidden name="selected_answer" value="" validates="required" />
+  <cml:hidden name="selectedtags_manual" value="" validates="required" />
+  
+</div>

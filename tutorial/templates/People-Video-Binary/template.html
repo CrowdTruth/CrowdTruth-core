@@ -1,0 +1,55 @@
+<!-- Main container -->
+<div class="container">
+
+  <!-- Ordered list that hold the steps -->
+  <ol>
+    
+    <!-- Step 1: Video -->
+    <li>
+      <h2>Look at the video carefully.</h2>
+      
+      <div id="videocontainer">
+        <video class= "video" controls="true">
+          <source src="{{videolocation}}" type="video/mp4" />
+        Your browser does not support the video tag, please close this job.
+        </video>
+      </div> 
+      
+    </li>
+    
+    <!-- Step 2: Selectable tag list -->
+    <li>
+      <div id="addtags_container">
+        
+        <h2>Are there any people in the video?</h2>
+        
+        <div class="tags" style="margin-bottom: 0px;">
+          <small>Select your answer:</small>
+          <br />
+          
+          <button type="button" class="clickbutton btn" tagtype="description" tagid="yes">Yes</button>
+          
+          <button type="button" class="clickbutton btn" tagtype="subtitles" tagid="No">No</button>
+          
+        </div>
+        <div id="newtags">
+          
+        </div>
+        <cml:text name="hiddeninput"></cml:text>
+    
+      </div>      
+    </li>
+    <!-- Pre submit row; required so the last number is displayed, 
+         The submitactions are contained in the CrowdFlower .form-actions element
+    -->
+    <li>
+      <h2>Submit your answer.</h2>
+    </li>
+  </ol>
+  
+  <!-- Additional fields -->
+  
+  <cml:hidden name="keyframeid" value="{{ctunitid}}" validates="required" />
+  <cml:hidden name="selected_answer" value="" validates="required" />
+  
+</div>
