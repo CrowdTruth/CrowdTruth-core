@@ -1,0 +1,80 @@
+  
+<!-- Main container -->
+<div class="container">
+
+  <!-- Ordered list that hold the steps -->
+  <ol>
+    
+    <!-- Step 1: Text -->
+    <li>
+      <h2>Read the following text:</h2>
+  
+      <div id="text_container" class="passage word_split">
+          {{sentence}}
+      </div>
+      <br/>
+    </li>
+    
+    <!-- Step 2: Selectable snipptes list -->
+    <li>
+      <div class="snippet_container">
+        
+        <h2>Write all the RELATION(S) expressed in the sentence above between 
+          <b>{{term1}}</b> and 
+          <b>{{term2}}</b>:
+        </h2>
+        
+        <div id="addtags_container">
+          <span class="inputgroup">
+            <input type="text" id="addnewtags" placeholder="Type your tag here"/>
+            <button id="button_addnewtag">ADD +</button>
+          </span>
+        </div>
+          
+          
+        <div id="newtags">
+          
+          <div class="tags">
+            <small>Relations: (click to remove)</small>
+            <br />
+            
+          </div>
+        </div>
+        
+        <cml:text name="hiddeninput"></cml:text>
+      </div>
+    </li>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <li id="laststep" class="hidden">
+      <h2>Explain why there is no causal relation between the highlighted words:</h2>
+      <span class="inputgroup">
+        <input type="text" id="notpossible" placeholder="Type your explanation here"/>
+      </span>
+    </li>
+    <!-- Pre submit row; required so the last number is displayed, 
+         The submitactions are contained in the CrowdFlower .form-actions element
+    -->
+    <br/>
+    <li>
+      <h2>Submit your result: </h2>
+    </li>
+  </ol>
+  
+  <!-- Additional fields -->
+  
+  <cml:hidden name="relations" value="" validates="required" />
+  <cml:hidden name="explanation" value="" validates="required" />
+
+</div>
+
+<cml:hidden name="factor1" value="{{term1}}" />
+<cml:hidden name="b1val" value="{{b1}}" />
+<cml:hidden name="e1val" value="{{e1}}" />
+<cml:hidden name="factor2" value="{{term2}}" />
+<cml:hidden name="b2val" value="{{b2}}" />
+<cml:hidden name="e2val" value="{{e2}}" />
+

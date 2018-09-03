@@ -1,0 +1,49 @@
+<!-- Main container -->
+<div class="container">
+
+  <!-- Ordered list that hold the steps -->
+  <ol>
+    
+    <!-- Step 1: Selectable tag list -->
+    <li>
+      <div id="addtags_container">
+        <h2> HIGHLIGHT the words and phrases in the text below that refer to EVENTS or ACTIONS, things that happened, are happening or will happend. </h2>
+        <div class='videodescription_container'>
+          <fieldset>
+            <div class="passage" id="videosubtitles">{{ processed_sentence }}</div>
+          </fieldset>
+        
+          <p>
+            <b>List of your current selections:</b>
+          </p>
+
+          <div class="clearboth"></div>
+          <div id="tags_list"></div>
+          <div class="clearboth"></div>
+      
+        </div>
+        
+        <cml:text name="hiddeninput"></cml:text>
+          
+      </div>      
+    </li>
+  
+    <li>
+      <cml:textarea class='notPossible' name="notpossible" label="Explain WHY you were NOT able to highlight events or actions" validates="required minLength:10" />
+    </li>
+    <!-- Pre submit row; required so the last number is displayed, 
+         The submitactions are contained in the CrowdFlower .form-actions element
+    -->
+    <li>
+      <h2>Have you highlighted all the events and actions? Submit your result: </h2>
+    </li>
+  </ol>
+
+  <!-- Additional fields -->
+  
+  <cml:hidden name="tagged_events" value="" validates="required" />
+
+
+</div>
+
+
