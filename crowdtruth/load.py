@@ -8,9 +8,8 @@ import os
 
 import logging
 import datetime
-import dateparser
-
 from collections import Counter, OrderedDict
+import dateparser
 
 import pandas as pd
 
@@ -124,20 +123,35 @@ def load(**kwargs):
     return results, config
 
 def remove_empty_rows(config, judgments):
-    """ remove rows where the worker did not give an answer (AMT issue) """
-    empty_rows = set()
-    for col in config.outputColumns:
-        empty_rows = empty_rows.union(judgments[pd.isnull(judgments[col]) == True].index)
-    for col in config.outputColumns:
-        judgments = judgments[pd.isnull(judgments[col]) == False]
-    judgments = judgments.reset_index(drop=True)
-    count_empty_rows = len(empty_rows)
-    if count_empty_rows > 0:
-        if count_empty_rows == 1:
-            logging.warning(str(count_empty_rows) + " row with incomplete information in "
-                            "output columns was removed.")
-        else:
-            logging.warning(str(count_empty_rows) + " rows with incomplete information in "
+    """ handle rows where the worker did not give an answer (AMT issue) """
+
+    # if config keeps empty rows, add NONE placehoder token
+    if not config.remove_empty_rows:
+        for col in config.outputColumns:
+            for idx in range(len(judgments[col])):
+                if (pd.isnull(judgments[col][idx]) or
+                        judgments[col][idx] is None or
+                        judgments[col][idx] == '' or
+                        judgments[col][idx] == 'nan'):
+                    logging.info('judgments[' + str(idx) + '][' + col + '] is None')
+                    judgments.at[idx, col] = config.none_token
+    # remove empty rows
+    else:
+        empty_rows = set()
+        for col in config.outputColumns:
+            empty_rows = empty_rows.union(judgments[pd.isnull(judgments[col]) == True].index)
+            empty_rows = empty_rows.union(judgments[judgments[col] == 'nan'].index)
+        for col in config.outputColumns:
+            judgments = judgments[pd.isnull(judgments[col]) == False]
+            judgments = judgments[judgments[col] != 'nan']
+        judgments = judgments.reset_index(drop=True)
+        count_empty_rows = len(empty_rows)
+        if count_empty_rows > 0:
+            if count_empty_rows == 1:
+                logging.warning(str(count_empty_rows) + " row with incomplete information in "
+                                "output columns was removed.")
+            else:
+                logging.warning(str(count_empty_rows) + " rows with incomplete information in "
                             "output columns were removed.")
     return judgments
 
@@ -233,9 +247,11 @@ def process_file(filename, config):
     # else use the default and select them automatically
     config = get_column_types(judgments, config)
 
-    judgments = remove_empty_rows(config, judgments)
     # allow customization of the judgments
     judgments = config.processJudgments(judgments)
+
+    # handle empty rows
+    judgments = remove_empty_rows(config, judgments)
 
     # update the config after the preprocessing of judgments
     config = get_column_types(judgments, config)

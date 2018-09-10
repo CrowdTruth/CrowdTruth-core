@@ -17,8 +17,19 @@ class TestConfig(DefaultConfig):
     def processJudgments(self, judgments):
         return judgments
 
+class ConfigKeepEmptyRows(TestConfig):
+    remove_empty_rows = False
+
+class ConfigProcessJudg(TestConfig):
+    def processJudgments(self, judgments):
+        for col in self.outputColumns:
+            judgments[col] = judgments[col].apply(lambda x: str(x).lower())
+        return judgments
+
 class TestLoad(unittest.TestCase):
     test_conf_const = TestConfig()
+    test_keep_empty_rows = ConfigKeepEmptyRows()
+    test_process_judg = ConfigProcessJudg()
 
     def test_platform(self):
         for w in range(1, 6):
@@ -50,3 +61,22 @@ class TestLoad(unittest.TestCase):
         self.assertEqual(data["workers"].shape[0], 7)
         self.assertEqual(data["units"].shape[0], 2)
         self.assertEqual(data["judgments"].shape[0], 12)
+
+    def test_empty_rows(self):
+        test_without = self.test_conf_const.__class__
+        data_without, _ = crowdtruth.load(
+            file=TEST_FILE_PREF + "empty_rows.csv",
+            config=test_without())
+        self.assertEqual(data_without["judgments"].shape[0], 24)
+
+        test_proc_judg = self.test_process_judg.__class__
+        data_proc_judg, _ = crowdtruth.load(
+            file=TEST_FILE_PREF + "empty_rows.csv",
+            config=test_proc_judg())
+        self.assertEqual(data_proc_judg["judgments"].shape[0], 24)
+
+        test_with = self.test_keep_empty_rows.__class__
+        data_with, _ = crowdtruth.load(
+            file=TEST_FILE_PREF + "empty_rows.csv",
+            config=test_with())
+        self.assertEqual(data_with["judgments"].shape[0], 27)

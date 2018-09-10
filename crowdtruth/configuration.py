@@ -29,6 +29,9 @@ class DefaultConfig():
     customPlatformColumns = []
     open_ended_task = True
     annotation_vector = []
+    
+    remove_empty_rows = True
+    none_token = "NONE"
 
     units = []  # units to use
     workers = [] # workers to use
