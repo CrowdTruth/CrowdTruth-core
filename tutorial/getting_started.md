@@ -1,5 +1,24 @@
 # Getting Started with CrowdTruth
 
+The **[CrowdTruth](http://crowdtruth.org/)** framework implements an approach to machine-human computing for collecting annotation data on text, images and videos. The central part of the framework is the collection of  **CrowdTruth metrics** that capture and interpret inter-annotator disagreement in crowdsourcing. The CrowdTruth metrics model the inter-dependency between the three main components of a crowdsourcing system -- workers, input data, and annotations. The goal of the metrics is to capture the degree of ambiguity in each of these three components.
+
+This document shows how to get started using the [CrowdTruth Python package](https://github.com/CrowdTruth/CrowdTruth-core) to process data collected from crowdsourcing microtasks. A detailed description of the CrowdTruth metrics is available in [this paper](https://arxiv.org/abs/1808.06080). Other useful resources are :
+
+* [Papers](http://crowdtruth.org/papers/) about CrowdTruth
+* [Datasets](http://data.crowdtruth.org/) collected using CrowdTruth
+* [CrowdTruth project homepage](http://crowdtruth.org/)
+
+If you use this software in your research, please consider citing:
+
+```
+@article{CrowdTruth2,
+  author    = {Anca Dumitrache and Oana Inel and Lora Aroyo and Benjamin Timmermans and Chris Welty},
+  title     = {CrowdTruth 2.0: Quality Metrics for Crowdsourcing with Disagreement},
+  year      = {2018},
+  url       = {https://arxiv.org/abs/1808.06080},
+}
+```
+
 ## Installation
 
 To install the stable version from PyPI, install *pip* for your OS, then install package using:
