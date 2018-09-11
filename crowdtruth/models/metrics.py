@@ -49,7 +49,6 @@ class Metrics():
 
         for worker_i in range(len(worker_ids) - 1):
             for worker_j in range(worker_i + 1, len(worker_ids)):
-                # print worker_ids[i] + " - " + worker_ids[j] + "\n"
                 numerator = 0.0
                 denominator_i = 0.0
                 denominator_j = 0.0
@@ -468,7 +467,7 @@ class Metrics():
                              work_unit_ann_dict, \
                              uqs_list[len(uqs_list) - 1], \
                              aqs_list[len(aqs_list) - 1], \
-                             wqs_list[len(aqs_list) - 1][worker_id])
+                             wqs_list[len(wqs_list) - 1][worker_id])
                     wqs_new[worker_id] = wwa_new[worker_id] * wsa_new[worker_id]
                     max_delta = max(max_delta, \
                                 abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id]))
@@ -477,21 +476,6 @@ class Metrics():
                 avg_wqs_delta /= wqs_len
 
                 return wwa_new, wsa_new, wqs_new, max_delta, avg_wqs_delta
-
-            def reconstruct_unit_ann_dict(unit_ann_dict, work_unit_ann_dict, wqs_new):
-                """ reconstruct unit_ann_dict with worker scores """
-                new_unit_ann_dict = dict()
-                for unit_id, ann_dict in unit_ann_dict.items():
-                    new_unit_ann_dict[unit_id] = dict()
-                    for ann, _ in ann_dict.items():
-                        new_unit_ann_dict[unit_id][ann] = 0.0
-                for work_id, srd in work_unit_ann_dict.items():
-                    wqs_work_id = wqs_new[work_id]
-                    for unit_id, ann_dict in srd.items():
-                        for ann, score in ann_dict.items():
-                            new_unit_ann_dict[unit_id][ann] += score * wqs_work_id
-
-                return new_unit_ann_dict
 
             def compute_aqs(aqs, work_unit_ann_dict, uqs_list, wqs_list, aqs_list, aqs_len, max_delta, avg_aqs_delta):
                 """ compute annotation quality score (aqs) """
@@ -515,6 +499,21 @@ class Metrics():
                     avg_uqs_delta += abs(uqs_new[unit_id] - uqs_list[len(uqs_list) - 1][unit_id])
                 avg_uqs_delta /= uqs_len
                 return uqs_new, max_delta, avg_uqs_delta
+
+            def reconstruct_unit_ann_dict(unit_ann_dict, work_unit_ann_dict, wqs_new):
+                """ reconstruct unit_ann_dict with worker scores """
+                new_unit_ann_dict = dict()
+                for unit_id, ann_dict in unit_ann_dict.items():
+                    new_unit_ann_dict[unit_id] = dict()
+                    for ann, _ in ann_dict.items():
+                        new_unit_ann_dict[unit_id][ann] = 0.0
+                for work_id, srd in work_unit_ann_dict.items():
+                    wqs_work_id = wqs_new[work_id]
+                    for unit_id, ann_dict in srd.items():
+                        for ann, score in ann_dict.items():
+                            new_unit_ann_dict[unit_id][ann] += score * wqs_work_id
+
+                return new_unit_ann_dict
 
             if not config.open_ended_task:
                 # compute annotation quality score (aqs)
