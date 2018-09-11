@@ -2,7 +2,7 @@
 
 The **[CrowdTruth](http://crowdtruth.org/)** framework implements an approach to machine-human computing for collecting annotation data on text, images and videos. The central part of the framework is the collection of  **CrowdTruth metrics** that capture and interpret inter-annotator disagreement in crowdsourcing. The CrowdTruth metrics model the inter-dependency between the three main components of a crowdsourcing system -- workers, input data, and annotations. The goal of the metrics is to capture the degree of ambiguity in each of these three components.
 
-This document shows how to get started using the [CrowdTruth Python package](https://github.com/CrowdTruth/CrowdTruth-core) to process data collected from crowdsourcing microtasks. A detailed description of the CrowdTruth metrics is available in [this paper](https://arxiv.org/abs/1808.06080). Other useful resources are :
+This document shows how to get started using the [CrowdTruth Python package](https://github.com/CrowdTruth/CrowdTruth-core) to process data collected from crowdsourcing microtasks. A detailed description of the CrowdTruth metrics is available in [this paper](https://arxiv.org/abs/1808.06080). Other useful resources are:
 
 * [Papers](http://crowdtruth.org/papers/) about CrowdTruth
 * [Datasets](http://data.crowdtruth.org/) collected using CrowdTruth
@@ -112,4 +112,8 @@ Below you can find a collection of Jupyter Notebooks that show how to use the Cr
 
 **Open-ended extraction tasks:** the crowd creates different combinations of annotations based on the input unit (e.g. extracting named entities from a paragraph, identifying objects in an image by drawing bounding boxes)
 
+* [Person identification by highlighting words in text](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Dimensionality%20Reduction%20-%20Stopword%20Removal%20from%20Media%20Unit%20%26%20Annotation.ipynb)
+
 **Free input:** the crowd inputs all possible annotations for an input unit
+
+* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Free%20Input%20Task%20-%20Person%20Annotation%20in%20Video.ipynb)
