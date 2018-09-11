@@ -109,6 +109,7 @@ Below you can find a collection of Jupyter Notebooks that show how to use the Cr
 
 * [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Choice%20Task%20-%20Person%20Annotation%20in%20Video.ipynb)
 * [Relation extraction from sentences](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb)
+* [Event extraction from sentences](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Multiple%20Choice%20Task%20-%20Event%20Extraction.ipynb)
 
 **Open-ended extraction tasks:** the crowd creates different combinations of annotations based on the input unit (e.g. extracting named entities from a paragraph, identifying objects in an image by drawing bounding boxes)
 
