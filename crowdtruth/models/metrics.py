@@ -70,6 +70,10 @@ class Metrics():
                                  wqs[worker_ids[worker_j]]
                 uqs_denominator += wqs[worker_ids[worker_i]] * wqs[worker_ids[worker_j]]
 
+        # if uqs_numerator / uqs_denominator > 1:
+        #     logging.warning(str(unit_id) + " has UQS = " + str(uqs_numerator) +" /" +\
+        #         str(uqs_denominator))
+
         if uqs_denominator < SMALL_NUMBER_CONST:
             uqs_denominator = SMALL_NUMBER_CONST
         return uqs_numerator / uqs_denominator
@@ -119,6 +123,8 @@ class Metrics():
 
                 numerator += aqs[ann] * worker_vector_ann * \
                     (unit_vector_ann - worker_vector_ann)
+                # if numerator < 0:
+                #     print str(unit_vector_ann) + " - " + str(worker_vector_ann)
                 denominator_w += aqs[ann] * \
                     (worker_vector_ann * worker_vector_ann)
                 denominator_s += aqs[ann] * ( \
@@ -133,6 +139,10 @@ class Metrics():
             wsa_denominator += uqs[unit_id]
         if wsa_denominator < SMALL_NUMBER_CONST:
             wsa_denominator = SMALL_NUMBER_CONST
+
+        if wsa_numerator / wsa_denominator < 0:
+            logging.warning(
+                str(worker_id) + " WUA = " + str(wsa_numerator) + "/" + str(wsa_denominator))
         return wsa_numerator / wsa_denominator
 
     # Worker - Worker Agreement
@@ -198,6 +208,10 @@ class Metrics():
                     wwa_denominator += wqs[other_workid] * uqs[unit_id]
         if wwa_denominator < SMALL_NUMBER_CONST:
             wwa_denominator = SMALL_NUMBER_CONST
+
+        if wwa_numerator / wwa_denominator < 0:
+            logging.warning(
+                str(worker_id) + " WWA = " + str(wwa_numerator) + "/" + str(wwa_denominator))
         return wwa_numerator / wwa_denominator
 
 
@@ -462,13 +476,15 @@ class Metrics():
                              wqs_list[len(wqs_list) - 1], \
                              uqs_list[len(uqs_list) - 1], \
                              aqs_list[len(aqs_list) - 1])
+                    # assert wwa_new[worker_id] >= 0
                     wsa_new[worker_id] = Metrics.worker_unit_agreement( \
                              worker_id, \
                              unit_ann_dict, \
                              work_unit_ann_dict, \
                              uqs_list[len(uqs_list) - 1], \
                              aqs_list[len(aqs_list) - 1], \
-                             wqs_list[len(aqs_list) - 1][worker_id])
+                             wqs_list[len(wqs_list) - 1][worker_id])
+                    # assert wsa_new[worker_id] >= 0
                     wqs_new[worker_id] = wwa_new[worker_id] * wsa_new[worker_id]
                     max_delta = max(max_delta, \
                                 abs(wqs_new[worker_id] - wqs_list[len(wqs_list) - 1][worker_id]))
@@ -477,21 +493,6 @@ class Metrics():
                 avg_wqs_delta /= wqs_len
 
                 return wwa_new, wsa_new, wqs_new, max_delta, avg_wqs_delta
-
-            def reconstruct_unit_ann_dict(unit_ann_dict, work_unit_ann_dict, wqs_new):
-                """ reconstruct unit_ann_dict with worker scores """
-                new_unit_ann_dict = dict()
-                for unit_id, ann_dict in unit_ann_dict.items():
-                    new_unit_ann_dict[unit_id] = dict()
-                    for ann, _ in ann_dict.items():
-                        new_unit_ann_dict[unit_id][ann] = 0.0
-                for work_id, srd in work_unit_ann_dict.items():
-                    wqs_work_id = wqs_new[work_id]
-                    for unit_id, ann_dict in srd.items():
-                        for ann, score in ann_dict.items():
-                            new_unit_ann_dict[unit_id][ann] += score * wqs_work_id
-
-                return new_unit_ann_dict
 
             def compute_aqs(aqs, work_unit_ann_dict, uqs_list, wqs_list, aqs_list, aqs_len, max_delta, avg_aqs_delta):
                 """ compute annotation quality score (aqs) """
@@ -510,11 +511,27 @@ class Metrics():
                     uqs_new[unit_id] = Metrics.unit_quality_score(unit_id, unit_work_ann_dict, \
                                                                       wqs_list[len(wqs_list) - 1], \
                                                                       aqs_list[len(aqs_list) - 1])
+                    # assert uqs_new[unit_id] >= 0
                     max_delta = max(max_delta, \
                                 abs(uqs_new[unit_id] - uqs_list[len(uqs_list) - 1][unit_id]))
                     avg_uqs_delta += abs(uqs_new[unit_id] - uqs_list[len(uqs_list) - 1][unit_id])
                 avg_uqs_delta /= uqs_len
                 return uqs_new, max_delta, avg_uqs_delta
+
+            def reconstruct_unit_ann_dict(unit_ann_dict, work_unit_ann_dict, wqs_new):
+                """ reconstruct unit_ann_dict with worker scores """
+                new_unit_ann_dict = dict()
+                for unit_id, ann_dict in unit_ann_dict.items():
+                    new_unit_ann_dict[unit_id] = dict()
+                    for ann, _ in ann_dict.items():
+                        new_unit_ann_dict[unit_id][ann] = 0.0
+                for work_id, srd in work_unit_ann_dict.items():
+                    wqs_work_id = wqs_new[work_id]
+                    for unit_id, ann_dict in srd.items():
+                        for ann, score in ann_dict.items():
+                            new_unit_ann_dict[unit_id][ann] += score * wqs_work_id
+
+                return new_unit_ann_dict
 
             if not config.open_ended_task:
                 # compute annotation quality score (aqs)
