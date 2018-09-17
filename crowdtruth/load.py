@@ -66,7 +66,12 @@ def list_files(kwargs, results, config):
     """ Creates a list of files to be processed. """
     files = []
     directory = ""
-    if 'file' in kwargs and kwargs['file'].endswith('.csv'):
+    if 'data_frame' in kwargs:
+        res, config = process_file(kwargs['data_frame'], config)
+        for value in res:
+            results[value].append(res[value])
+        return results
+    elif 'file' in kwargs and kwargs['file'].endswith('.csv'):
         files = [kwargs['file']]
     elif 'directory' in kwargs:
         directory = kwargs['directory']
@@ -79,7 +84,9 @@ def list_files(kwargs, results, config):
         if 'directory' in locals() and directory != "":
             logging.info("Processing " + file)
             file = directory + "/" + file
-        res, config = process_file(file, config)
+
+        judgments = pd.read_csv(file)#, encoding=result['encoding'])
+        res, config = process_file(judgments, config, filename=file)
         for value in res:
             results[value].append(res[value])
 
@@ -104,7 +111,6 @@ def load(**kwargs):
         config = kwargs['config']
 
     results = list_files(kwargs, results, config)
-
     for value in results:
         results[value] = pd.concat(results[value])
 
@@ -215,10 +221,8 @@ def aggregate_annotations(config, judgments):
         annotations = pd.concat([annotations, res], axis=0)
     return annotations, judgments
 
-def process_file(filename, config):
+def process_file(judgments, config, filename=""):
     """ Processes input files with the given configuration """
-
-    judgments = pd.read_csv(filename)#, encoding=result['encoding'])
 
     platform = get_platform(judgments)
 
@@ -264,7 +268,10 @@ def process_file(filename, config):
     # remove columns we don't care about
     judgments = judgments[list(all_columns.values())]
 
-    judgments['job'] = filename.split('.csv')[0]
+    if filename != "":
+        judgments['job'] = filename.split('.csv')[0]
+    else:
+        judgments['job'] = "pd.DataFrame"
 
     # make output values safe keys
     judgments = make_output_cols_safe_keys(config, judgments)

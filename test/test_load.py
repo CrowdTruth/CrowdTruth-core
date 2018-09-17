@@ -2,6 +2,7 @@
 
 import unittest
 import string
+import pandas as pd
 
 import crowdtruth
 from crowdtruth.configuration import DefaultConfig
@@ -80,3 +81,30 @@ class TestLoad(unittest.TestCase):
             file=TEST_FILE_PREF + "empty_rows.csv",
             config=test_with())
         self.assertEqual(data_with["judgments"].shape[0], 27)
+
+    def test_data_frame(self):
+        for w in range(1, 6):
+            test_config_file = self.test_conf_const.__class__
+            data_file, _ = crowdtruth.load(
+                file=TEST_FILE_PREF + "platform_cf" + str(w) + ".csv",
+                config=test_config_file())
+            df = pd.read_csv(TEST_FILE_PREF + "platform_cf" + str(w) + ".csv")
+            test_config_df = self.test_conf_const.__class__
+            data_df, _ = crowdtruth.load(
+                data_frame=df,
+                config=test_config_df())
+            self.assertEqual(
+                (set(data_df["units"]["duration"].keys()) -
+                 set(data_file["units"]["duration"].keys())),
+                set([]))
+            self.assertEqual(
+                (set(data_df["workers"]["judgment"].keys()) -
+                 set(data_file["workers"]["judgment"].keys())),
+                set([]))
+            self.assertEqual(
+                set(data_df["workers"]["judgment"] - data_file["workers"]["judgment"]),
+                set([0]))
+
+
+
+
