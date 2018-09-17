@@ -100,16 +100,16 @@ Below you can find a collection of Jupyter Notebooks that show how to use the Cr
 
 **Ternary choice tasks:** the crowd picks 1 annotation out of 3 choices, (e.g. `True`, `False` and `None/Other`)
 
-* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Ternary%20Choice%20Task%20-%20Person%20Annotation%20in%20Video.ipynb)
+* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Ternary%20Choice%20Task%20-%20Person%20Identification%20in%20Video.ipynb)
 
 **Multiple choice tasks:** the crowd picks multiple annotation out of a set list of choices that are *the same* for every input unit
 
-* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Multiple%20Choice%20Task%20-%20Person%20Type%20(Role)%20Annotation%20in%20Video.ipynb)
+* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Multiple%20Choice%20Task%20-%20Person%20Type%20Annotation%20in%20Video.ipynb)
 * [Relation extraction from sentences](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb)
 
 **Sparse multiple choice tasks:** the crowd picks multiple annotation out of a set list of choices that are *different* across input units
 
-* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Choice%20Task%20-%20Person%20Annotation%20in%20Video.ipynb)
+* [Person identification in videos](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Multiple%20Choice%20Task%20-%20Person%20Annotation%20in%20Video.ipynb)
 * [Relation extraction from sentences](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb)
 * [Event extraction from sentences](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Sparse%20Multiple%20Choice%20Task%20-%20Event%20Extraction.ipynb)
 
