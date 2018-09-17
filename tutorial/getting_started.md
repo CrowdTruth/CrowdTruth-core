@@ -54,6 +54,8 @@ Our test class inherits the default configuration `DefaultConfig`. The following
 * **`outputColumns`:** list of output columns from the .csv file with the answers from the workers
 * **`csv_file_separator`:** string that separates between the columns in the file, default value is `,`
 * **`annotation_separator`:** string that separates between the crowd annotations (the columns defined in `outputColumns`), default value is `,`
+* **`none_token`:** string corresponding to the name of the annotation vector component that counts how many workers picked no answer for a given unit; set to `NONE` by default
+* **`remove_empty_rows`:** boolean variable controlling whether to remove empty judgments from the data, or to replace them with `none_token`; default value is `True`
 * **`open_ended_task`:** boolean variable defining whether the task is open-ended (i.e. the possible crowd annotations are not known beforehand, like in the case of free text input) or not (i.e. the crowd picks from a pre-selected list of annotations)
 * **`annotation_vector`:** list of possible crowd answers, obligatory when `open_ended_task` is `False`
 * **`processJudgments`:** method that defines additional processing of the raw crowd data
