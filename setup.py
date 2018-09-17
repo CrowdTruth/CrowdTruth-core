@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='crowdtruth',
-    version='2.0',
+    version='2.1-beta',
     description=
     "Disagreement based metrics for the processing and evaluation of crowdsourced annotations",
     long_description=
