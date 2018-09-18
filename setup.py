@@ -12,7 +12,7 @@ setup(
      "text, images and videos. The approach is focussed specifically on collecting annotation" +
      " data by capturing and interpreting inter-annotator disagreement. "),
     classifiers=[
-        'Development Status ::  4 - Beta',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Intended Audience :: Education',
         'Intended Audience :: Information Technology',
