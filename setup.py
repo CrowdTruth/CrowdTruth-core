@@ -26,7 +26,7 @@ setup(
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Scientific/Engineering :: Human Machine Interfaces',
         'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Scientific/Engineering :: Crowdsourcing',
+        # 'Topic :: Scientific/Engineering :: Crowdsourcing',
         'Topic :: Text Processing',
         'Topic :: Text Processing :: Linguistic'],
     keywords=['CrowdTruth', 'crowdsourcing', 'disagreement', \
