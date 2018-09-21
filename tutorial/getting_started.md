@@ -122,3 +122,9 @@ Below you can find a collection of Jupyter Notebooks that show how to use the Cr
 **Free input:** the crowd inputs all possible annotations for an input unit
 
 * Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Free%20Input%20Task%20-%20Person%20Annotation%20in%20Video.ipynb) [[colab]]()
+
+An example of a Jupyter Notebook that shows how to use the CrowdTruth package with a custom platform input file can be seen below:
+
+**Multiple choice tasks:** the crowd picks multiple annotation out of a set list of choices that are *the same* for every input unit
+
+* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Custom%20Platform%20-%20Multiple%20Choice%20Task%20-%20Person%20Type%20Annotation%20in%20Video.ipynb) [[colab]]()
