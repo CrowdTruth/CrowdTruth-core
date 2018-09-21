@@ -25,7 +25,7 @@ In this session we discussed about optimal ways for representing and analyzing c
     + *e.g.:* [Person identification in videos](img/ann-vec/free-person-in-vid.pdf)
 
 
-## Task
+## Session Excercises
 
 1. Install the CrowdTruth package & follow the **How to run** guide in order to get started.
 2. Explore (some of) the notebooks implementing CrowdTruth for different annotation tasks
