@@ -94,37 +94,33 @@ The `crowdtruth.run` method returns a dictionary object with the following keys:
 
 Below you can find a collection of Jupyter Notebooks that show how to use the CrowdTruth package on different types of crowdsourcing tasks:
 
-**Binary choice tasks:** the crowd picks 1 annotation out of 2 choices (e.g. `True` and `False`)
+**Closed Tasks:** the crowd picks from a set of annotations that is known beforehand
 
-* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Binary%20Choice%20Task%20-%20Person%20Identification%20in%20Video.ipynb) [[colab]]()
-* Relation extraction from sentences: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Binary%20Choice%20Task%20-%20Relation%20Extraction.ipynb) [[colab]]()
+* **Binary Choice:** the crowd picks 1 annotation out of 2 choices (e.g. `True` and `False`)
+    + Person identification in videos: [task template](img/ann-vec/bin-person-in-vid.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Binary%20Choice%20Task%20-%20Person%20Identification%20in%20Video.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1ycZZdEDAPPzZ-uHYgtBfIzOcc8Sjebvx)
+    + Relation extraction from sentences: [task template](img/ann-vec/bin-relex.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Binary%20Choice%20Task%20-%20Relation%20Extraction.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1LQ6ndS0UC_IfUfGXr9d_B8hu7BlefKcy)
+* **Ternary Choice:** the crowd picks 1 annotation out of 3 choices, (e.g. `True`, `False` and `None/Other`)
+    + Person identification in videos: [task template](img/ann-vec/tern-person-in-vid.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Ternary%20Choice%20Task%20-%20Person%20Identification%20in%20Video.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1ADZalDRLe5N4Q7BxIiJEUG4lGGiQnR5c)
+* **Multiple Choice:** the crowd picks multiple annotation out of a set list of choices that are *the same* for every input unit
+    + Person identification in videos: [task template](img/ann-vec/mult-person-in-vid.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Multiple%20Choice%20Task%20-%20Person%20Type%20Annotation%20in%20Video.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1pDUyO6bvDmfnmwp5Hp8dxzv8Ekrow4uk)
+    + Relation extraction from sentences: [task template](img/ann-vec/mult-relex.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1yAs2am0IIn7HXr-T9Yzd6p2k1HX7yIrX)
+* **Sparse Multiple Choice:** the crowd picks multiple annotation out of a set list of choices that are *different* across input units
+    + Person identification in videos: [task template](img/ann-vec/sparse-person-in-vid.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Person%20Annotation%20in%20Video.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1uL2ex9QyK_iZjQLQINvyzMmYobDNH8WF)
+    + Relation extraction from sentences: [task template](img/ann-vec/mult-relex.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb) | [Colab notebook](https://colab.research.google.com/drive/11UnAsJeL3KUEqieB1bYEy2PJJJJZo_xA)
+    + Event extraction from sentences: [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Event%20Extraction.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1_e6BnwltZ7LDhZDiHtq1LoVQVPrV96Hq)
+    
+**Open-Ended Tasks:** the crowd dynamically creates the list of annotations, or the set of annotations is too big to compute beforehand
 
-**Ternary choice tasks:** the crowd picks 1 annotation out of 3 choices, (e.g. `True`, `False` and `None/Other`)
-
-* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Ternary%20Choice%20Task%20-%20Person%20Identification%20in%20Video.ipynb) [[colab]]()
-
-**Multiple choice tasks:** the crowd picks multiple annotation out of a set list of choices that are *the same* for every input unit
-
-* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Multiple%20Choice%20Task%20-%20Person%20Type%20Annotation%20in%20Video.ipynb) [[colab]]()
-* Relation extraction from sentences: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb) [[colab]]()
-
-**Sparse multiple choice tasks:** the crowd picks multiple annotation out of a set list of choices that are *different* across input units
-
-* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Person%20Annotation%20in%20Video.ipynb) [[colab]]()
-* Relation extraction from sentences: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Relation%20Extraction.ipynb) [[colab]]()
-* Event extraction from sentences: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Event%20Extraction.ipynb) [[colab]]()
-
-**Open-ended extraction tasks:** the crowd creates different combinations of annotations based on the input unit (e.g. extracting named entities from a paragraph, identifying objects in an image by drawing bounding boxes)
-
-* Person identification by highlighting words in text: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Dimensionality%20Reduction%20-%20Stopword%20Removal%20from%20Media%20Unit%20%26%20Annotation.ipynb) [[colab]]()
-* Event extraction by highlighting words in text: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Highlighting%20Task%20-%20Event%20Extraction.ipynb) [[colab]]()
-
-**Free input:** the crowd inputs all possible annotations for an input unit
-
-* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Free%20Input%20Task%20-%20Person%20Annotation%20in%20Video.ipynb) [[colab]]()
+* **Sparse Multiple Choice:** the crowd picks multiple annotation out of a set list of choices that are *different* across input units
+    + Event extraction from sentences:  [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Sparse%20Multiple%20Choice%20Task%20-%20Event%20Extraction.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1_e6BnwltZ7LDhZDiHtq1LoVQVPrV96Hq)
+* **Open-ended extraction tasks:** the crowd creates different combinations of annotations based on the input unit
+    + Person identification by highlighting words in text: [task template](img/ann-vec/od-extr-person-in-vid.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Dimensionality%20Reduction%20-%20Stopword%20Removal%20from%20Media%20Unit%20%26%20Annotation.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1oaJXaXO5zJaPyVHDwiRHVKVvkuva6Sj6)
+    + Event extraction by highlighting words in text: [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Highlighting%20Task%20-%20Event%20Extraction.ipynb)
+* **Free Choice:** the crowd inputs all possible annotations for an input unit
+    + Person identification in videos: [task template](img/ann-vec/free-person-in-vid.pdf) | [Jupyter notebook](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Free%20Input%20Task%20-%20Person%20Annotation%20in%20Video.ipynb) | [Colab notebook](https://colab.research.google.com/drive/1mvXr_b9ePUyGvBIgo1luRF3jCc6eMOpq)
 
 An example of a Jupyter Notebook that shows how to use the CrowdTruth package with a custom platform input file can be seen below:
 
 **Multiple choice tasks:** the crowd picks multiple annotation out of a set list of choices that are *the same* for every input unit
 
-* Person identification in videos: [[notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Custom%20Platform%20-%20Multiple%20Choice%20Task%20-%20Person%20Type%20Annotation%20in%20Video.ipynb) [[colab]]()
+* Person identification in videos: [[Jupyter Notebook]](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/notebooks/Custom%20Platform%20-%20Multiple%20Choice%20Task%20-%20Person%20Type%20Annotation%20in%20Video.ipynb)
