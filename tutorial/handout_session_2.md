@@ -2,7 +2,7 @@
 
 ## Session Summary
 
-In this session, we discussed a series of crowdsourcing tasks, with different methods of collecting the annotations from the workers.
+In this session, we discussed a series of crowdsourcing tasks, with different methods of collecting the annotations from the workers. Below you can find a list of tasks (with the crowdsoursing design):
 
 **Closed Tasks:** the crowd picks from a set of annotations that is known beforehand
 
