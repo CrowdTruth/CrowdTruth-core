@@ -26,7 +26,7 @@ In this session, we discussed a series of crowdsourcing tasks, with different me
 
 
 
-## Task
+## Session Excercises
 
 Take either *one of the annotation tasks* presented, or *a task of your choice*, and transform the annotation vector, by doing one or several of the following:
 
