@@ -52,6 +52,7 @@ Custom configuration can be added by creating a class that inherits from `Defaul
 * `csv_file_separator`: a string containing the column separating character. If empty, `,` is used as separator.
 * `inputColumns`: a list of columns that contain original input data. Setting this option allows you to filter out columns you are not interested in. If empty the columns will be identified automatically.
 * `outputColumns`: a list of columns that contain judgments. Setting this option allows you to filter out columns you are not interested in. If empty the columns will be identified automatically.
+* `customPlatformColumns`: a list of columns that defines a standard annotation tasks, in the following order - judgment id, unit id, worker id, started time, submitted time. This variable is used for input files that do not come from AMT or FigureEight (formarly known as CrowdFlower).
 * `annotation_separator`: a string containing the annotation separating character for the values in `outputColumns`, in case more than one annotation appears in one column. If empty, `,` is used as separator.
 * `units`: a list of units to use. If empty all units are used.
 * `workers`: a list of workers to use. If empty all workers are used.
