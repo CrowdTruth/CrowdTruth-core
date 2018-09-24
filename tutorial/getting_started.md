@@ -2,7 +2,7 @@
 
 The **[CrowdTruth](http://crowdtruth.org/)** framework implements an approach to machine-human computing for collecting annotation data on text, images and videos. The central part of the framework is the collection of  **CrowdTruth metrics** that capture and interpret inter-annotator disagreement in crowdsourcing. The CrowdTruth metrics model the inter-dependency between the three main components of a crowdsourcing system -- workers, input data, and annotations. The goal of the metrics is to capture the degree of ambiguity in each of these three components.
 
-This document shows how to get started using the [CrowdTruth Python package](https://github.com/CrowdTruth/CrowdTruth-core) to process data collected from crowdsourcing microtasks. A detailed description of the CrowdTruth metrics is available in [this paper](https://arxiv.org/abs/1808.06080). You can follow the full tutorial to learn and practice the specifics of CrowdTruth approach [CrowdTruth Tutorial](http://crowdtruth.org/tutorial/). Other useful resources are:
+This document shows how to get started using the [CrowdTruth Python package](https://github.com/CrowdTruth/CrowdTruth-core) to process data collected from crowdsourcing microtasks. A detailed description of the CrowdTruth metrics is available in [this paper](https://arxiv.org/abs/1808.06080). You can follow the full [CrowdTruth Tutorial](http://crowdtruth.org/tutorial/) to learn and practice the specifics of CrowdTruth approach. Other useful resources are:
 
 * [Papers](http://crowdtruth.org/papers/) about CrowdTruth
 * [Datasets](http://data.crowdtruth.org/) collected using CrowdTruth
