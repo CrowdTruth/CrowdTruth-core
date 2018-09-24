@@ -93,7 +93,7 @@ The `crowdtruth.run` method returns a dictionary object with the following keys:
 
 ## Example tasks
 
-Below you can find a collection of Jupyter Notebooks that show how to use the CrowdTruth package on different types of crowdsourcing tasks:
+Below you can find a collection of Jupyter Notebooks that show how to use the CrowdTruth package on different types of crowdsourcing tasks. For more explanations of the task design & how to run the metrics in the python notebooks check out also the tutorial slides:
 
 **Closed Tasks:** the crowd picks from a set of annotations that is known beforehand
 
