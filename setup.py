@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='crowdtruth',
-    version='2.1-beta.1',
+    version='2.1',
     description=
     "Disagreement based metrics for the processing and evaluation of crowdsourced annotations",
     long_description=
@@ -35,7 +35,7 @@ setup(
     author_email='crowdwatson@gmail.com',
     url='http://crowdtruth.org',
     license='Apache 2.0',
-    download_url='https://github.com/CrowdTruth/CrowdTruth-core/archive/2.1-beta.1.zip',
+    download_url='https://github.com/CrowdTruth/CrowdTruth-core/archive/2.1.zip',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
