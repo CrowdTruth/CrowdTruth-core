@@ -40,15 +40,15 @@ The following tutorial is a collection of slides, exercises and Jupyter notebook
 
 ### Introduction to CrowdTruth
 
-* [Slides]()
+* [Slides](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Part%20I_%20CrowdTruth%20Tutorial.pdf)
 
 ### Task Design & Building CrowdTruth Annotation Vectors
 
-* [Slides]()
+* [Slides](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Part%20II_%20CrowdTruth%20Tutorial.pdf)
 * [Hands-on Exercises](tutorial/handout_session_2.md)
 
 ### Data Processing & CrowdTruth Metrics 
 
-* [Slides]()
+* [Slides](https://github.com/CrowdTruth/CrowdTruth-core/blob/master/tutorial/Part%20III_%20CrowdTruth%20Tutorial.pdf)
 * [Getting Started with the CrowdTruth Library](tutorial/getting_started.md)
 * [Hands-on Exercises](tutorial/handout_session_3.md)
