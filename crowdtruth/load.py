@@ -84,8 +84,10 @@ def list_files(kwargs, results, config):
         if 'directory' in locals() and directory != "":
             logging.info("Processing " + file)
             file = directory + "/" + file
-
-        judgments = pd.read_csv(file)#, encoding=result['encoding'])
+        if  config.csv_file_separator:
+            judgments = pd.read_csv(file, sep=config.csv_file_separator)#, encoding=result['encoding'])
+        else:
+            judgments = pd.read_csv(file)#, encoding=result['encoding'])
         res, config = process_file(judgments, config, filename=file)
         for value in res:
             results[value].append(res[value])

@@ -63,7 +63,10 @@ class Metrics():
                     denominator_i += aqs[ann] * (worker_i_vector_ann * worker_i_vector_ann)
                     denominator_j += aqs[ann] * (worker_j_vector_ann * worker_j_vector_ann)
 
-                weighted_cosine = numerator / math.sqrt(denominator_i * denominator_j)
+                denominator = math.sqrt(denominator_i * denominator_j)
+                if denominator < SMALL_NUMBER_CONST:
+                    denominator = SMALL_NUMBER_CONST
+                weighted_cosine = numerator / denominator
 
                 uqs_numerator += weighted_cosine * wqs[worker_ids[worker_i]] * \
                                  wqs[worker_ids[worker_j]]
@@ -190,8 +193,11 @@ class Metrics():
                         denominator_ow += aqs[ann] * \
                                          (unit_work_ann_dict_uid_oworkid_ann *\
                                           unit_work_ann_dict_uid_oworkid_ann)
-
-                    weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
+                    denominator = math.sqrt(denominator_w * denominator_ow)
+                    if denominator < SMALL_NUMBER_CONST:
+                        denominator = SMALL_NUMBER_CONST
+                    weighted_cosine = numerator / denominator
+                    #weighted_cosine = numerator / math.sqrt(denominator_w * denominator_ow)
                     # pdb.set_trace()
                     wwa_numerator += weighted_cosine * wqs[other_workid] * uqs[unit_id]
                     wwa_denominator += wqs[other_workid] * uqs[unit_id]
