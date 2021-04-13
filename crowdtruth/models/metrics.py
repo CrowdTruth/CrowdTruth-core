@@ -393,8 +393,11 @@ class Metrics():
             return vector
 
         # fill judgment vectors with unit keys
+        collector = []
         for index, row in judgments.iterrows():
-            judgments.at[index, col] = expanded_vector(row[col], units.at[row['unit'], col])
+            collector.append(expanded_vector(row[col], units.at[row['unit'], col]))
+        judgments[col] = collector
+
 
         unit_work_ann_dict = judgments[['unit', 'worker', col]].copy().groupby('unit')
         unit_work_ann_dict = {name : group.set_index('worker')[col].to_dict() \
