@@ -9,7 +9,7 @@ setup(
     "Disagreement based metrics for the processing and evaluation of crowdsourced annotations",
     long_description=
     ("CrowdTruth is an approach to machine-human computing for collecting annotation data on " +
-     "text, images and videos. The approach is focussed specifically on collecting annotation" +
+     "text, images and videos. The approach is focused specifically on collecting annotation" +
      " data by capturing and interpreting inter-annotator disagreement. "),
     classifiers=[
         'Development Status :: 4 - Beta',
